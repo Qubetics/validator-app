@@ -1,0 +1,13 @@
+.disabledlinks {
+  display: inline;
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.notDiabled {
+  display: inline;
+  /* opacity: 0.5; */
+  /* cursor: not-allowed; */
+  /* pointer-events: none; */
+}

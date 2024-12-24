@@ -1,0 +1,29 @@
+.profiledata {
+  display: flex;
+  gap: 20px;
+}
+.profiledata p {
+  max-width: 200px;
+  width: 100%;
+}
+.profiledata .addres-input {
+  max-width: 400px;
+  width: 1000%;
+}
+@media (max-width: 767px) {
+  .profiledata {
+    gap: 10px;
+  }
+  .profiledata p {
+    width: 108px;
+    max-width: unset;
+    white-space: nowrap;
+  }
+}
+.transparentbtn {
+  background-color: #121212;
+}
+.transparentbtn:hover {
+  background-color: #121212;
+  opacity: 0.7;
+}

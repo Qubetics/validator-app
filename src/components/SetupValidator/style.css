@@ -1,0 +1,23 @@
+.com_tooltip {
+  position: relative;
+  margin-top: 10px;
+}
+
+.com_tooltip button {
+  position: absolute;
+  left: 117px;
+  top: -4px;
+  z-index: 999;
+}
+
+.common-wrapper__amount input {
+  padding-right: 90px !important;
+}
+.stakingInputs {
+  display: flex;
+  align-items: first baseline;
+  flex-direction: column;
+}
+.stakingInputs .labelTexts {
+  width: 180px;
+}

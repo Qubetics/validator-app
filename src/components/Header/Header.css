@@ -1,0 +1,14 @@
+.MuiMenu-list {
+  background-color: #121212;
+  max-width: 140px !important;
+  width: 100% !important;
+  border: 1px solid #3b393c;
+  border-radius: 3px;
+}
+.css-1q4cqym-MuiButtonBase-root-MuiMenuItem-root:hover {
+  background-color: #0c0a0a !important;
+}
+.css-o821ap-MuiPaper-root-MuiPopover-paper-MuiMenu-paper {
+  max-width: 140px !important;
+  width: 100% !important;
+}
