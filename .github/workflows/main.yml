@@ -85,4 +85,3 @@ jobs:
           git commit -m "Update image to ${HUAWEI_SWR_ENDPOINT}/${HUAWEI_ORGANIZATION}/${HUAWEI_IMAGE}:${{ github.sha }}"
           git push origin ${BRANCH}      
 
-          #testttttttttttttttttttt
