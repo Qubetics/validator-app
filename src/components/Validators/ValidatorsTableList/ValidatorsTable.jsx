@@ -31,6 +31,8 @@ import getValidatorByAddress from "../../../services/apis/getValidatorByAddress"
 import { toFixed } from "../../../utils/toFixed";
 import getData from "../../../utils/getData";
 import { toast } from "../../Common/Toast/Toast.js";
+import { useDispatch } from "react-redux";
+import { getValidatorCount } from "../../../redux/reducer/auth";
 
 const tableHeader = [
   "#No",
@@ -72,6 +74,7 @@ const ValidatorsTable = ({
   const [validatorListData, setValidatorListData] = useState([]);
   const [validatorStatus, setValidatorStatus] = useState(LOADING_STATES.INIT);
   const [status, setStatus] = useState("");
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setCurrentPage(1);
@@ -87,7 +90,6 @@ const ValidatorsTable = ({
           DEFAULT_TABLE_LIMIT
         );
         let count = response?.data?.count || 1;
-        console.log(response, "RESRESRS");
         setTotalCount(count);
         setValidatorListData(response?.data?.validators);
         setStatus();
@@ -106,8 +108,6 @@ const ValidatorsTable = ({
     }
   }, [isSearch]);
 
-  console.log(validatorListData, "validatorListData");
-
   const fetchData = useCallback(async () => {
     try {
       setValidatorStatus(LOADING_STATES.FETCHING);
@@ -123,7 +123,8 @@ const ValidatorsTable = ({
               ? (setValidatorListData(response?.data?.validators),
                 setTotalCount(response?.data?.count))
               : (setValidatorListData([]), setTotalCount(0)),
-            setValidatorStatus(LOADING_STATES.SUCCESS)
+            setValidatorStatus(LOADING_STATES.SUCCESS),
+            dispatch(getValidatorCount(response?.data?.count))
           );
         }
         case 1: {

@@ -82,7 +82,7 @@ const Login = () => {
     <>
       <div className="auth-wrapper">
         <div className="auth-wrapper__inner">
-          <Typography variant="h3">Log In</Typography>
+          <Typography variant="h3">Log In.</Typography>
           <hr className="custom-divider" />
           <form onSubmit={submitHandler}>
             <TextField

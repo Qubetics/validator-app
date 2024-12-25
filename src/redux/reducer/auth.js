@@ -18,6 +18,7 @@ const initialState = {
     bondedAmount: "",
     unbondedAmount: "",
   },
+  validatorCount: 0,
 };
 
 export const authSlice = createSlice({
@@ -53,6 +54,9 @@ export const authSlice = createSlice({
     getWalletBalance: (state, action) => {
       state.userBalance = action.payload;
     },
+    getValidatorCount: (state, action) => {
+      state.validatorCount = action.payload;
+    },
     logout: (state) => {},
     getApy: (state, action) => {
       state.APY = action.payload;
@@ -60,6 +64,19 @@ export const authSlice = createSlice({
   },
 });
 
-export const { logInSuccess, checkIfValidatorExist, checkIfValidatorExistInBlockchain, getBondedBalance, logout, isTxOccur, getWalletBalance, getValoperAddress, getValoperAddressFromBlockChain, getTotalValidators, getApy } = authSlice.actions;
+export const {
+  logInSuccess,
+  checkIfValidatorExist,
+  checkIfValidatorExistInBlockchain,
+  getBondedBalance,
+  logout,
+  isTxOccur,
+  getWalletBalance,
+  getValoperAddress,
+  getValoperAddressFromBlockChain,
+  getTotalValidators,
+  getApy,
+  getValidatorCount,
+} = authSlice.actions;
 
 export default authSlice.reducer;
