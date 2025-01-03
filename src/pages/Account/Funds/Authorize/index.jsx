@@ -115,9 +115,7 @@ const AuthorizeTransaction = () => {
             />
             {errMsg?.mnemonics?.length > 0 && <p style={{ color: "red", marginTop: "-1px" }}>{errMsg?.mnemonics}</p>}
           </div>
-          <span className="maxBtn">
-            <MnemonicsIcon />
-          </span>
+          <span className="maxBtn">{/* <MnemonicsIcon /> */}</span>
         </div>
         <h6 style={{ marginTop: "10px" }}>
           NOTE: <span className="noteData">Your account status may take some time to update.</span>

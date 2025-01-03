@@ -141,9 +141,7 @@ const UnBond = () => {
             <TextField type="password" label="Enter mnemonics to authorize the transaction" placeholder="Paste or enter your mnemonics" name="Mnemonics" onChange={handleChange} autoComplete="off" value={mnemonics} />
             {errMsg?.mnemonics?.length > 0 && <p style={{ color: "red", marginTop: "-1px" }}>{errMsg?.mnemonics}</p>}
           </div>
-          <span className="maxBtn">
-            <MnemonicsIcon />
-          </span>
+          <span className="maxBtn">{/* <MnemonicsIcon /> */}</span>
         </div>
 
         {/* Authorize Transactions */}

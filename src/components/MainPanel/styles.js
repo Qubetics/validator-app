@@ -363,6 +363,10 @@ export const Container = styled(BaseContainer)(({ theme }) => ({
     borderRadius: "22px",
     // paddingBottom: "35px",
     paddingTop: "10px",
+    ".MuiTableContainer-root": {
+      border: "1px solid #383939",
+      borderRadius: "14px",
+    },
     ".MuiPaginationItem-root.Mui-selected": {
       border: "1px solid #3B393C",
       background: "#121212",

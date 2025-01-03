@@ -114,7 +114,7 @@ const SlashedTable = ({ tabId }) => {
             paddingTop: "20px",
           }}
         >
-          <Pagination count={totalPages} variant="outlined" shape="rounded" page={pageParams?.page} onChange={handlePageChange} />
+          <Pagination style={{ marginLeft: "auto" }} count={totalPages} variant="outlined" shape="rounded" page={pageParams?.page} onChange={handlePageChange} />
         </FlexBox>
       ) : (
         ""

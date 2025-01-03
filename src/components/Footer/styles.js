@@ -36,7 +36,7 @@ export const FooterSection = styled(Box)(({ theme }) => ({
     fontSize: "18px",
     fontWeight: "600",
     color: "#FFFFFF",
-    marginBottom: "24px",
+    marginBottom: "15px",
     whiteSpace: "noWrap",
   },
   "& a": {
@@ -44,10 +44,12 @@ export const FooterSection = styled(Box)(({ theme }) => ({
     fontWeight: "500",
     color: "rgba(255, 255, 255, 0.6)",
     display: "block",
-    paddingBottom: "5px",
+    paddingBottom: "1px",
     textDecoration: "none",
+    transition: " transform .3s ease, color .3s ease, background-color .3s ease",
     "&:hover": {
-      textDecoration: "underline",
+      // textDecoration: "underline",
+      transform: "translateX(10px)",
     },
   },
   "& p": {
@@ -67,7 +69,7 @@ export const SocialLinks = styled(Box)(({ theme }) => ({
   "& h6": {
     textAlign: "center",
     fontWeight: "700",
-    paddingTop: "100px",
+    paddingTop: "90px",
     paddingBottom: "7px",
     [theme.breakpoints.down("md")]: {
       paddingTop: "10px",

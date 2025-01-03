@@ -91,7 +91,7 @@ function HeaderItems() {
                   Dashboard
                 </Link>
                 <Link to="/blocks" className={`link ${pathname === "/blocks" ? "active" : ""}`}>
-                  Block
+                  Blocks
                 </Link>
                 <Link to="/validators" className={`link ${pathname === "/validators" ? "active" : ""}`}>
                   Validators

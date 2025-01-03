@@ -43,8 +43,8 @@ const ValidatorDetails = () => {
   return (
     <>
       <Typography variant="h3" mb="20px" display={"flex"} sx={{ paddingTop: "20px", gap: "10px", color: "white" }}>
-        <span>
-          <BackIcon onClick={goBack} />
+        <span style={{ cursor: "pointer" }} onClick={goBack}>
+          <BackIcon />
         </span>
         Validator Details
       </Typography>

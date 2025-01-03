@@ -1,5 +1,14 @@
 /*eslint-disable*/
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from "@mui/material";
 import { BASE_URL, CURRENCY, DEFAULT_TABLE_LIMIT } from "../../../constant";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -27,7 +36,8 @@ const copiedAddress = (data) => {
 
 const ActionTable = () => {
   const { userAddress } = useSelector((state) => state.auth);
-  const { pageParams, handlePageChange, totalPages, setTotalCount } = usePagination();
+  const { pageParams, handlePageChange, totalPages, setTotalCount } =
+    usePagination();
   const [txData, setTxData] = useState([]);
   const [txStatus, setTxStatus] = useState("Init");
 
@@ -36,7 +46,11 @@ const ActionTable = () => {
       try {
         if (userAddress) {
           setTxStatus("Fetching");
-          const response = await getTxByAddress(userAddress, pageParams?.page, DEFAULT_TABLE_LIMIT);
+          const response = await getTxByAddress(
+            userAddress,
+            pageParams?.page,
+            DEFAULT_TABLE_LIMIT
+          );
           setTxData(response?.data?.transactions);
           setTotalCount(response?.data?.count);
           setTxStatus("Success");
@@ -51,7 +65,9 @@ const ActionTable = () => {
 
   const renderTableRows = () => {
     if (txStatus === "Fetching") {
-      return Array.from({ length: 5 }).map((_, index) => <SkeletonRow key={index} columns={tableHeader.length} />);
+      return Array.from({ length: 5 }).map((_, index) => (
+        <SkeletonRow key={index} columns={tableHeader.length} />
+      ));
     }
     if (txData?.length === 0 || !txData) {
       return (
@@ -78,7 +94,10 @@ const ActionTable = () => {
       >
         <TableCell>
           <Typography variant="body2">
-            <span onClick={() => transactionHash(data?.txhash)} className="text-hover">
+            <span
+              onClick={() => transactionHash(data?.txhash)}
+              className="text-hover"
+            >
               {data?.txhash || "-"}
               <text onClick={() => copiedAddress(data?.txhash)}>
                 <CopyIcon sx={{ fontSize: "17px" }} />
@@ -100,7 +119,16 @@ const ActionTable = () => {
             status={data?.status}
             style={{
               color:
-                data?.status === "SUCCESS" || data?.status === "success" ? "green" : data?.status === "PROCESSING" || data?.status === "PENDING" || data?.status === "pending" || data?.status === "processing" ? "yellow" : data?.status === "FAILED" || data?.status === "failed" ? "red" : "inherit", // Default color
+                data?.status === "SUCCESS" || data?.status === "success"
+                  ? "green"
+                  : data?.status === "PROCESSING" ||
+                    data?.status === "PENDING" ||
+                    data?.status === "pending" ||
+                    data?.status === "processing"
+                  ? "yellow"
+                  : data?.status === "FAILED" || data?.status === "failed"
+                  ? "red"
+                  : "inherit", // Default color
             }}
           >
             {data?.status || "-"}
@@ -140,7 +168,14 @@ const ActionTable = () => {
             paddingTop: "20px",
           }}
         >
-          <Pagination showFirstButton showLastButton count={totalPages} variant="outlined" shape="rounded" page={pageParams?.page} onChange={handlePageChange} />
+          <Pagination
+            count={totalPages}
+            variant="outlined"
+            shape="rounded"
+            page={pageParams?.page}
+            onChange={handlePageChange}
+            style={{ marginLeft: "auto" }}
+          />
         </FlexBox>
       )}
     </>

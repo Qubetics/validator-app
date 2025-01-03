@@ -24,6 +24,7 @@ export const ValidatorDetailItem = styled(Box)(({ theme }) => ({
     fontWeight: 300,
     color: "#A0A0A0",
     width: "400px",
+    fontSize: "14px",
     [theme.breakpoints.down(420)]: {
       width: "300px",
     },
@@ -55,9 +56,11 @@ export const ProfileDetails = styled(Box)(({ theme }) => ({
   },
   "p:first-child": {
     color: "#A0A0A0",
+    fontSize: "16px",
     fontWeight: 300,
   },
   "p:last-child": {
+    fontSize: "16px",
     fontWeight: "400",
   },
 
