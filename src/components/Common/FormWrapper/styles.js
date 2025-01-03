@@ -24,7 +24,8 @@ export const Wrapper = styled(Box)(({ theme }) => ({
         borderRadius: "7px",
       },
       ".MuiInputBase-input::placeholder": {
-        color: "#A0A0A0",
+        color: "#fff",
+        opacity: 0.5,
       },
     },
     h6: {
@@ -47,7 +48,7 @@ export const Wrapper = styled(Box)(({ theme }) => ({
           fontSize: "13px",
           fontWeight: "700",
           borderRadius: "28px",
-          textTransform: "uppercase",
+          // textTransform: "uppercase",
           background: "#121212",
           color: "#fff",
           border: 0,

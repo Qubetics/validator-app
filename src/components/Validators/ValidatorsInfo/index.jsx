@@ -13,16 +13,8 @@ const ValidatorsInfo = () => {
 
   return (
     <Container isOpen={isSidebarOpen}>
-      <Card
-        icon={<TotalValidatorIcon />}
-        title={"Total Validators"}
-        value={data?.validatorCount ? data?.validatorCount : 0}
-      />
-      <Card
-        icon={<StakingIcon />}
-        title={"Staking APY"}
-        value={data?.APY ? toFixed(data?.APY, 2) + "%" : 0}
-      />
+      <Card icon={<TotalValidatorIcon />} title={"Total Validators"} value={data?.validatorCount?.count ? data?.validatorCount?.count : 0} />
+      <Card icon={<StakingIcon />} title={"Staking APR"} value={data?.APY ? toFixed(data?.APY, 2) + "%" : 0} />
     </Container>
   );
 };

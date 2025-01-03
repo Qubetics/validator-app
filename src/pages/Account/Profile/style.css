@@ -1,6 +1,7 @@
 .profiledata {
   display: flex;
-  gap: 20px;
+  flex-direction: column;
+  gap: 4px;
 }
 .profiledata p {
   max-width: 200px;
@@ -9,6 +10,7 @@
 .profiledata .addres-input {
   max-width: 400px;
   width: 1000%;
+  background-color: #080808;
 }
 @media (max-width: 767px) {
   .profiledata {

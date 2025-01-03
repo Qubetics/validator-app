@@ -206,7 +206,7 @@ export const NodeBox = styled(Box)(({ theme }) => ({
     fontSize: "20px",
     fontWeight: "700",
     marginBottom: "12px",
-    color: theme.palette.blue.newBlue,
+    color: "#fff",
   },
   ".ver-text": {
     fontSize: "14px",
@@ -366,7 +366,7 @@ export const Drawersidebar = styled(Box)(({ theme }) => ({
     },
 
     ".btns": {
-      padding: "0 15px",
+      padding: "0 10px",
       textTransform: "capitalize",
       height: "40px",
       fontStyle: "normal",

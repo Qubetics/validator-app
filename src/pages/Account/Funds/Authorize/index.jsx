@@ -98,7 +98,7 @@ const AuthorizeTransaction = () => {
         <label>Wallet Address</label>
         <Address address={userAddress} />
         <div className="mnemonicsItems">
-          <div style={{ marginBottom: "30px" }}>
+          <div>
             <TextField
               label="Enter Mnemonics to authorize the transaction"
               placeholder="Enter your mnemonics"
@@ -113,14 +113,13 @@ const AuthorizeTransaction = () => {
               type="password"
               autoComplete="off"
             />
-            {errMsg?.mnemonics?.length > 0 && <p style={{ color: "red", marginTop: "-7px" }}>{errMsg?.mnemonics}</p>}
+            {errMsg?.mnemonics?.length > 0 && <p style={{ color: "red", marginTop: "-1px" }}>{errMsg?.mnemonics}</p>}
           </div>
           <span className="maxBtn">
             <MnemonicsIcon />
           </span>
         </div>
-
-        <h6>
+        <h6 style={{ marginTop: "10px" }}>
           NOTE: <span className="noteData">Your account status may take some time to update.</span>
         </h6>
         {/* <Button

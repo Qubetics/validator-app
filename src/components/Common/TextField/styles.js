@@ -28,9 +28,9 @@ export const CustomizedTextField = styled(TextField)(({ theme }) => ({
     padding: "15px 14px",
     height: "auto",
     color: "#fff",
-    backgroundColor: "#121212",
+    backgroundColor: "#080808",
     overflow: "hidden",
-    border: "1px solid #3B393C",
+    border: 0,
     textOverflow: "ellipsis",
 
     "[type=number]": {
@@ -52,7 +52,8 @@ export const CustomizedTextField = styled(TextField)(({ theme }) => ({
   },
   ".MuiOutlinedInput-input::placeholder": {
     fontSize: "16px",
-    color: "rgba(160, 160, 160, 0.5)",
+    color: "#fff",
+    opacity: 0.5,
     fontWeight: 400,
   },
   ".MuiFormHelperText-root": {

@@ -6,7 +6,7 @@ import DashboardValidatorCard from "../../components/Dashboard/ValidatorCard";
 const Dashboard = () => {
   return (
     <div>
-      <Typography variant="h3" mb={2.5} style={{ paddingTop: "40px" }}>
+      <Typography variant="h3" mb={2.5} style={{ paddingTop: "20px", marginBottom: "13px" }}>
         Dashboard
       </Typography>
       <DashboardValidatorCard />

@@ -13,7 +13,7 @@ export const Wrapper = styled("div")({
 
   ".address-text": {
     fontSize: "16px",
-    fontWeight: "500",
+    fontWeight: "400",
     overflow: "hidden",
     textOverflow: "ellipsis",
   },

@@ -1,14 +1,5 @@
 /*eslint-disable*/
-import {
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@mui/material";
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { BASE_URL, CURRENCY, DEFAULT_TABLE_LIMIT } from "../../../constant";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -19,17 +10,24 @@ import { usePagination } from "../../../hooks/UsePagination";
 import Loader from "../../Loader/Loader";
 import getTxByAddress from "../../../services/apis/getTxByAddress";
 import SkeletonRow from "../../SkeletonRow/SkeletonRow";
+import CopyIcon from "../../../assets/Icons/CopyIcon";
+import { toast } from "../../Common/Toast/Toast";
+import { NotFoundIcon } from "../../../assets/Icons/SvgIcon";
 
-const tableHeader = ["TRANSACTION HASH", "TYPE", "AMOUNT", "STATUS"];
+const tableHeader = ["Transaction Hash", "Type", "Amount", "Status"];
 
 const transactionHash = (id) => {
-  window.open(` ${BASE_URL.EXPLORER_NAVIGATION_URL}tx/${id}`, "_blank");
+  window.open(` ${BASE_URL.EXPLORER_NAVIGATION_URL}/tx/${id}`, "_blank");
+};
+
+const copiedAddress = (data) => {
+  navigator.clipboard.writeText(data);
+  toast.success("Tx Hash Copied");
 };
 
 const ActionTable = () => {
   const { userAddress } = useSelector((state) => state.auth);
-  const { pageParams, handlePageChange, totalPages, setTotalCount } =
-    usePagination();
+  const { pageParams, handlePageChange, totalPages, setTotalCount } = usePagination();
   const [txData, setTxData] = useState([]);
   const [txStatus, setTxStatus] = useState("Init");
 
@@ -38,11 +36,7 @@ const ActionTable = () => {
       try {
         if (userAddress) {
           setTxStatus("Fetching");
-          const response = await getTxByAddress(
-            userAddress,
-            pageParams?.page,
-            DEFAULT_TABLE_LIMIT
-          );
+          const response = await getTxByAddress(userAddress, pageParams?.page, DEFAULT_TABLE_LIMIT);
           setTxData(response?.data?.transactions);
           setTotalCount(response?.data?.count);
           setTxStatus("Success");
@@ -55,13 +49,9 @@ const ActionTable = () => {
     fetchData();
   }, [userAddress, pageParams?.page]);
 
-  console.log(txData, "DATADTAD");
-
   const renderTableRows = () => {
     if (txStatus === "Fetching") {
-      return Array.from({ length: 5 }).map((_, index) => (
-        <SkeletonRow key={index} columns={tableHeader.length} />
-      ));
+      return Array.from({ length: 5 }).map((_, index) => <SkeletonRow key={index} columns={tableHeader.length} />);
     }
     if (txData?.length === 0 || !txData) {
       return (
@@ -88,7 +78,12 @@ const ActionTable = () => {
       >
         <TableCell>
           <Typography variant="body2">
-            <span>{data?.txhash || "-"}</span>
+            <span onClick={() => transactionHash(data?.txhash)} className="text-hover">
+              {data?.txhash || "-"}
+              <text onClick={() => copiedAddress(data?.txhash)}>
+                <CopyIcon sx={{ fontSize: "17px" }} />
+              </text>
+            </span>
           </Typography>
         </TableCell>
         <TableCell>
@@ -100,7 +95,14 @@ const ActionTable = () => {
           </Typography>
         </TableCell>
         <TableCell sx={{ pr: 10 }}>
-          <ActionStatus variant="body2" status={data?.status}>
+          <ActionStatus
+            variant="body2"
+            status={data?.status}
+            style={{
+              color:
+                data?.status === "SUCCESS" || data?.status === "success" ? "green" : data?.status === "PROCESSING" || data?.status === "PENDING" || data?.status === "pending" || data?.status === "processing" ? "yellow" : data?.status === "FAILED" || data?.status === "failed" ? "red" : "inherit", // Default color
+            }}
+          >
             {data?.status || "-"}
           </ActionStatus>
         </TableCell>
@@ -112,7 +114,10 @@ const ActionTable = () => {
     <>
       <TableContainer>
         {txStatus === "Error" ? (
-          <NotFound />
+          <div className="Nodata">
+            <NotFoundIcon />
+            No Data
+          </div>
         ) : (
           <Table sx={{ minWidth: 800 }} aria-label="action table">
             <TableHead>
@@ -135,13 +140,7 @@ const ActionTable = () => {
             paddingTop: "20px",
           }}
         >
-          <Pagination
-            count={totalPages}
-            variant="outlined"
-            shape="rounded"
-            page={pageParams?.page}
-            onChange={handlePageChange}
-          />
+          <Pagination showFirstButton showLastButton count={totalPages} variant="outlined" shape="rounded" page={pageParams?.page} onChange={handlePageChange} />
         </FlexBox>
       )}
     </>

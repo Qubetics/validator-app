@@ -113,23 +113,21 @@ const Bond = () => {
         <div className="bond-wrapper__amount">
           <div style={{ marginBottom: "30px" }}>
             <TextField label="Additional funds to bond" name="Bond_Amount" placeholder="Enter amount to stake" onChange={handleChange} autoComplete="off" value={bondAmount} paddingRight={100} />
-            {errMsg?.amount?.length > 0 && <p style={{ color: "red", marginTop: "-7px" }}>{errMsg?.amount}</p>}
+            {errMsg?.amount?.length > 0 && <p style={{ color: "red", marginTop: "-1px" }}>{errMsg?.amount}</p>}
           </div>
           <Button variant="contained" className="maxBtn" onClick={maxAmt}>
             Max
           </Button>
         </div>
         <div className="bond-wrapper__amount">
-          <div style={{ marginBottom: "30px" }}>
+          <div>
             <TextField label="Enter mnemonics to authorize the transaction" placeholder="Enter your mnemonics" name="Mnemonics" autoComplete="off" onChange={(e) => handleChange(e)} type="password" />
-            {errMsg?.mnemonics?.length > 0 && <p style={{ color: "red", marginTop: "-7px" }}>{errMsg?.mnemonics}</p>}
+            {errMsg?.mnemonics?.length > 0 && <p style={{ color: "red", marginTop: "-1px" }}>{errMsg?.mnemonics}</p>}
           </div>
-          <span className="maxBtn">
-            <MnemonicsIcon />
-          </span>
+          <span className="maxBtn">{/* <MnemonicsIcon /> */}</span>
         </div>
 
-        <h6>
+        <h6 style={{ marginTop: "10px" }}>
           NOTE: <span className="noteData">Your account status may take some time to update.</span>
         </h6>
         {/* <Button

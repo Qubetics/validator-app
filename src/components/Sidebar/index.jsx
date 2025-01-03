@@ -1,12 +1,5 @@
 /* eslint-disable */
-import {
-  Box,
-  Button,
-  IconButton,
-  Tooltip,
-  Typography,
-  useMediaQuery,
-} from "@mui/material";
+import { Box, Button, IconButton, Tooltip, Typography, useMediaQuery } from "@mui/material";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
@@ -92,12 +85,7 @@ const Sidebar = ({ isMobileSidebarOpen, setIsMobileSidebarOpen }) => {
   };
 
   const handleNode = () => {
-    if (
-      nodeUrl.includes("ws://") ||
-      nodeUrl.includes("https://") ||
-      nodeUrl.includes("http://") ||
-      nodeUrl.includes("wss://")
-    ) {
+    if (nodeUrl.includes("ws://") || nodeUrl.includes("https://") || nodeUrl.includes("http://") || nodeUrl.includes("wss://")) {
       localStorage.setItem("node", nodeUrl);
       setIsNodeAdded(true);
     }
@@ -144,15 +132,9 @@ const Sidebar = ({ isMobileSidebarOpen, setIsMobileSidebarOpen }) => {
         {isLoggedIn && (
           <WalletDetails style={{ background: "#37373c" }}>
             <Box display="flex" alignItems="center">
-              <Typography className="wallet-name">
-                {userAddress?.name ? userAddress?.name : " "}
-              </Typography>
+              <Typography className="wallet-name">{userAddress?.name ? userAddress?.name : " "}</Typography>
             </Box>
-            <Address
-              style={{ background: "#252527" }}
-              address={userAddress ? userAddress : "-"}
-              minmize={true}
-            />
+            <Address style={{ background: "#252527" }} address={userAddress ? userAddress : "-"} minmize={true} />
             <Typography className="wallet-balance">
               Available Balance:{" "}
               <RefreshIcon
@@ -169,15 +151,8 @@ const Sidebar = ({ isMobileSidebarOpen, setIsMobileSidebarOpen }) => {
                 spin={360}
               />
             </Typography>
-            <Typography
-              fontWeight="500"
-              className="wallet-balance__amount"
-              title={userBalance ? Number(userBalance)?.noExponents() : "0"}
-            >
-              {userBalance
-                ? toFixed(Number(userBalance)?.noExponents(), 2)
-                : "0"}{" "}
-              {CURRENCY}
+            <Typography fontWeight="500" className="wallet-balance__amount" title={userBalance ? Number(userBalance)?.noExponents() : "0"}>
+              {userBalance ? toFixed(Number(userBalance)?.noExponents(), 2) : "0"} {CURRENCY}
             </Typography>
           </WalletDetails>
         )}
@@ -187,11 +162,7 @@ const Sidebar = ({ isMobileSidebarOpen, setIsMobileSidebarOpen }) => {
               {item.hasSubLinks ? (
                 <LinkDropdown
                   trigger={
-                    <NavItem
-                      to="/"
-                      key={item.label}
-                      active={`${pathname.includes(item.path)}`}
-                    >
+                    <NavItem to="/" key={item.label} active={`${pathname.includes(item.path)}`}>
                       <item.Icon />
                       <Typography ml="20px" fontWeight="600">
                         {item.label}
@@ -205,10 +176,7 @@ const Sidebar = ({ isMobileSidebarOpen, setIsMobileSidebarOpen }) => {
                   }
                 ></LinkDropdown>
               ) : (
-                <NavItem
-                  to={item.path}
-                  active={`${pathname.includes(item.path)}`}
-                >
+                <NavItem to={item.path} active={`${pathname.includes(item.path)}`}>
                   <item.Icon />
                   <Typography ml="20px" fontWeight="600">
                     {item.label}
@@ -233,10 +201,7 @@ const Sidebar = ({ isMobileSidebarOpen, setIsMobileSidebarOpen }) => {
       <NodeBox>
         <Box>
           <div className="refresh-wrap">
-            <Typography
-              className="node-text"
-              style={{ display: "flex", alignItems: "center", gap: "5px" }}
-            >
+            <Typography className="node-text" style={{ display: "flex", alignItems: "center", gap: "5px" }}>
               Node Information
               <Tooltip
                 className="vaildator-card__tooltip"
@@ -248,10 +213,7 @@ const Sidebar = ({ isMobileSidebarOpen, setIsMobileSidebarOpen }) => {
                   </Typography>
                 }
               >
-                <span
-                  className="tooltipStyleInfo"
-                  style={{ display: "flex", alignItems: "center" }}
-                >
+                <span className="tooltipStyleInfo" style={{ display: "flex", alignItems: "center" }}>
                   <InfoIcon />
                 </span>
               </Tooltip>
@@ -260,11 +222,7 @@ const Sidebar = ({ isMobileSidebarOpen, setIsMobileSidebarOpen }) => {
 
           {!isLoggedIn ? (
             <>
-              <input
-                value={nodeUrl}
-                onChange={(e) => handleNodeChange(e)}
-                disabled={isLoggedIn}
-              />
+              <input value={nodeUrl} onChange={(e) => handleNodeChange(e)} disabled={isLoggedIn} />
               <Button variant="contained" onClick={handleNode}>
                 Submit
               </Button>

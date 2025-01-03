@@ -1,6 +1,6 @@
 /*eslint-disable*/
-import React, { useEffect, useState } from 'react';
-import { DEFAULT_TABLE_LIMIT, PAGE_LIMIT } from '../constant';
+import React, { useEffect, useState } from "react";
+import { DEFAULT_TABLE_LIMIT, PAGE_LIMIT } from "../constant";
 
 export const usePagination = () => {
   const [totalCount, setTotalCount] = useState(0);

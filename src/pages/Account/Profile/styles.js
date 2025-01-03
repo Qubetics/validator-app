@@ -151,8 +151,10 @@ export const WalletAddress = styled(Box)(({ theme }) => ({
     color: "#fff",
     maxWidth: "155px",
     cursor: "pointer",
+    fontSize: "14px",
+    fontWeight: "500",
     width: "100%",
-    border: "1.25px solid transparent",
+    border: "2px solid transparent",
     background: `linear-gradient(180deg, var(--bg), var(--bg)) padding-box,
         conic-gradient(
           from 180deg at 50% 50%,
@@ -170,7 +172,7 @@ export const WalletAddress = styled(Box)(({ theme }) => ({
     "--text": "#fff",
     "--hover-text": "#000",
     "&:hover": {
-      border: "1.25px solid transparent",
+      border: "2px solid transparent",
       background: `linear-gradient(180deg, var(--bg), var(--bg)) padding-box,
         conic-gradient(
           from 180deg at 50% 50%,
@@ -188,23 +190,60 @@ export const HeadingItems = styled(Box)(({ theme }) => ({
     fontSize: "28px",
     fontWeight: "700",
   },
+  ".manageHead": {
+    display: "block",
+    marginTop: "0",
+    width: "100%",
+    fontSize: "24px",
+    textAlign: "center",
+    paddingBotttom: "0",
+    fontWeight: "600",
+    marginBottom: "0",
+  },
+  ".profileBtn": {
+    background: "red !important",
+  },
 }));
 export const ProfileWrap = styled(Box)(({ theme }) => ({
-  border: "1.25px solid transparent",
-  background: `linear-gradient(180deg, var(--bg), var(--bg)) padding-box,
-      conic-gradient(
-        from 180deg at 50% 50%,
-        #ff98e2,
-        #ffc876 35.77deg,
-        #79fff7 153.75deg,
-        #9f53ff 258.75deg,
-        #ff98e2 360deg
-      ) border-box`,
+  maxWidth: "500px",
+  margin: "auto",
+  border: "1px solid #3B393C",
   borderRadius: "25px",
   padding: "40px 30px",
+  background: "#121212",
   transition: "color 0.2s ease-out, filter 0.2s ease-out",
-  "--bg": "#000",
-  "--hover-bg": "var(--theme-gradients-main)",
-  "--text": "#fff",
-  "--hover-text": "#000",
+  ".backProfilebtn": {
+    display: "flex",
+    alignItems: "center",
+    marginBottom: "40px",
+    h3: {
+      display: "flex",
+      justifyContent: "center",
+      fontSize: "23px",
+      fontWeight: "600",
+      width: "100%",
+      margin: "0",
+    },
+  },
+  ".addres-input": {
+    backgrond: "red !important",
+  },
+
+  h3: {
+    display: "flex",
+  },
+}));
+export const Profiledata = styled(Box)(({ theme }) => ({
+  display: "flex",
+  justifyContent: "space-between",
+  marginTop: "10px",
+  alignItems: "center",
+  ".MuiButtonBase-root": {
+    textTransform: "unset",
+    fontSize: "16px",
+  },
+  p: {
+    color: "#A0A0A0",
+    fontSize: "16px",
+  },
 }));

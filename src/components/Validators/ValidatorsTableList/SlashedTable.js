@@ -99,7 +99,7 @@ const SlashedTable = ({ tabId }) => {
             <TableBody>
               <TableRow>
                 <TableCell colSpan={9} align="center">
-                  <Typography variant="body2">No Data Available</Typography>
+                  <Typography variant="body2">No Data</Typography>
                 </TableCell>
               </TableRow>
             </TableBody>

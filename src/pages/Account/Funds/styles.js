@@ -27,15 +27,15 @@ export const BondWrapper = styled(Box)(({ theme }) => ({
 
       ".maxBtn": {
         position: "absolute",
-        top: "47px",
+        top: "48px",
         right: "15px",
 
         "&.MuiButton-root": {
           padding: "5px 25px",
           fontSize: "13px",
-          fontWeight: "700",
+          fontWeight: "500",
           borderRadius: "28px",
-          textTransform: "uppercase",
+          // textTransform: "uppercase",
           background: "#121212",
           color: "#fff",
           border: 0,
@@ -76,14 +76,11 @@ export const BondWrapper = styled(Box)(({ theme }) => ({
     },
 
     ".MuiFormHelperText-root": {
-      marginBottom: "30px",
-      [theme.breakpoints.down(767)]: {
-        marginBottom: "25px",
-      },
+      marginBottom: "5px",
     },
     ".MuiButton-root": {
       fontSize: "18px",
-      fontWeight: "700",
+      fontWeight: "500",
       // maxWidth: '425px',
       textTransform: "capitalize",
       padding: "8px 24px",

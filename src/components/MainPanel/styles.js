@@ -22,7 +22,9 @@ export const Wrapper = styled(Box)(({ theme }) => ({
     ".notDiabled": {
       a: {
         marginRight: "10px",
-        border: "1.25px solid transparent",
+        fontWeight: "600",
+        fontSize: "14px",
+        border: "2px solid transparent",
         background: `linear-gradient(180deg, var(--bg), var(--bg)) padding-box,
         conic-gradient(
           from 180deg at 50% 50%,
@@ -41,21 +43,21 @@ export const Wrapper = styled(Box)(({ theme }) => ({
         "&:hover": {
           opacity: "0.8",
         },
+        span: {
+          fontSize: "14px",
+        },
       },
     },
 
     [theme.breakpoints.down(767)]: {
       padding: "10px 20px",
     },
-    span: {
-      fontWeight: "300 !important",
-      textTransform: "capitalize",
-    },
+    span: {},
     p: {
       color: "#A0A0A0",
       fontSize: "16px",
       textTransform: "capitalize",
-      fontWeight: "300 !important",
+      fontWeight: "300",
     },
   },
   ".MuiTableHead-root": {
@@ -74,14 +76,19 @@ export const Wrapper = styled(Box)(({ theme }) => ({
       [theme.breakpoints.down(767)]: {
         padding: "10px 20px",
         fontSize: "13px",
-        span: {
-          fontWeight: "300 !important",
-        },
+        span: {},
         ".MuiTypography-label": {
           fontSize: "13px",
         },
         ".MuiTypography-body1": {
           fontSize: "13px",
+        },
+      },
+      p: {
+        display: "flex",
+        gap: "6px",
+        ".MuiButtonBase-root ": {
+          padding: "0 !important",
         },
       },
     },
@@ -114,6 +121,7 @@ export const Wrapper = styled(Box)(({ theme }) => ({
     border: "1px solid #3B393C",
     borderRadius: "14px !important",
     background: "#121212",
+    overflow: "hidden",
     "&:hover": {
       border: "1px solid ##3B393C",
       borderRadius: 0,
@@ -134,7 +142,7 @@ export const Wrapper = styled(Box)(({ theme }) => ({
     },
   },
   ".MuiButton-root": {
-    padding: "12px 18px",
+    padding: "12px 16px",
     marginBottom: "10px",
     border: "2px solid transparent",
     background: `linear-gradient(180deg, var(--bg), var(--bg)) padding-box,
@@ -355,10 +363,24 @@ export const Container = styled(BaseContainer)(({ theme }) => ({
     borderRadius: "22px",
     // paddingBottom: "35px",
     paddingTop: "10px",
+    ".MuiPaginationItem-root.Mui-selected": {
+      border: "1px solid #3B393C",
+      background: "#121212",
+    },
+    ".Nodata": {
+      display: "flex",
+      justifyContent: "center",
+      width: "100%",
+      alignItems: "center",
+      flexDirection: "column",
+      border: "1px solid #383939",
+      padding: "20px",
+      borderRadius: "20px",
+    },
 
     h3: {
       fontSize: "22px",
-      padding: "30px 2px",
+      padding: "10px 2px 13px",
       // paddingTop: "37px",
       display: "flex",
       justifyContent: "space-between",
@@ -451,8 +473,7 @@ export const Container = styled(BaseContainer)(({ theme }) => ({
     },
   },
   ".vaildator-card": {
-    background:
-      "linear-gradient(157.79deg, rgba(29, 29, 29, 0.54) -0.65%, rgba(29, 29, 29, 0.9) 99.59%)",
+    background: "linear-gradient(157.79deg, rgba(29, 29, 29, 0.54) -0.65%, rgba(29, 29, 29, 0.9) 99.59%)",
     border: "1px solid hsla(0, 4.1%, 47.5%, 0.1)",
     height: "100%",
     position: "relative",

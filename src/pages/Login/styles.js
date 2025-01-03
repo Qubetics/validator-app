@@ -28,7 +28,7 @@ export const NodeBox = styled(Box)(({ theme }) => ({
     // marginLeft: '15px',
     marginBottom: "12px",
     lineHeight: "23px",
-    color: theme.palette.blue.newBlue,
+    color: "#fff",
   },
   ".ver-text": {
     fontSize: "14px",

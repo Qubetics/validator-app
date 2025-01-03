@@ -9,23 +9,40 @@ export const ValidatorDetailsHeader = styled(Box)({
 });
 export const ValidatorsCard = styled(Box)({
   h3: {
-    padding: "30px 2px",
+    padding: "20px 2px 13px",
     marginBottom: 0,
   },
 });
 
 export const ValidatorDetailItem = styled(Box)(({ theme }) => ({
   display: "flex",
-  justifyContent: "space-between",
-  padding: "26px 48px 24px 22px",
-  borderTop: `1px solid rgba(255, 255, 255, 0.1)`,
-
+  // justifyContent: "space-between",
+  padding: "20px 20px 10px",
+  background: "#121212",
+  overflow: "hidden",
   ">:first-of-type": {
-    fontWeight: 700,
+    fontWeight: 300,
+    color: "#A0A0A0",
+    width: "400px",
+    [theme.breakpoints.down(420)]: {
+      width: "300px",
+    },
   },
   [theme.breakpoints.down(410)]: {
     flexDirection: "column",
     gap: "20px",
+  },
+}));
+export const WalletAdd = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  p: {
+    dislay: "flex",
+    flexDirection: "column",
+    maxWidth: "440px",
+    width: "100%",
+    gap: "4px",
+    alignItems: "flex-start",
   },
 }));
 export const ProfileDetails = styled(Box)(({ theme }) => ({
@@ -39,6 +56,9 @@ export const ProfileDetails = styled(Box)(({ theme }) => ({
   "p:first-child": {
     color: "#A0A0A0",
     fontWeight: 300,
+  },
+  "p:last-child": {
+    fontWeight: "400",
   },
 
   ">:first-of-type": {
@@ -67,7 +87,7 @@ export const Wrapper = styled("div")({
 
   ".address-text": {
     fontSize: "16px",
-    fontWeight: "500",
+    fontWeight: "400",
     overflow: "hidden",
     textOverflow: "ellipsis",
   },

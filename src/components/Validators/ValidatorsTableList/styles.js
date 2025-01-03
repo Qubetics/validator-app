@@ -4,7 +4,7 @@ import FlexBox from "../../Common/FlexBox";
 
 export const TabsSection = styled(FlexBox)(({ theme }) => ({
   justifyContent: "space-between",
-  margin: "43px 0 22px",
+  margin: "20px 0 20px",
   gap: "20px",
   [theme.breakpoints.down(1324)]: {
     flexDirection: "column",
@@ -40,8 +40,8 @@ export const Search = styled(Paper)(({ theme }) => ({
       fontSize: "16px",
     },
     ".MuiInputBase-input::placeholder": {
-      opacity: "1",
-      color: "white",
+      color: "#fff",
+      opacity: 0.5,
     },
   },
 
@@ -58,7 +58,7 @@ export const InputSearch = styled(Paper)(({ theme }) => ({
     borderRadius: "14px",
     height: "56px",
     "&:hover": {
-      border: "1px solid #3B393C",
+      // border: "1px solid #3B393C",
       borderRadius: "14px",
     },
   },
@@ -67,6 +67,10 @@ export const InputSearch = styled(Paper)(({ theme }) => ({
     right: "7px",
     height: "36px",
     top: "10px",
+  },
+  ".css-1owsj0s-MuiInputBase-root-MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {
+    borderColor: "none !important",
+    border: 0,
   },
 }));
 export const Pagination = styled(MuiPagination)(({ theme }) => ({
@@ -86,4 +90,15 @@ export const Pagination = styled(MuiPagination)(({ theme }) => ({
     border: 0,
     opacity: "1",
   },
+}));
+
+export const NoData = styled(Paper)(({ theme }) => ({
+  display: "flex",
+  justifyContent: "center",
+  width: "100%",
+  alignItems: "center",
+  flexDirection: "column",
+  border: "1px solid #383939",
+  padding: "20px",
+  borderRadius: "20px",
 }));

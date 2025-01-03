@@ -1,5 +1,5 @@
-import theme from '../../../theme';
-import { CustomizedTextField } from './styles';
+import theme from "../../../theme";
+import { CustomizedTextField } from "./styles";
 
 const TextField = ({ ...props }) => {
   return (
@@ -15,8 +15,9 @@ const TextField = ({ ...props }) => {
         style: { paddingRight: props.paddingRight },
         maxLength: props.maxlength,
         sx: {
-          '&::placeholder': {
-            color: `${theme.palette.gray.dark}`,
+          "&::placeholder": {
+            color: "#fff",
+            opacity: 0.5,
             ...theme.typography.body2,
             lineHeight: 1.9,
           },

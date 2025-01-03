@@ -19,16 +19,7 @@ import { toast } from "../Common/Toast/Toast";
 import { isTxOccur } from "../../redux/reducer/auth";
 import { PREFIX } from "../../constant";
 
-const AuthorizeValidatorTransaction = ({
-  setActiveStep,
-  primaryValues,
-  methodType,
-  secondaryValues,
-  setOpen,
-  setIsLoading,
-  hideCommissionField,
-  setEditSuccess,
-}) => {
+const AuthorizeValidatorTransaction = ({ setActiveStep, primaryValues, methodType, secondaryValues, setOpen, setIsLoading, hideCommissionField, setEditSuccess }) => {
   const [showButton, setShowButton] = useState(true);
   const [mnemonics, setMnemonics] = useState("");
   const { nodeUrl } = useGetNodeUrl();
@@ -38,7 +29,6 @@ const AuthorizeValidatorTransaction = ({
   const navigate = useNavigate();
   const { valoperAddressFromBlockChain } = useSelector((state) => state?.auth);
   const dispatch = useDispatch();
-  console.log(valoperAddressFromBlockChain, "valoperAddressFromBlockChain");
   const submit = async () => {
     try {
       if (!mnemonics) {
@@ -55,14 +45,7 @@ const AuthorizeValidatorTransaction = ({
           const [{ address: senderAddress }] = await wallet.getAccounts();
           if (senderAddress?.length > 0 && senderAddress === userAddress) {
             setLoader(true);
-            const res = await createValidator(
-              mnemonics,
-              primaryValues,
-              secondaryValues,
-              nodeUrl,
-              valoperAddressFromBlockChain
-            );
-            console.log(res);
+            const res = await createValidator(mnemonics, primaryValues, secondaryValues, nodeUrl, valoperAddressFromBlockChain);
             setTimeout(() => {
               dispatch(isTxOccur(true));
               if (res?.code == 0) {
@@ -72,9 +55,7 @@ const AuthorizeValidatorTransaction = ({
                 return;
               } else {
                 if (res && res?.rawLog?.includes("failed")) {
-                  let msg = res?.rawLog?.split(
-                    "failed to execute message; message index: 0:"
-                  );
+                  let msg = res?.rawLog?.split("failed to execute message; message index: 0:");
                   toast.error(msg[1]);
                 } else {
                   toast.error(res?.rawLog);
@@ -91,31 +72,15 @@ const AuthorizeValidatorTransaction = ({
       } else if (methodType === "editValidator") {
         if (mnemonics?.length > 0) {
           try {
-            const wallet = await DirectSecp256k1HdWallet.fromMnemonic(
-              mnemonics,
-              { hdPaths: [stringToPath("m/44'/60'/0'/0/0")], prefix: PREFIX }
-            );
+            const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonics, { hdPaths: [stringToPath("m/44'/60'/0'/0/0")], prefix: PREFIX });
             const [{ address: senderAddress }] = await wallet.getAccounts();
-            if (
-              senderAddress?.length > 0 &&
-              senderAddress === userAddress &&
-              valoperAddress?.length > 0
-            ) {
+            if (senderAddress?.length > 0 && senderAddress === userAddress && valoperAddress?.length > 0) {
               setIsLoading(true);
-              const res = await editValidator(
-                mnemonics,
-                primaryValues,
-                nodeUrl,
-                valoperAddress,
-                hideCommissionField
-              );
-              console.log(res, "RESRSE");
+              const res = await editValidator(mnemonics, primaryValues, nodeUrl, valoperAddress, hideCommissionField);
               setTimeout(() => {
                 dispatch(isTxOccur(true));
                 if (res && res?.rawLog?.includes("failed")) {
-                  let msg = res?.rawLog?.split(
-                    "failed to execute message; message index: 0:"
-                  );
+                  let msg = res?.rawLog?.split("failed to execute message; message index: 0:");
                   setOpen(false);
                   setActiveStep(0);
                   setIsLoading(false);
@@ -170,20 +135,10 @@ const AuthorizeValidatorTransaction = ({
           Back
         </BackButton> */}
         <BackButton onClick={() => navigate(-1)} title={<BackIcon />} />
-        <Typography
-          whiteSpace="nowrap"
-          className="common-wrapper__title common-wrapper__title--flex"
-        >
+        <Typography whiteSpace="nowrap" className="common-wrapper__title common-wrapper__title--flex">
           Authorize Transaction
         </Typography>
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="space-between"
-          flexWrap="wrap"
-          gap="20px"
-          mb="24px"
-        >
+        <Box display="flex" alignItems="center" justifyContent="space-between" flexWrap="wrap" gap="20px" mb="24px">
           {secondaryValues && methodType === "createValidator" && (
             <div>
               <Typography color="text.secondary" fontWeight="700">
@@ -224,11 +179,7 @@ const AuthorizeValidatorTransaction = ({
         </Button> */}
         <div style={{ paddingTop: "20px" }}>
           {" "}
-          <CommonBtn
-            children="Sign and Submit"
-            onClick={submit}
-            color="primary"
-          />
+          <CommonBtn children="Sign and Submit" onClick={submit} color="primary" />
         </div>
       </div>
     </FormWrapper>

@@ -21,11 +21,14 @@ export const StyledTabs = styled(Tabs)(({ theme }) => ({
       ".MuiButtonBase-root": {
         background: "#121212",
         borderRadius: "28px",
-        fontWeight: "400",
+        fontWeight: "500",
         color: "#A0A0A0",
+        fontSize: "16px",
       },
       ".Mui-selected": {
-        border: "1.25px solid transparent",
+        fontWeight: "500",
+        border: "2px solid transparent",
+        fontSize: "16px",
         background: `linear-gradient(180deg, var(--bg), var(--bg)) padding-box,
         conic-gradient(
           from 180deg at 50% 50%,
@@ -42,7 +45,7 @@ export const StyledTabs = styled(Tabs)(({ theme }) => ({
         "--text": "#fff",
         "--hover-text": "#000",
         "&:hover": {
-          border: "1.25px solid transparent",
+          border: "2px solid transparent",
           background: `linear-gradient(180deg, var(--bg), var(--bg)) padding-box,
         conic-gradient(
           from 180deg at 50% 50%,

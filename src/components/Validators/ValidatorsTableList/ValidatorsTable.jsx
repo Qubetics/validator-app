@@ -1,27 +1,12 @@
 /*eslint-disable*/
 
 import { useCallback, useEffect, useState } from "react";
-import {
-  CURRENCY,
-  DEFAULT_TABLE_LIMIT,
-  LOADING_STATES,
-  PAGE_LIMIT,
-} from "../../../constant";
-import {
-  Paper,
-  Skeleton,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@mui/material";
+import { CURRENCY, DEFAULT_TABLE_LIMIT, LOADING_STATES, PAGE_LIMIT } from "../../../constant";
+import { Paper, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { capitalizeFirstLetter } from "../../../utils/capitalizeFirstLetter";
 import Loader from "../../Loader/Loader";
 import Copyicon from "../../../assets/Icons/CopyIcon.jsx";
-import { Pagination } from "./styles";
+import { Pagination, NoData } from "./styles";
 import FlexBox from "../../Common/FlexBox";
 import { usePagination } from "../../../hooks/UsePagination";
 import { useNavigate } from "react-router-dom";
@@ -33,43 +18,15 @@ import getData from "../../../utils/getData";
 import { toast } from "../../Common/Toast/Toast.js";
 import { useDispatch } from "react-redux";
 import { getValidatorCount } from "../../../redux/reducer/auth";
+import { NotFoundIcon } from "../../../assets/Icons/SvgIcon";
 
-const tableHeader = [
-  "#No",
-  "Name",
-  "Validator Address",
-  "Total Stake",
-  "Commission",
-  "Self Stake",
-  "Delegators",
-];
+const tableHeader = ["#No", "Name", "Validator Address", "Total Stake", "Commission", "Self Stake", "Delegators"];
 
-const statusHeader = [
-  "#No",
-  "Name",
-  "Validator Address",
-  "Status",
-  "Total Stake",
-  "Commission",
-  "Self Stake",
-  "Delegators",
-];
+const statusHeader = ["#No", "Name", "Validator Address", "Status", "Total Stake", "Commission", "Self Stake", "Delegators"];
 
-const ValidatorsTable = ({
-  tabId,
-  setTabId,
-  searchData,
-  isSearch,
-  setIsSearch,
-}) => {
+const ValidatorsTable = ({ tabId, setTabId, searchData, isSearch, setIsSearch }) => {
   const navigate = useNavigate();
-  const {
-    pageParams,
-    handlePageChange,
-    totalPages,
-    setTotalCount,
-    setCurrentPage,
-  } = usePagination();
+  const { pageParams, handlePageChange, totalPages, setTotalCount, setCurrentPage } = usePagination();
   let number = 0;
   const [validatorListData, setValidatorListData] = useState([]);
   const [validatorStatus, setValidatorStatus] = useState(LOADING_STATES.INIT);
@@ -84,11 +41,7 @@ const ValidatorsTable = ({
     try {
       if (searchData?.trim()?.length > 0) {
         let trimmedData = searchData?.trim();
-        const response = await getValidatorByAddress(
-          trimmedData,
-          pageParams?.page,
-          DEFAULT_TABLE_LIMIT
-        );
+        const response = await getValidatorByAddress(trimmedData, pageParams?.page, DEFAULT_TABLE_LIMIT);
         let count = response?.data?.count || 1;
         setTotalCount(count);
         setValidatorListData(response?.data?.validators);
@@ -113,64 +66,20 @@ const ValidatorsTable = ({
       setValidatorStatus(LOADING_STATES.FETCHING);
       switch (tabId) {
         case 0: {
-          const response = await getAllValidators(
-            pageParams?.page,
-            DEFAULT_TABLE_LIMIT,
-            tabId
-          );
-          return (
-            response?.data?.count > 0
-              ? (setValidatorListData(response?.data?.validators),
-                setTotalCount(response?.data?.count))
-              : (setValidatorListData([]), setTotalCount(0)),
-            setValidatorStatus(LOADING_STATES.SUCCESS),
-            dispatch(getValidatorCount(response?.data?.count))
-          );
+          const response = await getAllValidators(pageParams?.page, DEFAULT_TABLE_LIMIT, tabId);
+          return response?.data?.count > 0 ? (setValidatorListData(response?.data?.validators), setTotalCount(response?.data?.count)) : (setValidatorListData([]), setTotalCount(0)), setValidatorStatus(LOADING_STATES.SUCCESS), dispatch(getValidatorCount(response?.data));
         }
         case 1: {
-          const response = await getAllValidators(
-            pageParams?.page,
-            DEFAULT_TABLE_LIMIT,
-            tabId,
-            "active"
-          );
-          return (
-            response?.data?.activeCount > 0
-              ? (setValidatorListData(response?.data?.validators),
-                setTotalCount(response?.data?.activeCount))
-              : (setValidatorListData([]), setTotalCount(0)),
-            setValidatorStatus(LOADING_STATES.SUCCESS)
-          );
+          const response = await getAllValidators(pageParams?.page, DEFAULT_TABLE_LIMIT, tabId, "active");
+          return response?.data?.activeCount > 0 ? (setValidatorListData(response?.data?.validators), setTotalCount(response?.data?.activeCount)) : (setValidatorListData([]), setTotalCount(0)), setValidatorStatus(LOADING_STATES.SUCCESS);
         }
         case 2: {
-          const response = await getAllValidators(
-            pageParams?.page,
-            DEFAULT_TABLE_LIMIT,
-            tabId,
-            "inactive"
-          );
-          return (
-            response?.data?.inactiveCount > 0
-              ? (setValidatorListData(response?.data?.validators),
-                setTotalCount(response?.data?.inactiveCount))
-              : (setValidatorListData([]), setTotalCount(0)),
-            setValidatorStatus(LOADING_STATES.SUCCESS)
-          );
+          const response = await getAllValidators(pageParams?.page, DEFAULT_TABLE_LIMIT, tabId, "inactive");
+          return response?.data?.inactiveCount > 0 ? (setValidatorListData(response?.data?.validators), setTotalCount(response?.data?.inactiveCount)) : (setValidatorListData([]), setTotalCount(0)), setValidatorStatus(LOADING_STATES.SUCCESS);
         }
         case 3: {
-          const response = await getAllValidators(
-            pageParams?.page,
-            DEFAULT_TABLE_LIMIT,
-            tabId,
-            "deactivating"
-          );
-          return (
-            response?.data?.deactivatingCount > 0
-              ? (setValidatorListData(response?.data?.validators),
-                setTotalCount(response?.data?.deactivatingCount))
-              : (setValidatorListData([]), setTotalCount(0)),
-            setValidatorStatus(LOADING_STATES.SUCCESS)
-          );
+          const response = await getAllValidators(pageParams?.page, DEFAULT_TABLE_LIMIT, tabId, "deactivating");
+          return response?.data?.deactivatingCount > 0 ? (setValidatorListData(response?.data?.validators), setTotalCount(response?.data?.deactivatingCount)) : (setValidatorListData([]), setTotalCount(0)), setValidatorStatus(LOADING_STATES.SUCCESS);
         }
       }
     } catch (err) {
@@ -199,21 +108,13 @@ const ValidatorsTable = ({
     <>
       <div className="table-wrap">
         <TableContainer component={Paper} sx={{ borderRadius: "20px" }}>
-          <Table
-            sx={{ minWidth: 850 }}
-            aria-label="validators table"
-            className="validator-table"
-          >
+          <Table sx={{ minWidth: 850 }} aria-label="validators table" className="validator-table">
             <TableHead>
               <TableRow>
                 {tabId == 0
                   ? statusHeader?.map((item, index) => (
                       <TableCell key={index + 1}>
-                        <Typography
-                          variant="label"
-                          color="text.secondary"
-                          fontWeight="700"
-                        >
+                        <Typography variant="label" color="text.secondary" fontWeight="700">
                           {item}
                         </Typography>
                       </TableCell>
@@ -228,26 +129,18 @@ const ValidatorsTable = ({
               </TableRow>
             </TableHead>
             <TableBody>
-              {validatorStatus === LOADING_STATES.INIT ||
-              validatorStatus === LOADING_STATES.FETCHING
-                ? Array.from({ length: DEFAULT_TABLE_LIMIT }).map(
-                    (_, rowIndex) => (
-                      <TableRow key={rowIndex}>
-                        {Array.from({
-                          length: (tabId === 0 ? statusHeader : tableHeader)
-                            .length,
-                        }).map((_, colIndex) => (
-                          <TableCell key={colIndex}>
-                            <Skeleton
-                              variant="text"
-                              width="100%"
-                              height="24px"
-                            />
-                          </TableCell>
-                        ))}
-                      </TableRow>
-                    )
-                  )
+              {validatorStatus === LOADING_STATES.INIT || validatorStatus === LOADING_STATES.FETCHING
+                ? Array.from({ length: DEFAULT_TABLE_LIMIT }).map((_, rowIndex) => (
+                    <TableRow key={rowIndex}>
+                      {Array.from({
+                        length: (tabId === 0 ? statusHeader : tableHeader).length,
+                      }).map((_, colIndex) => (
+                        <TableCell key={colIndex}>
+                          <Skeleton variant="text" width="100%" height="24px" />
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))
                 : validatorListData?.map((data, index) => (
                     <TableRow
                       key={index}
@@ -258,9 +151,7 @@ const ValidatorsTable = ({
                     >
                       <TableCell>
                         {pageParams?.page > 1 ? (
-                          ((number =
-                            index +
-                            (pageParams?.page - 1) * DEFAULT_TABLE_LIMIT),
+                          ((number = index + (pageParams?.page - 1) * DEFAULT_TABLE_LIMIT),
                           (
                             <div className="id-wrap__icon id-wrap__icon--mr-0">
                               <span>{number + 1}</span>
@@ -274,29 +165,13 @@ const ValidatorsTable = ({
                         )}
                       </TableCell>
                       <TableCell>
-                        <Typography variant="body2">
-                          {data?.name
-                            ? data?.name == "unknown"
-                              ? "-"
-                              : capitalizeFirstLetter(data?.name)
-                            : "-"}
-                        </Typography>
+                        <Typography variant="body2">{data?.name ? (data?.name == "unknown" ? "-" : capitalizeFirstLetter(data?.name)) : "-"}</Typography>
                       </TableCell>
                       <TableCell>
                         {data?.validatorAddress ? (
                           <Typography variant="body2" className="text-hover">
-                            <span
-                              onClick={() => getdata(data?.validatorAddress)}
-                            >
-                              {" "}
-                              {getData(data?.validatorAddress)}
-                            </span>
-                            <text
-                              onClick={() =>
-                                copiedAddress(data?.validatorAddress)
-                              }
-                              className="copy-btn"
-                            >
+                            <span onClick={() => getdata(data?.validatorAddress)}> {getData(data?.validatorAddress)}</span>
+                            <text onClick={() => copiedAddress(data?.validatorAddress)} className="copy-btn">
                               <Copyicon sx={{ fontSize: "17px" }} />
                             </text>
                           </Typography>
@@ -306,45 +181,24 @@ const ValidatorsTable = ({
                       </TableCell>
                       {tabId === 0 && (
                         <TableCell>
-                          <Typography variant="body2">
-                            {data?.status
-                              ? capitalizeFirstLetter(data?.status)
-                              : "-"}
-                          </Typography>
+                          <Typography variant="body2">{data?.status ? capitalizeFirstLetter(data?.status) : "-"}</Typography>
                         </TableCell>
                       )}
                       <TableCell>
                         <Typography variant="body2">
-                          {data?.totalStake
-                            ? noExponential(
-                                toFixed(Number(data?.totalStake) / 10 ** 18, 4)
-                              )
-                            : "0"}{" "}
-                          {CURRENCY}
+                          {data?.totalStake ? noExponential(toFixed(Number(data?.totalStake) / 10 ** 18, 4)) : "0"} {CURRENCY}
                         </Typography>
                       </TableCell>
                       <TableCell>
-                        <Typography variant="body2">
-                          {data?.commissionRate
-                            ? noExponential(toFixed(data?.commissionRate, 4))
-                            : "0"}
-                          %
-                        </Typography>
+                        <Typography variant="body2">{data?.commissionRate ? noExponential(toFixed(data?.commissionRate, 4)) : "0"}%</Typography>
                       </TableCell>
                       <TableCell>
                         <Typography variant="body2">
-                          {data?.selfStake
-                            ? noExponential(
-                                toFixed(Number(data?.selfStake) / 10 ** 18, 4)
-                              )
-                            : "0"}{" "}
-                          {CURRENCY}
+                          {data?.selfStake ? noExponential(toFixed(Number(data?.selfStake) / 10 ** 18, 4)) : "0"} {CURRENCY}
                         </Typography>
                       </TableCell>
                       <TableCell>
-                        <Typography variant="body2">
-                          {data.delegatorCount ? data?.delegatorCount : 0}
-                        </Typography>
+                        <Typography variant="body2">{data.delegatorCount ? data?.delegatorCount : 0}</Typography>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -359,7 +213,13 @@ const ValidatorsTable = ({
                       border: "0 !important",
                     }}
                   >
-                    <Typography variant="body2">No Data Available</Typography>
+                    <Typography variant="body2">
+                      {" "}
+                      <NoData className="Nodata">
+                        <NotFoundIcon />
+                        No Data
+                      </NoData>
+                    </Typography>
                   </TableCell>
                 </TableRow>
               </TableBody>
@@ -374,13 +234,7 @@ const ValidatorsTable = ({
             paddingTop: "20px",
           }}
         >
-          <Pagination
-            count={totalPages}
-            variant="outlined"
-            shape="rounded"
-            page={pageParams.page}
-            onChange={handlePageChange}
-          />
+          <Pagination count={totalPages} variant="outlined" shape="rounded" page={pageParams.page} onChange={handlePageChange} />
         </FlexBox>
       )}
       {/* {isLoading ? <Loader /> : null} */}

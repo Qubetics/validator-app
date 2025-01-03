@@ -10,11 +10,11 @@ import { Typography, Skeleton } from "@mui/material";
 import getAllBlocks from "../../services/apis/getAllBlocks";
 import { useEffect, useState } from "react";
 import { BASE_URL, DEAFAULT_PAGE, PAGE_LIMIT } from "../../constant";
-import reduceData, {
-  isTimeAgoByCreatedDate,
-} from "../../utils/commonFunctions";
+import reduceData, { isTimeAgoByCreatedDate } from "../../utils/commonFunctions";
+import CopyIcon from "../../assets/Icons/CopyIcon";
+import { toast } from "../../components/Common/Toast/Toast";
 
-const tableHeader = ["Block No.", "Block Hash", "Validator", "Time"];
+const tableHeader = ["Blocks", "Block Hash", "Validator", "Time"];
 
 const BlocksTable = () => {
   const [blocks, setBlocks] = useState([]);
@@ -49,23 +49,19 @@ const BlocksTable = () => {
     </TableRow>
   );
 
+  const copiedAddress = (data) => {
+    navigator.clipboard.writeText(data);
+    toast.success("Copied");
+  };
+
   return (
     <TableContainer component={Paper}>
-      <Table
-        sx={{ minWidth: 650 }}
-        aria-label="simple table"
-        className="block-table"
-      >
+      <Table sx={{ minWidth: 650 }} aria-label="simple table" className="block-table">
         <TableHead>
           <TableRow>
             {tableHeader?.map((item, index) => (
               <TableCell key={index}>
-                <Typography
-                  color="text.secondary"
-                  fontSize="16px"
-                  lineHeight="20px"
-                  fontWeight="400"
-                >
+                <Typography color="text.secondary" fontSize="16px" lineHeight="20px" fontWeight="400">
                   {item}
                 </Typography>
               </TableCell>
@@ -85,36 +81,52 @@ const BlocksTable = () => {
                   <TableCell component="th" scope="row">
                     <div className="id-wrap">
                       <Typography variant="body2">
-                        {data?.blocknumber ? data?.blocknumber : ""}
+                        {data?.blockhash ? (
+                          <span className="text-hover" onClick={() => transactionHash(data?.blocknumber)} style={{ cursor: "pointer" }}>
+                            {data?.blocknumber}
+                          </span>
+                        ) : (
+                          ""
+                        )}
                       </Typography>
                     </div>
                   </TableCell>
                   <TableCell>
                     <Typography variant="body2">
-                      {data?.blockhash ? (
-                        <span
-                          className="text-hover"
-                          onClick={() => transactionHash(data?.blockhash)}
-                          style={{ cursor: "pointer" }}
-                        >
-                          {reduceData(data?.blockhash)}
-                        </span>
-                      ) : (
-                        ""
-                      )}
+                      <text className="text-hover" sx={{ display: "flex" }}>
+                        {data?.blockhash ? (
+                          <>
+                            <span className="" onClick={() => transactionHash(data?.blockhash)} style={{ cursor: "pointer" }}>
+                              {reduceData(data?.blockhash)}
+                            </span>
+                            <span onClick={() => copiedAddress(data?.blockhash)}>
+                              <CopyIcon sx={{ fontSize: "17px" }} />
+                            </span>
+                          </>
+                        ) : (
+                          ""
+                        )}
+                      </text>
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography variant="body2">
-                      {data?.miner ? reduceData(data?.miner) : ""}
+                      <text sx={{ display: "flex" }}>
+                        {data?.miner ? (
+                          <>
+                            <span>{reduceData(data?.miner)}</span>
+                            <span onClick={() => copiedAddress(data?.miner)} style={{ marginLeft: "4px", cursor: "pointer" }}>
+                              <CopyIcon sx={{ fontSize: "17px" }} />
+                            </span>
+                          </>
+                        ) : (
+                          ""
+                        )}
+                      </text>
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="body2">
-                      {data?.createdAt
-                        ? isTimeAgoByCreatedDate(data?.createdAt)
-                        : ""}
-                    </Typography>
+                    <Typography variant="body2">{data?.createdAt ? isTimeAgoByCreatedDate(data?.createdAt) : ""}</Typography>
                   </TableCell>
                 </TableRow>
               ))}

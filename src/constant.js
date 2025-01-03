@@ -21,7 +21,7 @@ export const LOADING_STATES = {
 /*PAGE LIMIT*/
 export const PAGE_LIMIT = 10;
 export const DEAFAULT_PAGE = 1;
-export const DEFAULT_TABLE_LIMIT = 5;
+export const DEFAULT_TABLE_LIMIT = 10;
 
 /*BASE URL*/
 export const BASE_URL = {
@@ -55,16 +55,15 @@ export const API_URL = {
 
 export const bondedTableHeader = [
   {
-    heading: "BONDED",
-    content:
-      "Bonded funds give the right to rewards and are exposed to slashing",
+    heading: "Bonded",
+    content: "Bonded funds give the right to rewards and are exposed to slashing",
   },
   {
-    heading: "UNBONDED",
+    heading: "Unbonded",
     content: `Funds unbonded will be available for withdrawal after the completion of the Unbonding Period which is ${JAIL_TIME} minutes`,
   },
   {
-    heading: "ACTIONS",
+    heading: "Actions",
     content: "",
   },
 ];
@@ -102,8 +101,7 @@ export const reValidateMenuOptions = [
 export const errors = {
   LOW_BALANCE: "Insufficient funds",
 };
-export const logoURL =
-  "https://pmc-media.s3.us-west-2.amazonaws.com/vine-assets";
+export const logoURL = "https://pmc-media.s3.us-west-2.amazonaws.com/vine-assets";
 
 export const ErrorMsgs = {
   zero: "Unbond amount must be greater than zero",
@@ -189,8 +187,5 @@ export const commissionInputValues = [
 ];
 
 export const splitAddress = (data = "", startLen, endLen) => {
-  return `${data.substring(0, startLen)}.....${data.substring(
-    data?.length - endLen,
-    data?.length
-  )}`;
+  return `${data.substring(0, startLen)}.....${data.substring(data?.length - endLen, data?.length)}`;
 };

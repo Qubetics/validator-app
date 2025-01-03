@@ -1,4 +1,4 @@
-@import './assets/_var.scss';
+@import "./assets/_var.scss";
 
 // common
 
@@ -177,4 +177,7 @@
     outline: unset;
     width: 100%;
   }
+}
+.swal2-container {
+  backdrop-filter: blur(10px);
 }

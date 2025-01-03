@@ -55,11 +55,7 @@ const ValidatorsTableList = () => {
   return (
     <>
       <TabsSection>
-        <Tabs
-          tabId={tabId}
-          toggleTabHandler={toggleTabHandler}
-          isDisable={isDisable}
-        />
+        <Tabs tabId={tabId} toggleTabHandler={toggleTabHandler} isDisable={isDisable} />
         {/* <Search component="form">
           <InputBase sx={{ ml: 1, flex: 1 }} placeholder="Search for an address or name" inputProps={{ "aria-label": "search validator" }} onChange={handleSearchChange} value={searchData || ""} onKeyPress={handleKeyPress} />
           <span onClick={(e) => (e.preventDefault(), setIsSearch(true))} disabled={searchDisable}>
@@ -72,7 +68,7 @@ const ValidatorsTableList = () => {
         <InputSearch>
           <TextField
             variant="outlined"
-            placeholder="Search for contract name or address"
+            placeholder="Search for name or address"
             fullWidth
             onChange={handleSearchChange}
             value={searchData || ""}
@@ -83,29 +79,16 @@ const ValidatorsTableList = () => {
                   <InputAdornment position="">
                     <Magnifier />
                   </InputAdornment>
-                  <Button
-                    className={!isDisable ? "disable" : ""}
-                    style={{ color: "white" }}
-                    onClick={(e) => (e.preventDefault(), setIsSearch(true))}
-                    disabled={searchDisable}
-                    onChange={handleSearchChange}
-                    value={searchData || ""}
-                  >
+                  {/* <Button className={!isDisable ? "disable" : ""} style={{ color: "white" }} onClick={(e) => (e.preventDefault(), setIsSearch(true))} disabled={searchDisable} onChange={handleSearchChange} value={searchData || ""}>
                     Search
-                  </Button>
+                  </Button> */}
                 </div>
               ),
             }}
           />
         </InputSearch>
       </TabsSection>
-      <ValidatorsTable
-        tabId={tabId}
-        searchData={searchData}
-        setTabId={setTabId}
-        setIsSearch={setIsSearch}
-        isSearch={isSearch}
-      />
+      <ValidatorsTable tabId={tabId} searchData={searchData} setTabId={setTabId} setIsSearch={setIsSearch} isSearch={isSearch} />
     </>
   );
 };
