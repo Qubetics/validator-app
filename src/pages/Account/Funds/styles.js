@@ -82,7 +82,7 @@ export const BondWrapper = styled(Box)(({ theme }) => ({
       fontSize: "18px",
       fontWeight: "500",
       // maxWidth: '425px',
-      textTransform: "capitalize",
+      textTransform: "unset",
       padding: "8px 24px",
       borderRadius: "28px",
       [theme.breakpoints.down(767)]: {

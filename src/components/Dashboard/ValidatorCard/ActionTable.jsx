@@ -1,14 +1,5 @@
 /*eslint-disable*/
-import {
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@mui/material";
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { BASE_URL, CURRENCY, DEFAULT_TABLE_LIMIT } from "../../../constant";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -19,6 +10,7 @@ import { usePagination } from "../../../hooks/UsePagination";
 import Loader from "../../Loader/Loader";
 import getTxByAddress from "../../../services/apis/getTxByAddress";
 import SkeletonRow from "../../SkeletonRow/SkeletonRow";
+import { PrevIcon, NextIcon } from "../../../assets/Icons/SvgIcon.jsx";
 import CopyIcon from "../../../assets/Icons/CopyIcon";
 import { toast } from "../../Common/Toast/Toast";
 import { NotFoundIcon } from "../../../assets/Icons/SvgIcon";
@@ -36,8 +28,7 @@ const copiedAddress = (data) => {
 
 const ActionTable = () => {
   const { userAddress } = useSelector((state) => state.auth);
-  const { pageParams, handlePageChange, totalPages, setTotalCount } =
-    usePagination();
+  const { pageParams, handlePageChange, totalPages, setTotalCount } = usePagination();
   const [txData, setTxData] = useState([]);
   const [txStatus, setTxStatus] = useState("Init");
 
@@ -46,11 +37,7 @@ const ActionTable = () => {
       try {
         if (userAddress) {
           setTxStatus("Fetching");
-          const response = await getTxByAddress(
-            userAddress,
-            pageParams?.page,
-            DEFAULT_TABLE_LIMIT
-          );
+          const response = await getTxByAddress(userAddress, pageParams?.page, DEFAULT_TABLE_LIMIT);
           setTxData(response?.data?.transactions);
           setTotalCount(response?.data?.count);
           setTxStatus("Success");
@@ -65,9 +52,7 @@ const ActionTable = () => {
 
   const renderTableRows = () => {
     if (txStatus === "Fetching") {
-      return Array.from({ length: 5 }).map((_, index) => (
-        <SkeletonRow key={index} columns={tableHeader.length} />
-      ));
+      return Array.from({ length: 5 }).map((_, index) => <SkeletonRow key={index} columns={tableHeader.length} />);
     }
     if (txData?.length === 0 || !txData) {
       return (
@@ -94,10 +79,7 @@ const ActionTable = () => {
       >
         <TableCell>
           <Typography variant="body2">
-            <span
-              onClick={() => transactionHash(data?.txhash)}
-              className="text-hover"
-            >
+            <span onClick={() => transactionHash(data?.txhash)} className="text-hover">
               {data?.txhash || "-"}
               <text onClick={() => copiedAddress(data?.txhash)}>
                 <CopyIcon sx={{ fontSize: "17px" }} />
@@ -120,14 +102,11 @@ const ActionTable = () => {
             style={{
               color:
                 data?.status === "SUCCESS" || data?.status === "success"
-                  ? "green"
-                  : data?.status === "PROCESSING" ||
-                    data?.status === "PENDING" ||
-                    data?.status === "pending" ||
-                    data?.status === "processing"
-                  ? "yellow"
+                  ? "#1FDD00"
+                  : data?.status === "PROCESSING" || data?.status === "PENDING" || data?.status === "pending" || data?.status === "processing"
+                  ? "#FF9900"
                   : data?.status === "FAILED" || data?.status === "failed"
-                  ? "red"
+                  ? "#FF4E4E"
                   : "inherit", // Default color
             }}
           >
@@ -168,14 +147,7 @@ const ActionTable = () => {
             paddingTop: "20px",
           }}
         >
-          <Pagination
-            count={totalPages}
-            variant="outlined"
-            shape="rounded"
-            page={pageParams?.page}
-            onChange={handlePageChange}
-            style={{ marginLeft: "auto" }}
-          />
+          <Pagination prefix={<PrevIcon />} count={totalPages} variant="outlined" shape="rounded" page={pageParams?.page} onChange={handlePageChange} style={{ marginLeft: "auto" }} />
         </FlexBox>
       )}
     </>

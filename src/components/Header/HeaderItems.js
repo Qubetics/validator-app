@@ -43,14 +43,14 @@ function HeaderItems() {
 
   const handleLogout = () => {
     Swal.fire({
-      title: "LOGOUT",
-      text: "Are you sure?",
-      padding: "20px 30px",
-      background: "#252527",
+      title: "Logout",
+      text: "Do you want to logout?",
+      padding: "40px",
+      background: "#121212",
       color: "#fff",
       showCancelButton: true,
-      confirmButtonColor: "#0086ff",
-      cancelButtonColor: "#d33",
+      confirmButtonColor: "unset",
+      cancelButtonColor: "#000",
       confirmButtonText: "YES",
       cancelButtonText: "NO",
     }).then((result) => {

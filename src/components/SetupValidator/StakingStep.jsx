@@ -17,12 +17,7 @@ const mb20 = {
   marginBottom: "20px",
 };
 
-const StakingStep = ({
-  activeStep,
-  setActiveStep,
-  setSecondaryValues,
-  secondaryValues,
-}) => {
+const StakingStep = ({ activeStep, setActiveStep, setSecondaryValues, secondaryValues }) => {
   const { userBalance } = useSelector((state) => state.auth);
 
   const goBack = () => {
@@ -32,13 +27,7 @@ const StakingStep = ({
   const handleAmount = (e) => {
     e.persist();
     const { name, value } = e.target;
-    if (
-      !isNaN(Number(value)) &&
-      value !== " " &&
-      !value.includes("+") &&
-      !value.includes("-") &&
-      countDecimal(value) <= 18
-    ) {
+    if (!isNaN(Number(value)) && value !== " " && !value.includes("+") && !value.includes("-") && countDecimal(value) <= 18) {
       setSecondaryValues((prevValue) => ({
         ...prevValue,
         [name]: removeZero(e.target.value), // Use e.target.value directly
@@ -47,11 +36,7 @@ const StakingStep = ({
   };
 
   const handleMaxAmt = () => {
-    if (
-      Number(userBalance) > 0 &&
-      Number(userBalance) > Number(FEE) &&
-      Number(userBalance) >= Number(MIN_BOND_AMOUNT) + Number(FEE)
-    ) {
+    if (Number(userBalance) > 0 && Number(userBalance) > Number(FEE) && Number(userBalance) >= Number(MIN_BOND_AMOUNT) + Number(FEE)) {
       let remianingAmt = Number(userBalance) - Number(FEE);
       setSecondaryValues((prevValue) => ({
         ...prevValue,
@@ -66,24 +51,16 @@ const StakingStep = ({
     <FormWrapper>
       <div className="common-wrapper" style={{ marginTop: "20px" }}>
         <BackButton onClick={() => navigate(-1)} title={<BackIcon />} />
-        <Typography
-          whiteSpace="nowrap"
-          className="common-wrapper__title common-wrapper__title--flex"
-        >
+        <Typography whiteSpace="nowrap" className="common-wrapper__title common-wrapper__title--flex">
           Setup as a validator
         </Typography>
         <Typography whiteSpace="nowrap" className="common-wrapper__subText">
           Staking
         </Typography>
-        <div
-          className="common-wrapper__amount"
-          style={{ paddingBottom: "6px" }}
-        >
+        <div className="common-wrapper__amount" style={{ paddingBottom: "6px" }}>
           <TextField
             label="Stake/Bond amount"
-            helperText={`Minimum wallet balance for staking should be min required bond amount + fee, which is ${
-              Number(MIN_BOND_AMOUNT) + Number(FEE)
-            }`}
+            helperText={`Minimum wallet balance for staking should be min required bond amount + fee, which is ${Number(MIN_BOND_AMOUNT) + Number(FEE)}`}
             placeholder="Enter stake amount for the validator bond"
             onChange={handleAmount}
             name="Bond_Amount"
@@ -103,32 +80,12 @@ const StakingStep = ({
         {commissionInputValues?.map((item) => (
           <div className="stakingInputs">
             <p className="labelTexts">{item?.label}</p>
-            <TextField
-              className="setup_inputTexts"
-              key={item?.id}
-              placeholder={item?.label}
-              helperText={item?.helperText}
-              name={item?.name}
-              value={secondaryValues[item?.name]}
-              onChange={(e) => handleAmount(e)}
-              type="text"
-              autoComplete="off"
-            />
+            <TextField className="setup_inputTexts" key={item?.id} placeholder={item?.label} helperText={item?.helperText} name={item?.name} value={secondaryValues[item?.name]} onChange={(e) => handleAmount(e)} type="text" autoComplete="off" />
           </div>
         ))}
-        <CommonBtn
-          children=" Bond and validate"
-          onClick={() =>
-            handleNext(
-              secondaryValues,
-              activeStep,
-              setActiveStep,
-              userBalance,
-              FEE
-            )
-          }
-          color="primary"
-        />
+        <div className="commonBtns">
+          <CommonBtn children=" Bond and validate" onClick={() => handleNext(secondaryValues, activeStep, setActiveStep, userBalance, FEE)} color="primary" />
+        </div>
       </div>
     </FormWrapper>
   );

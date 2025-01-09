@@ -181,7 +181,14 @@ const ValidatorsTable = ({ tabId, setTabId, searchData, isSearch, setIsSearch })
                       </TableCell>
                       {tabId === 0 && (
                         <TableCell>
-                          <Typography variant="body2">{data?.status ? capitalizeFirstLetter(data?.status) : "-"}</Typography>
+                          <Typography
+                            variant="body2"
+                            style={{
+                              color: data?.status === "active" ? "#1FDD00" : data?.status === "inactive" ? "#FF9900" : data?.status === "deactivating" ? "#FF4E4E" : "inherit",
+                            }}
+                          >
+                            {data?.status ? capitalizeFirstLetter(data?.status) : "-"}
+                          </Typography>
                         </TableCell>
                       )}
                       <TableCell>

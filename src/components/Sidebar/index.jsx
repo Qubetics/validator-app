@@ -57,6 +57,7 @@ const Sidebar = ({ isMobileSidebarOpen, setIsMobileSidebarOpen }) => {
       confirmButtonColor: "#0086ff",
       cancelButtonColor: "#d33",
       confirmButtonText: "YES",
+      borderRadius: "14px",
       cancelButtonText: "NO",
     }).then((result) => {
       if (result.isConfirmed) {

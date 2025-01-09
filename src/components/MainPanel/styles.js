@@ -448,6 +448,10 @@ export const Container = styled(BaseContainer)(({ theme }) => ({
         flexDirection: "column",
         gap: "15px 0",
       },
+      ".MuiButtonBase-root": {
+        minWidth: "174px",
+        margin: "auto",
+      },
 
       ".primary-btn": {
         flex: "1",

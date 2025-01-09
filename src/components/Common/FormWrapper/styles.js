@@ -69,7 +69,7 @@ export const Wrapper = styled(Box)(({ theme }) => ({
       },
 
       "&--flex": {
-        paddingBottom: "20px",
+        paddingBottom: "15px",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -184,7 +184,7 @@ export const Wrapper = styled(Box)(({ theme }) => ({
       fontSize: "20px",
       fontWeight: "500",
       // maxWidth: '425px',
-      textTransform: "capitalize",
+      textTransform: "unset",
       borderRadius: "28px",
       [theme.breakpoints.down(1440)]: {
         fontSize: "16px",
@@ -232,5 +232,8 @@ export const Wrapper = styled(Box)(({ theme }) => ({
       marginBottom: "12px",
       display: "block",
     },
+  },
+  ".commonBtns": {
+    paddingTop: "40px",
   },
 }));

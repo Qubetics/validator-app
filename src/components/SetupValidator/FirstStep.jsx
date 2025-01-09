@@ -141,7 +141,9 @@ const FirstStep = ({ primaryValues, setPrimaryValues, setActiveStep, activeStep,
         {/* <Button variant="contained" className="primary-btn" fullWidth onClick={() => handleNext(primaryValues, activeStep, setActiveStep)} style={{ marginTop: "34px" }}>
           nextdd
         </Button> */}
-        <CommonBtn children="Next" onClick={() => handleNext(primaryValues, activeStep, setActiveStep)} />
+        <div className="commonBtns">
+          <CommonBtn children="Next" onClick={() => handleNext(primaryValues, activeStep, setActiveStep)} />
+        </div>
       </div>
     </FormWrapper>
   );

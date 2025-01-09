@@ -2,6 +2,8 @@ const styles = {
   primaryButton: {
     display: "block",
     margin: "auto",
+    fontWeight: "600",
+    minWidth: "174px",
     border: "2px solid transparent",
     background: `linear-gradient(180deg, var(--bg), var(--bg)) padding-box,
     conic-gradient(

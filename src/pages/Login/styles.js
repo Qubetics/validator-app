@@ -7,15 +7,32 @@ export const Link = styled(BaseLink)(({ theme }) => ({
   display: "block",
 }));
 export const NodeBox = styled(Box)(({ theme }) => ({
+  maxWidth: "500px",
+  width: "100%",
+  margin: " 20px auto",
   // background: theme.palette.blue.lightBlue,
-  background: "#37373c",
-  margin: "30px",
-  padding: "25px 32px",
+  background: "#121212",
+  padding: "40px 30px !important",
   borderRadius: "10px",
-  border: "1px solid rgba(255, 255, 255, 0.1);",
+  border: "1px solid #3B393C",
   position: "relative",
-  // display: 'flex',
-  // alignItems: 'start',
+  label: {
+    fontSize: "14px",
+    color: "#fff",
+    fontWeight: "400",
+    marginBottom: "0 !important",
+    paddingBottom: "8px",
+    display: "block",
+  },
+  ".validNode": {
+    padding: "0",
+    margin: "0",
+    fontSize: "14px",
+    marginTop: "4px",
+    fontWeight: "400",
+    textAlign: "right",
+    color: "#FF4E4E",
+  },
 
   ".refresh-wrap": {
     display: "flex",
@@ -23,31 +40,36 @@ export const NodeBox = styled(Box)(({ theme }) => ({
   },
 
   ".node-text": {
-    fontSize: "20px",
-    fontWeight: "700",
-    // marginLeft: '15px',
-    marginBottom: "12px",
-    lineHeight: "23px",
     color: "#fff",
+    textAlign: "center",
+    width: "100%",
+    fontSize: "24px",
+    fontWeight: "600",
+    marginBottom: "40px",
   },
   ".ver-text": {
     fontSize: "14px",
     fontWeight: "400",
     lineHeight: "20px",
   },
-
+  ".MuiInputBase-root": {
+    height: "56px !important",
+    overflow: "hidden !important",
+    borderRadius: "7px",
+  },
   input: {
     color: "#fff",
-    background: "#000",
+    background: "#080808",
     border: "0",
-    padding: "10px 15px",
+    padding: "19.5px 16px !important",
     borderRadius: "5px",
-    marginBottom: "10px",
     width: "100%",
-
+    borderRadius: "7px !important",
+    fontSize: "14px",
     "&:placeholder": {
       color: "#fff",
       opacity: 0.5,
+      fontSize: "16px !important",
     },
 
     "&:focus": {

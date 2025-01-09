@@ -141,7 +141,7 @@ const Bond = () => {
         >
           Sign and submit
         </Button> */}
-        <CommonBtn children=" Sign and submit" onClick={onSubmit} color="primary" />
+        <CommonBtn children=" Sign and Submit" onClick={onSubmit} color="primary" />
       </div>
     </BondWrapper>
   );

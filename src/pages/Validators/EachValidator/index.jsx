@@ -13,6 +13,7 @@ import Loader from "../../../components/Loader/Loader";
 import { capitalizeFirstLetter } from "../../../utils/capitalizeFirstLetter";
 import { noExponential } from "../../../utils/commonFunctions";
 import { toFixed } from "../../../utils/toFixed";
+import { data } from "browserslist";
 
 const ValidatorDetails = () => {
   const params = useParams();
@@ -82,7 +83,13 @@ const ValidatorDetails = () => {
                 <Typography color="text.secondary" variant="body2">
                   Status
                 </Typography>
-                <Typography>{validatorDetail?.status ? capitalizeFirstLetter(validatorDetail?.status) : "-"}</Typography>
+                <Typography
+                  style={{
+                    color: validatorDetail?.status === "active" ? "#1FDD00" : validatorDetail?.status === "inactive" ? "#FF9900" : validatorDetail?.status === "deactivating" ? "#FF4E4E" : "inherit",
+                  }}
+                >
+                  {validatorDetail?.status ? capitalizeFirstLetter(validatorDetail?.status) : "-"}
+                </Typography>
               </ValidatorDetailItem>
               <ValidatorDetailItem>
                 <Typography color="text.secondary" variant="body2">
