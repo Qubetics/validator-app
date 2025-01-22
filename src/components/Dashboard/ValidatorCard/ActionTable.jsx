@@ -14,6 +14,7 @@ import { PrevIcon, NextIcon } from "../../../assets/Icons/SvgIcon.jsx";
 import CopyIcon from "../../../assets/Icons/CopyIcon";
 import { toast } from "../../Common/Toast/Toast";
 import { NotFoundIcon } from "../../../assets/Icons/SvgIcon";
+import { useLocation } from "react-router-dom";
 
 const tableHeader = ["Transaction Hash", "Type", "Amount", "Status"];
 
@@ -26,11 +27,12 @@ const copiedAddress = (data) => {
   toast.success("Tx Hash Copied");
 };
 
-const ActionTable = () => {
+const ActionTable = ({ setWalletActivitesLength }) => {
   const { userAddress } = useSelector((state) => state.auth);
   const { pageParams, handlePageChange, totalPages, setTotalCount } = usePagination();
   const [txData, setTxData] = useState([]);
   const [txStatus, setTxStatus] = useState("Init");
+  const { pathname } = useLocation();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,6 +42,7 @@ const ActionTable = () => {
           const response = await getTxByAddress(userAddress, pageParams?.page, DEFAULT_TABLE_LIMIT);
           setTxData(response?.data?.transactions);
           setTotalCount(response?.data?.count);
+          setWalletActivitesLength(response?.data?.count);
           setTxStatus("Success");
         }
       } catch (err) {
@@ -48,7 +51,9 @@ const ActionTable = () => {
       }
     };
     fetchData();
-  }, [userAddress, pageParams?.page]);
+  }, [userAddress, pageParams?.page, pathname]);
+
+  const showRecentActivitesData = txData?.length > 0 ? (pathname === "/dashboard" ? txData.slice(0, 5) : txData) : [];
 
   const renderTableRows = () => {
     if (txStatus === "Fetching") {
@@ -70,7 +75,7 @@ const ActionTable = () => {
         </TableRow>
       );
     }
-    return txData.map((data, index) => (
+    return txData?.map((data, index) => (
       <TableRow
         key={index}
         sx={{
@@ -79,12 +84,12 @@ const ActionTable = () => {
       >
         <TableCell>
           <Typography variant="body2">
-            <span onClick={() => transactionHash(data?.txhash)} className="text-hover">
-              {data?.txhash || "-"}
+            <p onClick={() => transactionHash(data?.txhash)} className="text-hover">
+              <span className="recentHash"> {data?.txhash || "-"}</span>
               <text onClick={() => copiedAddress(data?.txhash)}>
                 <CopyIcon sx={{ fontSize: "17px" }} />
               </text>
-            </span>
+            </p>
           </Typography>
         </TableCell>
         <TableCell>

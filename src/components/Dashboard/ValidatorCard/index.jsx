@@ -19,6 +19,7 @@ const DashboardValidatorCard = () => {
   const dispatch = useDispatch();
   const [dasboardData, setDashboardData] = useState([]);
   const [dashboardStatus, setDashboardStatus] = useState("Init");
+  const [walletActivitesLength, setWalletActivitesLength] = useState(0);
 
   const setUpValidate = () => {
     navigate("/account/become-a-validator");
@@ -74,7 +75,14 @@ const DashboardValidatorCard = () => {
       </Container>
       <BlockchainInfos />
       <Container style={{ background: "transparent" }}>
-        <Typography sx={{ fontSize: "20px", fontWeight: "700", paddingBottom: "10px", marginTop: "-3px" }}>Recent Wallet Activities</Typography>
+        <div className="recentHeader" style={{ display: "flex", justifyContent: "space-between", width: "100%", alignItems: "center", paddingBottom: "10px" }}>
+          <Typography sx={{ fontSize: "20px", fontWeight: "700", paddingBottom: "10px", marginTop: "-3px" }}>Recent Wallet Activities</Typography>
+          {/* {walletActivitesLength > 5 && (
+            <button className="view-all viewAllBtn" onClick={() => navigate("/wallet-activites")}>
+              View All
+            </button>
+          )} */}
+        </div>
 
         <section className=" common-table" style={{ width: "100%" }}>
           {/* <div
@@ -82,7 +90,7 @@ const DashboardValidatorCard = () => {
             style={{ paddingLeft: "0" }}
           ></div> */}
 
-          <ActionTable />
+          <ActionTable setWalletActivitesLength={setWalletActivitesLength} />
         </section>
       </Container>
     </>

@@ -13,7 +13,7 @@ const BlocksPage = () => {
     <div className="common-table">
       <Typography variant="h3" letterSpacing="normal">
         Blocks
-        <Link to="/" className="view-all" onClick={viewAllBlocks}>
+        <Link to="/" className="headermetaBtn viewAllBtn" onClick={viewAllBlocks}>
           View All
         </Link>
       </Typography>

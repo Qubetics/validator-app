@@ -25,15 +25,6 @@ export const Wrapper = styled(Box)(({ theme }) => ({
         fontWeight: "600",
         fontSize: "14px",
         border: "2px solid transparent",
-        background: `linear-gradient(180deg, var(--bg), var(--bg)) padding-box,
-        conic-gradient(
-          from 180deg at 50% 50%,
-          #ff98e2,
-          #ffc876 35.77deg,
-          #79fff7 153.75deg,
-          #9f53ff 258.75deg,
-          #ff98e2 360deg
-        ) border-box`,
         borderRadius: "25px",
         transition: "color 0.2s ease-out, filter 0.2s ease-out",
         "--bg": "#000",
@@ -144,16 +135,8 @@ export const Wrapper = styled(Box)(({ theme }) => ({
   ".MuiButton-root": {
     padding: "12px 16px",
     marginBottom: "10px",
+    textTransform: "capitalize",
     border: "2px solid transparent",
-    background: `linear-gradient(180deg, var(--bg), var(--bg)) padding-box,
-    conic-gradient(
-      from 180deg at 50% 50%,
-      #ff98e2,
-      #ffc876 35.77deg,
-      #79fff7 153.75deg,
-      #9f53ff 258.75deg,
-      #ff98e2 360deg
-    ) border-box`,
     borderRadius: "25px",
     transition: "color 0.2s ease-out, filter 0.2s ease-out",
     "--bg": "#000",
@@ -227,6 +210,9 @@ export const Container = styled(BaseContainer)(({ theme }) => ({
   [theme.breakpoints.down(1440)]: {
     // margin: ismobile === 'true' ? '60px 30px 30px' : '45px',
     // marginLeft: '300px',
+  },
+  [theme.breakpoints.down(575)]: {
+    padding: "30px 20px",
   },
 
   ".open-icon": {
@@ -481,8 +467,7 @@ export const Container = styled(BaseContainer)(({ theme }) => ({
     },
   },
   ".vaildator-card": {
-    background:
-      "linear-gradient(157.79deg, rgba(29, 29, 29, 0.54) -0.65%, rgba(29, 29, 29, 0.9) 99.59%)",
+    background: "linear-gradient(157.79deg, rgba(29, 29, 29, 0.54) -0.65%, rgba(29, 29, 29, 0.9) 99.59%)",
     border: "1px solid hsla(0, 4.1%, 47.5%, 0.1)",
     height: "100%",
     position: "relative",
@@ -651,6 +636,10 @@ export const Container = styled(BaseContainer)(({ theme }) => ({
     transition: "all 0.15s linear",
     "&:hover": {
       color: "#68afef",
+    },
+    ".recentHash": {
+      fontSize: "16px",
+      minWidth: "635px",
     },
   },
 }));

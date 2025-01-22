@@ -25,39 +25,39 @@ export const StyledTabs = styled(Tabs)(({ theme }) => ({
         color: "#A0A0A0",
         fontSize: "16px",
       },
-      ".Mui-selected": {
-        fontWeight: "500",
-        border: "2px solid transparent",
-        fontSize: "16px",
-        background: `linear-gradient(180deg, var(--bg), var(--bg)) padding-box,
-        conic-gradient(
-          from 180deg at 50% 50%,
-          #ff98e2,
-          #ffc876 35.77deg,
-          #79fff7 153.75deg,
-          #9f53ff 258.75deg,
-          #ff98e2 360deg
-        ) border-box`,
-        borderRadius: "25px",
-        transition: "color 0.2s ease-out, filter 0.2s ease-out",
-        "--bg": "#000",
-        "--hover-bg": "var(--theme-gradients-main)",
-        "--text": "#fff",
-        "--hover-text": "#000",
-        "&:hover": {
-          border: "2px solid transparent",
-          background: `linear-gradient(180deg, var(--bg), var(--bg)) padding-box,
-        conic-gradient(
-          from 180deg at 50% 50%,
-          #ff98e2,
-          #ffc876 35.77deg,
-          #79fff7 153.75deg,
-          #9f53ff 258.75deg,
-          #ff98e2 360deg
-        ) border-box`,
-          opacity: "0.8",
-        },
-      },
+      // ".Mui-selected": {
+      //   fontWeight: "500",
+      //   border: "2px solid transparent",
+      //   fontSize: "16px",
+      //   background: `linear-gradient(180deg, var(--bg), var(--bg)) padding-box,
+      //   conic-gradient(
+      //     from 180deg at 50% 50%,
+      //     #ff98e2,
+      //     #ffc876 35.77deg,
+      //     #79fff7 153.75deg,
+      //     #9f53ff 258.75deg,
+      //     #ff98e2 360deg
+      //   ) border-box`,
+      //   borderRadius: "25px",
+      //   transition: "color 0.2s ease-out, filter 0.2s ease-out",
+      //   "--bg": "#000",
+      //   "--hover-bg": "var(--theme-gradients-main)",
+      //   "--text": "#fff",
+      //   "--hover-text": "#000",
+      //   "&:hover": {
+      //     border: "2px solid transparent",
+      //     background: `linear-gradient(180deg, var(--bg), var(--bg)) padding-box,
+      //   conic-gradient(
+      //     from 180deg at 50% 50%,
+      //     #ff98e2,
+      //     #ffc876 35.77deg,
+      //     #79fff7 153.75deg,
+      //     #9f53ff 258.75deg,
+      //     #ff98e2 360deg
+      //   ) border-box`,
+      //     opacity: "0.8",
+      //   },
+      // },
     },
     "& .MuiTabs-indicator": {
       backgroundColor: theme.palette.blue.main,

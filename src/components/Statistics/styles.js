@@ -128,4 +128,10 @@ export const StatItem = styled(Box)(({ theme }) => ({
     minHeight: "128px",
     maxWidth: "100%",
   },
+  [theme.breakpoints.down(575)]: {
+    width: "100%",
+    wordBreak: "break-word",
+    minHeight: "120px",
+    maxWidth: "100%",
+  },
 }));

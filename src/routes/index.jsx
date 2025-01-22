@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import { useSelector } from "react-redux";
 import { Navigate, Route, Routes } from "react-router-dom";
 import MainPanel from "../components/MainPanel";
+import WalletActivites from "../components/RecentWallet/WalletActivites";
 import PrivateRouter from "./PrivateRouter";
 
 const Login = lazy(() => import("../pages/Login"));
@@ -12,16 +13,10 @@ const Profile = lazy(() => import("../pages/Account/Profile"));
 const Funds = lazy(() => import("../pages/Account/Funds"));
 const Bond = lazy(() => import("../pages/Account/Funds/Bond"));
 const UnBond = lazy(() => import("../pages/Account/Funds/UnBond"));
-const ManageAccount = lazy(() =>
-  import("../pages/Account/Funds/ManageAccount")
-);
+const ManageAccount = lazy(() => import("../pages/Account/Funds/ManageAccount"));
 const SetupValidator = lazy(() => import("../pages/Account/SetupValidator"));
-const ValidatorDetails = lazy(() =>
-  import("../pages/Validators/EachValidator/index")
-);
-const AuthorizeTransaction = lazy(() =>
-  import("../pages/Account/Funds/Authorize/index")
-);
+const ValidatorDetails = lazy(() => import("../pages/Validators/EachValidator/index"));
+const AuthorizeTransaction = lazy(() => import("../pages/Account/Funds/Authorize/index"));
 
 const RoutePath = () => {
   const { isLoggedIn } = useSelector((state) => state.auth);
@@ -30,12 +25,7 @@ const RoutePath = () => {
     <MainPanel>
       <Suspense fallback>
         <Routes>
-          <Route
-            path="/login"
-            element={
-              !isLoggedIn ? <Login /> : <Navigate to="/dashboard" replace />
-            }
-          />
+          <Route path="/login" element={!isLoggedIn ? <Login /> : <Navigate to="/dashboard" replace />} />
 
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="/blocks" element={<BlocksPage />} />
@@ -83,14 +73,8 @@ const RoutePath = () => {
             <Route path="/account/funds" index element={<ManageAccount />} />
             <Route path="/account/funds/bond" element={<Bond />} />
             <Route path="/account/funds/unbond" element={<UnBond />} />
-            <Route
-              path="/account/funds/stopvalidator"
-              element={<AuthorizeTransaction />}
-            />
-            <Route
-              path="/account/funds/revalidation"
-              element={<AuthorizeTransaction />}
-            />
+            <Route path="/account/funds/stopvalidator" element={<AuthorizeTransaction />} />
+            <Route path="/account/funds/revalidation" element={<AuthorizeTransaction />} />
             {/* <Route path="/account/funds/stop-deactivating" element={<AuthorizeTransaction />} /> */}
           </Route>
           <Route
@@ -98,6 +82,14 @@ const RoutePath = () => {
             element={
               <PrivateRouter>
                 <Dashboard />
+              </PrivateRouter>
+            }
+          />
+          <Route
+            path="/wallet-activites"
+            element={
+              <PrivateRouter>
+                <WalletActivites />
               </PrivateRouter>
             }
           />

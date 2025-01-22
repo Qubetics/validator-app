@@ -1,7 +1,7 @@
 /*eslint-disable*/
 import { useSelector } from "react-redux";
 import { StyledBox, StyledTabs, StyledTab } from "./styles";
-
+import "../../../Styles.scss";
 function a11yProps(index) {
   return {
     id: `common-tab-${index}`,
@@ -17,8 +17,6 @@ const Tabs = ({ tabId, toggleTabHandler, isDisable }) => {
       toggleTabHandler(newValue);
     }
   };
-
-  console.log(data, "DATADAA");
 
   return (
     <StyledBox>
