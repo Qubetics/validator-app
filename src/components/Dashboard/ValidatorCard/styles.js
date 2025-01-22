@@ -18,6 +18,7 @@ export const Container = styled(MainCard)(({ theme }) => ({
     ".MuiPaper-root": {
       border: "0 !important",
       borderRadius: "0 !important",
+      overflow: "auto",
       ".MuiTableHead-root": {
         background: "linear-gradient(157.79deg, rgba(29, 29, 29, 0.54) -0.65%, rgba(29, 29, 29, 0.9) 99.59%)",
         backdropFilter: " blur(64px)",

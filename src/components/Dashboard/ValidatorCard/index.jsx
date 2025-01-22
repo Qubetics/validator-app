@@ -56,9 +56,10 @@ const DashboardValidatorCard = () => {
           <div className="validator-status__card">
             <FlexBox>
               <Typography variant="h4">
-                <span style={{ color: "white" }}> Validator Status :</span>{" "}
+                <span style={{ color: "#A0A0A0", fontWeight: "300" }}> Validator Status :</span>{" "}
                 <span
                   style={{
+                    fontWeight: "300",
                     color: dasboardData?.status === "active" ? "green" : dasboardData?.status === "inactive" ? "red" : "inherit", // Default color for other statuses
                   }}
                 >
