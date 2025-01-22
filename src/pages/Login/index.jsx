@@ -20,6 +20,8 @@ import getLatestBlocks from "../../services/getLatestBlocks";
 import theme from "../../theme";
 
 import getBlockFromChain from "../../services/apis/getLatestBlockFromChain";
+import BackButton from "../../components/BackButton/BackButton.js";
+import { BackIcon } from "../../assets/Icons/SvgIcon.jsx";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -82,12 +84,13 @@ const Login = () => {
   return (
     <>
       <div className="auth-wrapper">
-        <NodeBox>
-          <Box>
-            <div className="refresh-wrap">
-              <Typography className="node-text">
-                Node Information
-                {/* <Tooltip
+        {!isNodeAdded && (
+          <NodeBox>
+            <Box>
+              <div className="refresh-wrap">
+                <Typography className="node-text">
+                  Node Information
+                  {/* <Tooltip
                   className="vaildator-card__tooltip"
                   placement="top"
                   arrow
@@ -101,69 +104,87 @@ const Login = () => {
                     <InfoIcon />
                   </span>
                 </Tooltip> */}
-              </Typography>
-            </div>
-            {/* {!isLoggedIn ? ( */}
-            <>
-              <label>Node Information</label>
-              <input
-                value={nodeUrl}
-                onChange={(e) => handleNodeChange(e)}
-                disabled={isLoggedIn}
-                placeholder="Enter Node URL"
+                </Typography>
+              </div>
+              {/* {!isLoggedIn ? ( */}
+              <>
+                <label>Node Information</label>
+                <input
+                  value={nodeUrl}
+                  onChange={(e) => handleNodeChange(e)}
+                  disabled={isLoggedIn}
+                  placeholder="Enter Node URL"
+                />
+                {isNodeAdded == true ? (
+                  nodeUrl
+                ) : (
+                  <p className="validNode">Enter Valid Node Url</p>
+                )}
+
+                <div style={{ marginTop: "50px" }}>
+                  <CommonBtn children=" Submit" onClick={handleNode} />
+                </div>
+              </>
+
+              {/* <Typography className="ver-text" color={theme.palette.gray.main}> */}
+              {/* </Typography> */}
+            </Box>
+          </NodeBox>
+        )}
+        {isNodeAdded && (
+          <NodeBox>
+            <Typography className="node-text ">
+              {" "}
+              <BackButton
+                className="back-btns"
+                onClick={() => {
+                  setNodeUrl("");
+                  setIsNodeAdded(false);
+                }}
+                title={<BackIcon />}
+              />{" "}
+              Log In
+            </Typography>
+            <form onSubmit={submitHandler}>
+              <TextField
+                label="Mnemonics"
+                value={mnemonics}
+                placeholder="Paste or enter your mnemonics"
+                onChange={changeHandler}
+                autoComplete="off"
+                disabled={!isNodeAdded}
+                type="password"
+                className="input-style"
               />
-              {isNodeAdded == true ? (
-                nodeUrl
+              {!isNodeAdded ? (
+                <span
+                  style={{
+                    color: "#FF4E4E",
+                    fontSize: "14px",
+                    marginTop: "5px",
+                    display: "block",
+                  }}
+                >
+                  NOTE : Connect With Node For Login
+                </span>
               ) : (
-                <p className="validNode">Enter Valid Node Url</p>
+                ""
               )}
 
-              <div style={{ marginTop: "50px" }}>
-                <CommonBtn children=" Submit" onClick={handleNode} />
+              <div className="auth-wrapper__btns">
+                <Button
+                  variant="contained"
+                  type="submit"
+                  disabled={!isNodeAdded}
+                >
+                  <span className="btn-icon">{/* <LoginIcon /> */}</span>
+                  Log In
+                </Button>
+                {/* <CommonBtn variant="contained" children="Log In" type="submit" disabled={!isNodeAdded} /> */}
               </div>
-            </>
-
-            {/* <Typography className="ver-text" color={theme.palette.gray.main}> */}
-            {/* </Typography> */}
-          </Box>
-        </NodeBox>
-        <NodeBox>
-          <Typography className="node-text">Log In</Typography>
-          <form onSubmit={submitHandler}>
-            <TextField
-              label="Mnemonics"
-              value={mnemonics}
-              placeholder="Paste or enter your mnemonics"
-              onChange={changeHandler}
-              autoComplete="off"
-              disabled={!isNodeAdded}
-              type="password"
-              className="input-style"
-            />
-            {!isNodeAdded ? (
-              <span
-                style={{
-                  color: "#FF4E4E",
-                  fontSize: "14px",
-                  marginTop: "5px",
-                  display: "block",
-                }}
-              >
-                NOTE : Connect With Node For Login
-              </span>
-            ) : (
-              ""
-            )}
-
-            <div className="auth-wrapper__btns">
-              <Button variant="contained" type="submit" disabled={!isNodeAdded}>
-                <span className="btn-icon">{/* <LoginIcon /> */}</span>
-                Log In
-              </Button>
-              {/* <CommonBtn variant="contained" children="Log In" type="submit" disabled={!isNodeAdded} /> */}
-            </div>
-          </form>
-        </NodeBox>
+            </form>
+          </NodeBox>
+        )}
       </div>
     </>
   );

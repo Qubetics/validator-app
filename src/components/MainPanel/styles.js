@@ -481,7 +481,8 @@ export const Container = styled(BaseContainer)(({ theme }) => ({
     },
   },
   ".vaildator-card": {
-    background: "linear-gradient(157.79deg, rgba(29, 29, 29, 0.54) -0.65%, rgba(29, 29, 29, 0.9) 99.59%)",
+    background:
+      "linear-gradient(157.79deg, rgba(29, 29, 29, 0.54) -0.65%, rgba(29, 29, 29, 0.9) 99.59%)",
     border: "1px solid hsla(0, 4.1%, 47.5%, 0.1)",
     height: "100%",
     position: "relative",

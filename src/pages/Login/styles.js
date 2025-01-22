@@ -16,6 +16,7 @@ export const NodeBox = styled(Box)(({ theme }) => ({
   borderRadius: "10px",
   border: "1px solid #3B393C",
   position: "relative",
+
   label: {
     fontSize: "14px",
     color: "#fff",
@@ -84,7 +85,7 @@ export const NodeBox = styled(Box)(({ theme }) => ({
     marginBottom: "10px",
     borderRadius: "5px",
     cursor: "pointer",
-    background: "linear-gradient(to right, #0068FF 50%, #00A7FF 100% )",
+    // background: "linear-gradient(to right, #0068FF 50%, #00A7FF 100% )",
     color: "#fff",
     border: "0",
     "&:hover": {
@@ -109,5 +110,9 @@ export const NodeBox = styled(Box)(({ theme }) => ({
 
   [theme.breakpoints.down(767)]: {
     margin: "20px",
+  },
+  ".back-btns": {
+    background: "transparent !important",
+    border: "0 !important",
   },
 }));

@@ -120,7 +120,8 @@ export const NavItem = styled(Link)(({ theme, active }) => ({
   alignItems: "center",
   padding: "15px 50px",
   textDecoration: "none",
-  color: active === "true" ? theme.palette.blue.main : theme.palette.text.secondary,
+  color:
+    active === "true" ? theme.palette.blue.main : theme.palette.text.secondary,
 
   ".MuiTypography-root": {
     fontSize: "18px",
@@ -129,7 +130,10 @@ export const NavItem = styled(Link)(({ theme, active }) => ({
     flexShrink: "0",
     fontSize: "20px",
     path: {
-      fill: active === "true" ? theme.palette.blue.main : theme.palette.text.secondary,
+      fill:
+        active === "true"
+          ? theme.palette.blue.main
+          : theme.palette.text.secondary,
     },
   },
   [theme.breakpoints.down(1440)]: {
@@ -159,7 +163,8 @@ export const Btn = styled(Link)(({ theme, active }) => ({
   alignItems: "center",
   padding: "15px 50px",
   textDecoration: "none",
-  color: active === "true" ? theme.palette.blue.main : theme.palette.text.secondary,
+  color:
+    active === "true" ? theme.palette.blue.main : theme.palette.text.secondary,
 
   ".MuiTypography-root": {
     fontSize: "18px",
@@ -168,7 +173,10 @@ export const Btn = styled(Link)(({ theme, active }) => ({
     flexShrink: "0",
     fontSize: "20px",
     path: {
-      fill: active === "true" ? theme.palette.blue.main : theme.palette.text.secondary,
+      fill:
+        active === "true"
+          ? theme.palette.blue.main
+          : theme.palette.text.secondary,
     },
   },
   [theme.breakpoints.down(1440)]: {
@@ -197,7 +205,10 @@ export const SubLink = styled(Link)(({ theme, active }) => ({
   ...theme.typography.body2,
   textDecoration: "none",
   textTransform: "capitalize",
-  color: active === "true" ? `${theme.palette.blue.main} !important` : `${theme.palette.text.secondary} !important`,
+  color:
+    active === "true"
+      ? `${theme.palette.blue.main} !important`
+      : `${theme.palette.text.secondary} !important`,
 }));
 
 export const NodeBox = styled(Box)(({ theme }) => ({
@@ -256,7 +267,7 @@ export const NodeBox = styled(Box)(({ theme }) => ({
     marginBottom: "10px",
     borderRadius: "5px",
     cursor: "pointer",
-    background: "linear-gradient(to right, #0068FF 50%, #00A7FF 100% )",
+    // background: "linear-gradient(to right, #0068FF 50%, #00A7FF 100% )",
     color: "#fff",
     border: "0",
     "&:hover": {
