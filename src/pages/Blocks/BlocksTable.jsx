@@ -25,7 +25,7 @@ const BlocksTable = () => {
   const navigate = useNavigate();
 
   const transactionHash = (id) => {
-    window.open(`${BASE_URL.EXPLORER_NAVIGATION_URL}/blocks/${id}`, "_blank");
+    window.open(`${BASE_URL_EXPLORER_LINKS_TESTNET}/blocks`, "_blank");
   };
 
   useEffect(() => {
