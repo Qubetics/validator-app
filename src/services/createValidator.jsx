@@ -70,7 +70,6 @@ export default async function createValidator(mnemonics, primaryValues, secondar
     };
 
     const txResult = await client.signAndBroadcast(senderAddress, [sendMsg], fee, "Create Validator");
-    console.log(txResult);
 
     return txResult;
   } catch (err) {

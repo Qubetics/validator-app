@@ -117,7 +117,7 @@ const AuthorizeTransaction = () => {
           </div>
           <span className="maxBtn">{/* <MnemonicsIcon /> */}</span>
         </div>
-        <h6 style={{ marginTop: "10px" }}>
+        <h6 style={{ marginTop: "10px", paddingBottom: "20px" }}>
           NOTE: <span className="noteData">Your account status may take some time to update.</span>
         </h6>
         {/* <Button

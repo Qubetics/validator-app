@@ -181,7 +181,7 @@ export const Wrapper = styled(Box)(({ theme }) => ({
       marginBottom: "12px",
     },
     ".MuiButton-root": {
-      fontSize: "20px",
+      fontSize: "18px",
       fontWeight: "500",
       // maxWidth: '425px',
       textTransform: "unset",

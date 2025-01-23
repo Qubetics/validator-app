@@ -104,19 +104,19 @@ function HeaderItems() {
           </div>
           {isLoggedIn && (
             <div className="headerButtons">
-              <Button variant="contained" color="primary" className=" btns">
+              <button className="headermetaBtn">
                 Address: {splitAddress(userAddress, 8, 8)}
                 <text onClick={() => copiedAddress(userAddress)}>
                   <CopyIcon sx={{ fontSize: "17px" }} />
                 </text>
-              </Button>
-              <Button variant="contained" color="primary" className=" btns">
+              </button>
+              <button className="headermetaBtn">
                 Balance: {userBalance ? Number(userBalance).toFixed(2) : 0} TICS
                 <text onClick={() => copiedAddress(userBalance)}>{/* <CopyIcon sx={{ fontSize: "17px" }} /> */}</text>
-              </Button>
-              <Button onClick={handleLogout} className=" btns">
+              </button>
+              <button className="headermetaBtn" onClick={handleLogout}>
                 Logout
-              </Button>
+              </button>
             </div>
           )}
         </div>

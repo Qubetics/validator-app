@@ -183,3 +183,99 @@
 .swal2-container {
   backdrop-filter: blur(10px);
 }
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  font-family: "DM Sans", sans-serif !important;
+}
+@property --gradient-angle {
+  syntax: "<angle>";
+  initial-value: 90deg;
+  inherits: false;
+}
+:root {
+  --bg-background: #111827;
+  --clr-card: rgb(168, 219, 215);
+  --clr-1: rgb(121, 255, 247);
+  --clr-2: rgb(255, 200, 118);
+  --clr-4: #91baf8;
+  --clr-3: rgb(106, 168, 209) 0deg;
+  --clr-5: rgb(255, 152, 226) 120deg;
+  --clr-6: rgb(247, 186, 229);
+}
+:root {
+  --theme-gradients-main: conic-gradient(from 180deg, rgb(255, 152, 226), rgb(255, 200, 118) 35.77deg, rgb(121, 255, 247) 153.75deg, rgb(159, 83, 255) 258.75deg, rgb(255, 152, 226) 360deg), linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2));
+  --searchBg: linear-gradient(157.79deg, rgba(29, 29, 29, 0.54) -0.65%, rgba(29, 29, 29, 0.9) 99.59%);
+}
+.headermetaBtn,
+.Mui-selected,
+.notDiabled a,
+.MuiButton-root,
+.editbutton,
+.swal2-confirm,
+.view-all {
+  white-space: nowrap;
+  position: relative;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  padding: 12.5px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #000;
+  text-decoration: none;
+  border: none;
+  border-radius: 30px;
+  overflow: hidden;
+  cursor: pointer;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 2px;
+    border-radius: 30px;
+    background: conic-gradient(from var(--gradient-angle), var(--clr-card), var(--clr-1), var(--clr-2), var(--clr-3), var(--clr-4), var(--clr-5), var(--clr-6), var(--clr-2), var(--clr-1), var(--clr-card));
+    animation: rotate 2.5s linear infinite;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: rotate 3s linear infinite;
+  }
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+@keyframes rotate {
+  0% {
+    --gradient-angle: 0deg;
+  }
+  100% {
+    --gradient-angle: 360deg;
+  }
+}
+.viewAllBtn {
+  height: 41px;
+  min-width: 130px;
+  display: flex;
+  justify-content: center;
+  font-weight: 500;
+}
+.MuiButton-root {
+  font-weight: 500;
+}
+.MuiPaginationItem-root {
+  &::before,
+  &::after {
+    content: none !important;
+  }
+}
+.MuiPaginationItem-root.Mui-selected {
+  border: 1px solid #3b393c !important;
+}
+.css-1h1ct86-MuiButtonBase-root-MuiTab-root.Mui-selected {
+  background-color: #000 !important;
+  color: #ffff !important;
+}
