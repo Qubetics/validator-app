@@ -135,7 +135,15 @@ const BlocksTable = () => {
                     <Typography variant="body2">
                       <text className="text-hover" sx={{ display: "flex" }}>
                         {data?.miner ? (
-                          <>
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                              maxWidth: "180px",
+                              width: "100%",
+                            }}
+                          >
                             <span
                               className="blockdds"
                               onClick={() => getdata(data?.miner)}
@@ -146,7 +154,7 @@ const BlocksTable = () => {
                             <span onClick={() => copiedAddress(data?.miner)}>
                               <CopyIcon sx={{ fontSize: "17px" }} />
                             </span>
-                          </>
+                          </div>
                         ) : (
                           ""
                         )}
