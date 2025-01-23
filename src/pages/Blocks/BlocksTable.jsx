@@ -123,11 +123,6 @@ const BlocksTable = () => {
                             >
                               {reduceData(data?.blockhash)}
                             </span>
-                            <span
-                              onClick={() => copiedAddress(data?.blockhash)}
-                            >
-                              <CopyIcon sx={{ fontSize: "17px" }} />
-                            </span>
                           </>
                         ) : (
                           ""
@@ -138,7 +133,7 @@ const BlocksTable = () => {
 
                   <TableCell>
                     <Typography variant="body2">
-                      <text className="valadd" sx={{ display: "flex" }}>
+                      <text className="text-hover" sx={{ display: "flex" }}>
                         {data?.miner ? (
                           <>
                             <span

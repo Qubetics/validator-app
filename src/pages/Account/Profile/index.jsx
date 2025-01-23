@@ -17,11 +17,20 @@ import EditIcon from "../../../assets/Icons/EditIcon";
 import ProfileTable from "../../../components/Profile/ProfileTable";
 import getValidatorByAddress from "../../../services/apis/getValidatorByAddress";
 import Loader from "../../../components/Loader/Loader";
-import { checkIfValidatorExist, getBondedBalance, getValoperAddress } from "../../../redux/reducer/auth";
+import {
+  checkIfValidatorExist,
+  getBondedBalance,
+  getValoperAddress,
+} from "../../../redux/reducer/auth";
 import { isOptionDisable } from "../../../utils/commissionEditTimer";
 import { noExponential } from "../../../utils/commonFunctions";
 import { toFixed } from "../../../utils/toFixed";
-import { WalletAddress, HeadingItems, ProfileWrap, Profiledata } from "./styles";
+import {
+  WalletAddress,
+  HeadingItems,
+  ProfileWrap,
+  Profiledata,
+} from "./styles";
 import { BackIcon } from "../../../assets/Icons/SvgIcon";
 
 const style = {
@@ -45,6 +54,7 @@ const Profile = () => {
   const { userAddress, isValidated } = useSelector((state) => state?.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [showIcon, setShowIcon] = useState(true);
   const [primaryValues, setPrimaryValues] = useState({
     name: "",
     details: "",
@@ -78,7 +88,9 @@ const Profile = () => {
               bondedAmount: response?.data?.validators[0]?.selfStake,
               unbondedAmount: response?.data?.validators[0]?.unbondingAmount,
             };
-            dispatch(getValoperAddress(response?.data?.validators[0]?.operatorAddress));
+            dispatch(
+              getValoperAddress(response?.data?.validators[0]?.operatorAddress)
+            );
             dispatch(checkIfValidatorExist(true));
             dispatch(getBondedBalance(bondingData));
             setProfileStatus(LOADING_STATES.SUCCESS);
@@ -103,7 +115,9 @@ const Profile = () => {
       website: profileData?.website,
       identity: profileData?.identity,
       SecurityContact: profileData?.SecurityContact,
-      CommissionRate: profileData?.commissionRate ? profileData?.commissionRate : "",
+      CommissionRate: profileData?.commissionRate
+        ? profileData?.commissionRate
+        : "",
     });
   }, [profileData]);
 
@@ -124,17 +138,30 @@ const Profile = () => {
 
   return isLoading ? (
     <Loader />
-  ) : profileStatus === LOADING_STATES.INIT || profileStatus === LOADING_STATES.FETCHING ? (
+  ) : profileStatus === LOADING_STATES.INIT ||
+    profileStatus === LOADING_STATES.FETCHING ? (
     <Loader />
   ) : (
     <>
       <HeadingItems>
-        <Typography variant="h3" mb="20px" display={"flex"} justifyContent={"space-between"}>
-          {profileStatus === LOADING_STATES.SUCCESS && isValidated ? <>Profile Details</> : <p className="manageHead">Manage Account</p>}
+        <Typography
+          variant="h3"
+          mb="20px"
+          display={"flex"}
+          justifyContent={"space-between"}
+        >
+          {profileStatus === LOADING_STATES.SUCCESS && isValidated ? (
+            <>Profile Details</>
+          ) : (
+            <p className="manageHead">Manage Account</p>
+          )}
 
-          {profileStatus === LOADING_STATES.SUCCESS && isValidated && profileData?.status !== "deactivating" && profileData?.status !== "inactive" && (
-            <span>
-              {/* <button
+          {profileStatus === LOADING_STATES.SUCCESS &&
+            isValidated &&
+            profileData?.status !== "deactivating" &&
+            profileData?.status !== "inactive" && (
+              <span>
+                {/* <button
               onClick={handleOpen}
               className="editbutton"
               style={{
@@ -151,43 +178,63 @@ const Profile = () => {
               Edit Validator
               <EditIcon style={marginleft12} />
             </button> */}
-              <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="parent-modal-title"
-                aria-describedby="parent-modal-description"
-                style={{
-                  backdropFilter: "blur(5px)",
-                  // backgroundColor: "rgba(255, 255, 255, 0.5)",
-                }}
-              >
-                <Box
-                  sx={{
-                    ...style,
-                    width: 500,
-                    // background: "#121212",
-                    // borderRadius: "10px",
-                    border: 0,
-                    padding: 0,
+                <Modal
+                  open={open}
+                  onClose={handleClose}
+                  aria-labelledby="parent-modal-title"
+                  aria-describedby="parent-modal-description"
+                  style={{
+                    backdropFilter: "blur(5px)",
+                    // backgroundColor: "rgba(255, 255, 255, 0.5)",
                   }}
                 >
-                  <h2 id="parent-modal-title" style={{ color: "#fff" }}>
-                    {/* Edit Validator Details */}
-                  </h2>
-                  {(() => {
-                    switch (activeStep) {
-                      case 0:
-                        return <FirstStep primaryValues={primaryValues} setPrimaryValues={setPrimaryValues} setActiveStep={setActiveStep} activeStep={activeStep} methodType="editValidator" profileData={profileData} hideCommissionField={hideCommissionField} />;
-                      case 1:
-                        return <AuthorizeValidatorTransaction setActiveStep={setActiveStep} primaryValues={primaryValues} methodType="editValidator" setOpen={setOpen} setIsLoading={setIsLoading} hideCommissionField={hideCommissionField} setEditSuccess={setEditSuccess} />;
-                      default:
-                        return <></>;
-                    }
-                  })()}
-                </Box>
-              </Modal>
-            </span>
-          )}
+                  <Box
+                    sx={{
+                      ...style,
+                      width: 500,
+                      // background: "#121212",
+                      // borderRadius: "10px",
+                      border: 0,
+                      padding: 0,
+                    }}
+                  >
+                    <h2 id="parent-modal-title" style={{ color: "#fff" }}>
+                      {/* Edit Validator Details */}
+                    </h2>
+                    {(() => {
+                      switch (activeStep) {
+                        case 0:
+                          return (
+                            <FirstStep
+                              primaryValues={primaryValues}
+                              setPrimaryValues={setPrimaryValues}
+                              setActiveStep={setActiveStep}
+                              activeStep={activeStep}
+                              methodType="editValidator"
+                              profileData={profileData}
+                              hideCommissionField={hideCommissionField}
+                            />
+                          );
+                        case 1:
+                          return (
+                            <AuthorizeValidatorTransaction
+                              setActiveStep={setActiveStep}
+                              primaryValues={primaryValues}
+                              methodType="editValidator"
+                              setOpen={setOpen}
+                              setIsLoading={setIsLoading}
+                              hideCommissionField={hideCommissionField}
+                              setEditSuccess={setEditSuccess}
+                            />
+                          );
+                        default:
+                          return <></>;
+                      }
+                    })()}
+                  </Box>
+                </Modal>
+              </span>
+            )}
         </Typography>
       </HeadingItems>
       {profileStatus === LOADING_STATES.SUCCESS && isValidated ? (
@@ -213,26 +260,45 @@ const Profile = () => {
                 <Typography color="text.secondary" variant="body2">
                   {item?.label}
                 </Typography>
-                <Typography>{profileData ? profileData[item?.name] : "-"}</Typography>
+                <Typography>
+                  {profileData ? profileData[item?.name] : "-"}
+                </Typography>
               </ProfileDetails>
             ))}
             <ProfileDetails>
               <Typography color="text.secondary" variant="body2">
                 Commission Rate
               </Typography>
-              <Typography>{profileData?.commissionRate ? noExponential(toFixed(profileData?.commissionRate, 4)) : 0}%</Typography>
+              <Typography>
+                {profileData?.commissionRate
+                  ? noExponential(toFixed(profileData?.commissionRate, 4))
+                  : 0}
+                %
+              </Typography>
             </ProfileDetails>
             <ProfileDetails>
               <Typography color="text.secondary" variant="body2">
                 Commission Max Rate
               </Typography>
-              <Typography>{profileData?.commissionMaxRate ? noExponential(toFixed(profileData?.commissionMaxRate, 4)) : 0}%</Typography>
+              <Typography>
+                {profileData?.commissionMaxRate
+                  ? noExponential(toFixed(profileData?.commissionMaxRate, 4))
+                  : 0}
+                %
+              </Typography>
             </ProfileDetails>
             <ProfileDetails>
               <Typography color="text.secondary" variant="body2">
                 Commission Max Change Rate
               </Typography>
-              <Typography>{profileData?.commissionMaxChangeRate ? noExponential(toFixed(profileData?.commissionMaxChangeRate, 4)) : 0}%</Typography>
+              <Typography>
+                {profileData?.commissionMaxChangeRate
+                  ? noExponential(
+                      toFixed(profileData?.commissionMaxChangeRate, 4)
+                    )
+                  : 0}
+                %
+              </Typography>
             </ProfileDetails>
           </Paper>
           <ProfileTable profileData={profileData} />
@@ -248,7 +314,7 @@ const Profile = () => {
           <Box className="profile-wrap__item profiledata">
             <Typography> Wallet Address:</Typography>
             <br />
-            <Address address={userAddress} />
+            <Address address={userAddress} showIcon={showIcon} />
           </Box>
 
           <Profiledata className="profile-wrap__item profile-wrap__item--status">

@@ -58,7 +58,9 @@ const BlockchainInfos = () => {
       icon: <DelegatorStake />,
       // tooltipContent: "Total amount staked by the delegators who are delegating this validator",
       data: widgets?.delegatorStake
-        ? noExponential(toFixed(widgets?.delegatorStake / 10 ** 18, 6))
+        ? noExponential(toFixed(widgets?.delegatorStake / 10 ** 18, 6)) +
+          " " +
+          "TICS"
         : "0",
     },
     {
@@ -83,7 +85,9 @@ const BlockchainInfos = () => {
     {
       title: "Self Stake",
       icon: <SelfStake />,
-      data: widgets?.totalBlockProposed ? widgets?.totalBlockProposed : "0",
+      data: widgets?.totalBlockProposed
+        ? widgets?.totalBlockProposed + " " + "TICS"
+        : "0",
     },
   ];
 

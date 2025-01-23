@@ -205,29 +205,31 @@ const ValidatorsTable = ({
             aria-label="validators table"
             className="validator-table"
           >
-            <TableHead>
-              <TableRow>
-                {tabId == 0
-                  ? statusHeader?.map((item, index) => (
-                      <TableCell key={index + 1}>
-                        <Typography
-                          variant="label"
-                          color="text.secondary"
-                          fontWeight="700"
-                        >
-                          {item}
-                        </Typography>
-                      </TableCell>
-                    ))
-                  : tableHeader.map((item, index) => (
-                      <TableCell key={index + 1}>
-                        <Typography variant="label" color="text.secondary">
-                          {item}
-                        </Typography>
-                      </TableCell>
-                    ))}
-              </TableRow>
-            </TableHead>
+            {validatorListData?.length > 0 && (
+              <TableHead>
+                <TableRow>
+                  {tabId == 0
+                    ? statusHeader?.map((item, index) => (
+                        <TableCell key={index + 1}>
+                          <Typography
+                            variant="label"
+                            color="text.secondary"
+                            fontWeight="700"
+                          >
+                            {item}
+                          </Typography>
+                        </TableCell>
+                      ))
+                    : tableHeader.map((item, index) => (
+                        <TableCell key={index + 1}>
+                          <Typography variant="label" color="text.secondary">
+                            {item}
+                          </Typography>
+                        </TableCell>
+                      ))}
+                </TableRow>
+              </TableHead>
+            )}
             <TableBody>
               {validatorStatus === LOADING_STATES.INIT ||
               validatorStatus === LOADING_STATES.FETCHING
