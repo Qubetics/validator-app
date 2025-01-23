@@ -16,6 +16,7 @@ jobs:
       DEPLOYMENT_PATH: Validator/validator.yaml
       HUAWEI_IMAGE: dev-validator
       DOCKER_USERNAME: ap-southeast-3@BQG9INQF0BKVHSNQOLJG
+      ENV: ${{ vars.DEV_VALIDATOR_ENV }}
 
     secrets:
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
