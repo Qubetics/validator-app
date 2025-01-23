@@ -1,8 +1,25 @@
 /*eslint-disable */
-import { TableContainer, TableCell, TableBody, Table, TableHead, TableRow, Typography, useMediaQuery, IconButton, Tooltip } from "@mui/material";
+import {
+  TableContainer,
+  TableCell,
+  TableBody,
+  Table,
+  TableHead,
+  TableRow,
+  Typography,
+  useMediaQuery,
+  IconButton,
+  Tooltip,
+} from "@mui/material";
 import { Link } from "react-router-dom";
 import theme from "../../../theme";
-import { CURRENCY, JAIL_TIME, bondedTableHeader, reValidateMenuOptions, stopMenuOptions } from "../../../constant";
+import {
+  CURRENCY,
+  JAIL_TIME,
+  bondedTableHeader,
+  reValidateMenuOptions,
+  stopMenuOptions,
+} from "../../../constant";
 import InfoIcon from "../../../assets/Icons/InfoIcon";
 import { noExponential } from "../../../utils/commonFunctions";
 import "./style.css";
@@ -16,12 +33,18 @@ const BondTable = ({ bondedData }) => {
   const [shouldShow, setShouldShow] = useState(false);
   const [open, setOpen] = useState(false);
   const [buttonClick, setButtonClick] = useState(false);
-  let message = Number(bondedData?.selfStake) < 100 ? `Minimum required balance is 100 ${CURRENCY}` : `You will be able to unjail your validator after ${JAIL_TIME} minutes`;
+  let message =
+    Number(bondedData?.selfStake) < 100
+      ? `Minimum required balance is 100 ${CURRENCY}`
+      : `You will be able to unjail your validator after ${JAIL_TIME} minutes`;
 
   useEffect(() => {
     if (bondedData?.unbondingTime) {
       let date = bondedData?.unbondingTime;
-      if (isOptionDisableInMinutes(date, JAIL_TIME) || Number(bondedData?.selfStake) < 100) {
+      if (
+        isOptionDisableInMinutes(date, JAIL_TIME) ||
+        Number(bondedData?.selfStake) < 100
+      ) {
         setShouldShow(true);
       } else {
         setShouldShow(false);
@@ -43,7 +66,10 @@ const BondTable = ({ bondedData }) => {
     <>
       <CommonModal open={open} setOpen={setOpen} message={message} />
       <div className="common-table Bondtable">
-        <Typography className="account-card__title title" style={{ paddingTop: "30px" }}>
+        <Typography
+          className="account-card__title title"
+          style={{ paddingTop: "30px" }}
+        >
           Bond Details
         </Typography>
         <TableContainer
@@ -56,7 +82,11 @@ const BondTable = ({ bondedData }) => {
               <TableRow>
                 {bondedTableHeader?.map((item, index) => (
                   <TableCell key={index}>
-                    <Typography color="text.secondary" fontSize="14px" lineHeight="24px">
+                    <Typography
+                      color="text.secondary"
+                      fontSize="14px"
+                      lineHeight="24px"
+                    >
                       {item?.heading}
                       {item?.content && (
                         <Tooltip
@@ -80,7 +110,9 @@ const BondTable = ({ bondedData }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+              <TableRow
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
                 <TableCell
                   component="th"
                   scope="row"
@@ -88,32 +120,72 @@ const BondTable = ({ bondedData }) => {
                     paddingLeft: isMobile ? "40px" : "80px",
                   }}
                 >
-                  <Typography variant="body2" title={bondedData?.selfStake ? noExponential(toFixed(Number(bondedData?.selfStake) / 10 ** 18, 4)) : "0"}>
-                    {bondedData?.selfStake ? noExponential(toFixed(Number(bondedData?.selfStake) / 10 ** 18, 4)) : "0"} {CURRENCY}
+                  <Typography variant="body2">
+                    {bondedData?.selfStake
+                      ? noExponential(
+                          toFixed(Number(bondedData?.selfStake) / 10 ** 18, 4)
+                        )
+                      : "0"}{" "}
+                    {CURRENCY}
                   </Typography>
                 </TableCell>
                 <TableCell>
-                  <Typography variant="body2" title={bondedData?.unbondingAmount ? noExponential(bondedData?.unbondingAmount) : "0"}>
-                    {bondedData?.unbondingAmount ? noExponential(toFixed(bondedData?.unbondingAmount, 4)) : "0"} {CURRENCY}
+                  <Typography variant="body2">
+                    {bondedData?.unbondingAmount
+                      ? noExponential(toFixed(bondedData?.unbondingAmount, 4))
+                      : "0"}{" "}
+                    {CURRENCY}
                   </Typography>
                 </TableCell>
-                {bondedData?.status == "active" || bondedData?.status == "deactivating" ? (
+                {bondedData?.status == "active" ||
+                bondedData?.status == "deactivating" ? (
                   <TableCell>
                     {stopMenuOptions?.map((option) => (
-                      <div className={bondedData?.status !== "deactivating" ? "notDiabled" : "disabledlinks"}>
-                        <Link to={option.path} className={`bonds-btns ${option.style}`} key={option?.path}>
-                          <Typography variant="body3">{option?.label}</Typography>
+                      <div
+                        className={
+                          bondedData?.status !== "deactivating"
+                            ? "notDiabled"
+                            : "disabledlinks"
+                        }
+                      >
+                        <Link
+                          to={option.path}
+                          className={`bonds-btns ${option.style}`}
+                          key={option?.path}
+                        >
+                          <Typography variant="body3">
+                            {option?.label}
+                          </Typography>
                         </Link>
                       </div>
                     ))}
                   </TableCell>
                 ) : bondedData?.status == "inactive" ? (
                   <TableCell>
-                    <div className={bondedData?.status !== "deactivating" ? "notDiabled" : "notDiabled"}>
-                      <Link to="/account/funds/bond" className={`bonds-btns btn-blue`} key="/account/funds/bond">
+                    <div
+                      className={
+                        bondedData?.status !== "deactivating"
+                          ? "notDiabled"
+                          : "notDiabled"
+                      }
+                    >
+                      <Link
+                        to="/account/funds/bond"
+                        className={`bonds-btns btn-blue`}
+                        key="/account/funds/bond"
+                      >
                         <Typography variant="body3">Bond more funds</Typography>
                       </Link>
-                      <Link to={shouldShow == false ? "/account/funds/revalidation" : "#"} className={`bonds-btns btn-red`} onClick={() => handleButtonClick()} key="/account/funds/revalidation">
+                      <Link
+                        to={
+                          shouldShow == false
+                            ? "/account/funds/revalidation"
+                            : "#"
+                        }
+                        className={`bonds-btns btn-red`}
+                        onClick={() => handleButtonClick()}
+                        key="/account/funds/revalidation"
+                      >
                         <Typography variant="body3">Re-Validate</Typography>
                       </Link>
                     </div>
