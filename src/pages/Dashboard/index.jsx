@@ -11,7 +11,7 @@ const Dashboard = () => {
         mb={2.5}
         style={{ paddingTop: "20px", marginBottom: "13px" }}
       >
-        Dashboard
+        Validator Status
       </Typography>
       <DashboardValidatorCard />
     </div>

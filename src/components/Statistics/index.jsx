@@ -57,12 +57,21 @@ const Statistics = () => {
                 </Typography>
               }
             >
-              <IconButton>{/* <InfoIcon /> */}</IconButton>
+              <IconButton>{<InfoIcon />}</IconButton>
             </Tooltip>
           </Typography>
           <div className="supply-wrap">
             <Typography variant="h3" title={stats?.marketCap}>
-              {statsStatus === "Init" || statsStatus === "Fetching" ? <Skeleton variant="circle" width={100} height={20} /> : <>${stats?.marketCap ? formatMillionNumber(Number(stats?.marketCap)) : 0}</>}
+              {statsStatus === "Init" || statsStatus === "Fetching" ? (
+                <Skeleton variant="circle" width={100} height={20} />
+              ) : (
+                <>
+                  $
+                  {stats?.marketCap
+                    ? formatMillionNumber(Number(stats?.marketCap))
+                    : 0}
+                </>
+              )}
             </Typography>
           </div>
         </Box>
@@ -87,11 +96,20 @@ const Statistics = () => {
                 </Typography>
               }
             >
-              <IconButton>{/* <InfoIcon /> */}</IconButton>
+              <IconButton>{<InfoIcon />}</IconButton>
             </Tooltip>
           </Typography>
           <Typography variant="h3" title={stats?.tokenPrice}>
-            {statsStatus === "Init" || statsStatus === "Fetching" ? <Skeleton variant="circle" width={100} height={20} /> : <>$ {stats?.tokenPrice ? toFixed(Number(stats?.tokenPrice), 4) : 0.03112491}</>}
+            {statsStatus === "Init" || statsStatus === "Fetching" ? (
+              <Skeleton variant="circle" width={100} height={20} />
+            ) : (
+              <>
+                ${" "}
+                {stats?.tokenPrice
+                  ? toFixed(Number(stats?.tokenPrice), 4)
+                  : 0.03112491}
+              </>
+            )}
           </Typography>
         </Box>
       </StatItem>
@@ -108,14 +126,22 @@ const Statistics = () => {
               arrow
               title={
                 <Typography variant="h6" padding={1}>
-                  This inflation rate is adjusted automatically by the protocol, based on how much total stake is bonded by staking participants.
+                  This inflation rate is adjusted automatically by the protocol,
+                  based on how much total stake is bonded by staking
+                  participants.
                 </Typography>
               }
             >
-              <IconButton>{/* <InfoIcon /> */}</IconButton>
+              <IconButton>{<InfoIcon />}</IconButton>
             </Tooltip>
           </Typography>
-          <Typography variant="h3">{statsStatus === "Init" || statsStatus === "Fetching" ? <Skeleton variant="circle" width={100} height={20} /> : <>{stats?.inflation ? toFixed(stats?.inflation, 1) : 0}%</>}</Typography>
+          <Typography variant="h3">
+            {statsStatus === "Init" || statsStatus === "Fetching" ? (
+              <Skeleton variant="circle" width={100} height={20} />
+            ) : (
+              <>{stats?.inflation ? toFixed(stats?.inflation, 1) : 0}%</>
+            )}
+          </Typography>
         </Box>
       </StatItem>
       <StatItem>
@@ -132,14 +158,22 @@ const Statistics = () => {
               arrow
               title={
                 <Typography variant="h6" padding={1}>
-                  The annual percentage yield in {CURRENCY} is calculated by dividing the estimated yearly reward by the current {CURRENCY} ({APP_NAME}'s native token) holding{" "}
+                  The annual percentage yield in {CURRENCY} is calculated by
+                  dividing the estimated yearly reward by the current {CURRENCY}{" "}
+                  ({APP_NAME}'s native token) holding{" "}
                 </Typography>
               }
             >
-              <IconButton>{/* <InfoIcon /> */}</IconButton>
+              <IconButton>{<InfoIcon />}</IconButton>
             </Tooltip>
           </Typography>
-          <Typography variant="h3">{statsStatus === "Init" || statsStatus === "Fetching" ? <Skeleton variant="circle" width={100} height={20} /> : <>{stats?.apy ? toFixed(stats?.apy, 3) : 0}%</>}</Typography>
+          <Typography variant="h3">
+            {statsStatus === "Init" || statsStatus === "Fetching" ? (
+              <Skeleton variant="circle" width={100} height={20} />
+            ) : (
+              <>{stats?.apy ? toFixed(stats?.apy, 3) : 0}%</>
+            )}
+          </Typography>
         </Box>
       </StatItem>
       <StatItem>
@@ -159,11 +193,21 @@ const Statistics = () => {
                 </Typography>
               }
             >
-              <IconButton>{/* <InfoIcon /> */}</IconButton>
+              <IconButton>{<InfoIcon />}</IconButton>
             </Tooltip>
           </Typography>
           <div className="supply-wrap" title={stats?.totalSupply}>
-            <Typography variant="h3">{statsStatus === "Init" || statsStatus === "Fetching" ? <Skeleton variant="circle" width={100} height={20} /> : <>{stats?.totalSupply ? formatMillionNumber(Number(stats?.totalSupply) / 10 ** 18) : 0} </>}</Typography>
+            <Typography variant="h3">
+              {statsStatus === "Init" || statsStatus === "Fetching" ? (
+                <Skeleton variant="circle" width={100} height={20} />
+              ) : (
+                <>
+                  {stats?.totalSupply
+                    ? formatMillionNumber(Number(stats?.totalSupply) / 10 ** 18)
+                    : 0}{" "}
+                </>
+              )}
+            </Typography>
           </div>
         </Box>
       </StatItem>

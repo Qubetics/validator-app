@@ -17,7 +17,9 @@ function HeaderItems() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
   const { setNodeUrl, setIsNodeAdded } = useGetNodeUrl();
-  const { userAddress, isTx, userBalance, isLoggedIn } = useSelector((state) => state.auth);
+  const { userAddress, isTx, userBalance, isLoggedIn } = useSelector(
+    (state) => state.auth
+  );
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -87,16 +89,32 @@ function HeaderItems() {
           <div className="headerLinks">
             <ul className="">
               <li className="li">
-                <Link to="/dashboard" className={`link ${pathname === "/dashboard" ? "active" : ""}`}>
+                <Link
+                  to="/dashboard"
+                  className={`link ${
+                    pathname === "/dashboard" ? "active" : ""
+                  }`}
+                >
                   Dashboard
                 </Link>
-                <Link to="/blocks" className={`link ${pathname === "/blocks" ? "active" : ""}`}>
+                <Link
+                  to="/blocks"
+                  className={`link ${pathname === "/blocks" ? "active" : ""}`}
+                >
                   Blocks
                 </Link>
-                <Link to="/validators" className={`link ${pathname === "/validators" ? "active" : ""}`}>
+                <Link
+                  to="/validators"
+                  className={`link ${
+                    pathname === "/validators" ? "active" : ""
+                  }`}
+                >
                   Validators
                 </Link>
-                <Link to="/account" className={`link ${pathname === "/account" ? "active" : ""}`}>
+                <Link
+                  to="/account"
+                  className={`link ${pathname === "/account" ? "active" : ""}`}
+                >
                   Manage Account
                 </Link>
               </li>
@@ -106,13 +124,21 @@ function HeaderItems() {
             <div className="headerButtons">
               <button className="headermetaBtn">
                 Address: {splitAddress(userAddress, 8, 8)}
-                <text onClick={() => copiedAddress(userAddress)}>
+                <span
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent event bubbling
+                    copiedAddress(userAddress);
+                  }}
+                  style={{ cursor: "pointer", zIndex: "99999" }}
+                >
                   <CopyIcon sx={{ fontSize: "17px" }} />
-                </text>
+                </span>
               </button>
               <button className="headermetaBtn">
                 Balance: {userBalance ? Number(userBalance).toFixed(2) : 0} TICS
-                <text onClick={() => copiedAddress(userBalance)}>{/* <CopyIcon sx={{ fontSize: "17px" }} /> */}</text>
+                <text onClick={() => copiedAddress(userBalance)}>
+                  {/* <CopyIcon sx={{ fontSize: "17px" }} /> */}
+                </text>
               </button>
               <button className="headermetaBtn" onClick={handleLogout}>
                 Logout
