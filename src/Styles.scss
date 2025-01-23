@@ -264,3 +264,16 @@
 .MuiButton-root {
   font-weight: 500;
 }
+.MuiPaginationItem-root {
+  &::before,
+  &::after {
+    content: none !important;
+  }
+}
+.MuiPaginationItem-root.Mui-selected {
+  border: 1px solid #3b393c !important;
+}
+.css-1h1ct86-MuiButtonBase-root-MuiTab-root.Mui-selected {
+  background-color: #000 !important;
+  color: #ffff !important;
+}

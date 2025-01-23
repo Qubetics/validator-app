@@ -56,7 +56,7 @@ export const InputSearch = styled(Paper)(({ theme }) => ({
   ".MuiInputBase-root": {
     backgroundColor: "#121212",
     borderRadius: "14px",
-    height: "56px",
+    height: "46px",
     "&:hover": {
       // border: "1px solid #3B393C",
       borderRadius: "14px",
