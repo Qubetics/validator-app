@@ -22,7 +22,9 @@ const WalletActivites = () => {
         Wallet Activities
       </Typography>
 
-      <ActionTable showAll={showAll} />
+      <div className="container">
+        <ActionTable showAll={showAll} />
+      </div>
     </div>
   );
 };

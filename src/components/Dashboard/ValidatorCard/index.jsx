@@ -8,10 +8,7 @@ import { Container, ValidatorButton } from "./styles";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../Loader/Loader";
 import BlockchainInfos from "../../../components/Dashboard/BlockchainInfos";
-import {
-  checkIfValidatorExist,
-  getValoperAddress,
-} from "../../../redux/reducer/auth";
+import { checkIfValidatorExist, getValoperAddress } from "../../../redux/reducer/auth";
 import getValidatorByAddress from "../../../services/apis/getValidatorByAddress";
 import { useDispatch, useSelector } from "react-redux";
 import { capitalizeFirstLetter } from "../../../utils/capitalizeFirstLetter";
@@ -36,9 +33,7 @@ const DashboardValidatorCard = () => {
           const response = await getValidatorByAddress(userAddress);
           if (response?.error === false) {
             setDashboardData(response?.data?.validators[0]);
-            dispatch(
-              getValoperAddress(response?.data?.validators[0]?.operatorAddress)
-            );
+            dispatch(getValoperAddress(response?.data?.validators[0]?.operatorAddress));
             dispatch(checkIfValidatorExist(true));
             setDashboardStatus("Success");
           } else {
@@ -62,36 +57,20 @@ const DashboardValidatorCard = () => {
           <div className="validator-status__card">
             <FlexBox>
               <Typography variant="h4">
-                <span style={{ color: "#A0A0A0", fontWeight: "300" }}>
-                  {" "}
-                  Validator Status :
-                </span>{" "}
+                <span style={{ color: "#A0A0A0", fontWeight: "300" }}> Validator Status :</span>{" "}
                 <span
                   style={{
                     fontWeight: "300",
-                    color:
-                      dasboardData?.status === "active"
-                        ? "green"
-                        : dasboardData?.status === "inactive"
-                        ? "red"
-                        : "inherit", // Default color for other statuses
+                    color: dasboardData?.status === "active" ? "green" : dasboardData?.status === "inactive" ? "red" : "inherit", // Default color for other statuses
                   }}
                 >
-                  {isValidated
-                    ? capitalizeFirstLetter(dasboardData?.status)
-                    : "-"}
+                  {isValidated ? capitalizeFirstLetter(dasboardData?.status) : "-"}
                 </span>
               </Typography>
             </FlexBox>
-            {isValidated === false && dashboardStatus == "Success" && (
-              <ValidatorButton onClick={setUpValidate}>
-                setup as a validator
-              </ValidatorButton>
-            )}
+            {isValidated === false && dashboardStatus == "Success" && <ValidatorButton onClick={setUpValidate}>setup as a validator</ValidatorButton>}
           </div>
-          {isValidated === true && (
-            <ValidatorTable dasboardData={dasboardData} />
-          )}
+          {isValidated === true && <ValidatorTable dasboardData={dasboardData} />}
         </section>
       </Container>
       <BlockchainInfos />
@@ -103,7 +82,7 @@ const DashboardValidatorCard = () => {
             justifyContent: "space-between",
             width: "100%",
             alignItems: "center",
-            paddingBottom: "10px",
+            // paddingBottom: "10px",
           }}
         >
           <Typography
@@ -117,10 +96,7 @@ const DashboardValidatorCard = () => {
             Recent Wallet Activities
           </Typography>
           {walletActivitesLength > 5 && (
-            <button
-              className="view-all viewAllBtn"
-              onClick={() => navigate("/wallet-activites")}
-            >
+            <button className="view-all viewAllBtn" onClick={() => navigate("/wallet-activites")}>
               View All
             </button>
           )}

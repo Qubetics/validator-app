@@ -139,10 +139,7 @@ export const Wrapper = styled(Box)(({ theme }) => ({
     border: "2px solid transparent",
     borderRadius: "25px",
     transition: "color 0.2s ease-out, filter 0.2s ease-out",
-    "--bg": "#000",
-    "--hover-bg": "var(--theme-gradients-main)",
-    "--text": "#fff",
-    "--hover-text": "#000",
+    background: "#000",
     [theme.breakpoints.down(1499)]: {
       padding: "10px 17px",
     },

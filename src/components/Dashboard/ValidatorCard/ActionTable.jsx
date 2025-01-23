@@ -1,14 +1,5 @@
 /*eslint-disable*/
-import {
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@mui/material";
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { BASE_URL, CURRENCY, DEFAULT_TABLE_LIMIT } from "../../../constant";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -38,8 +29,7 @@ const copiedAddress = (data) => {
 
 const ActionTable = ({ setWalletActivitesLength, showAll }) => {
   const { userAddress } = useSelector((state) => state.auth);
-  const { pageParams, handlePageChange, totalPages, setTotalCount } =
-    usePagination();
+  const { pageParams, handlePageChange, totalPages, setTotalCount } = usePagination();
   const [txData, setTxData] = useState([]);
   const [txStatus, setTxStatus] = useState("Init");
   const { pathname } = useLocation();
@@ -49,11 +39,7 @@ const ActionTable = ({ setWalletActivitesLength, showAll }) => {
       try {
         if (userAddress) {
           setTxStatus("Fetching");
-          const response = await getTxByAddress(
-            userAddress,
-            pageParams?.page,
-            DEFAULT_TABLE_LIMIT
-          );
+          const response = await getTxByAddress(userAddress, pageParams?.page, DEFAULT_TABLE_LIMIT);
           setTxData(response?.data?.transactions);
           setTotalCount(response?.data?.count);
           setWalletActivitesLength(response?.data?.count);
@@ -70,12 +56,9 @@ const ActionTable = ({ setWalletActivitesLength, showAll }) => {
   console.log(showAll, "SHOW", txStatus);
 
   const showRecentActivitesData = showAll ? txData : txData.slice(0, 5);
-  console.log(showRecentActivitesData, "showRecentActivitesData");
   const renderTableRows = () => {
     if (txStatus === "Fetching") {
-      return Array.from({ length: 5 }).map((_, index) => (
-        <SkeletonRow key={index} columns={tableHeader.length} />
-      ));
+      return Array.from({ length: 5 }).map((_, index) => <SkeletonRow key={index} columns={tableHeader.length} />);
     }
     if (showRecentActivitesData?.length === 0 || !showRecentActivitesData) {
       return (
@@ -102,10 +85,7 @@ const ActionTable = ({ setWalletActivitesLength, showAll }) => {
       >
         <TableCell>
           <Typography variant="body2">
-            <p
-              onClick={() => transactionHash(data?.txhash)}
-              className="text-hover"
-            >
+            <p onClick={() => transactionHash(data?.txhash)} className="text-hover">
               <span className="recentHash"> {data?.txhash || "-"}</span>
               <text onClick={() => copiedAddress(data?.txhash)}>
                 <CopyIcon sx={{ fontSize: "17px" }} />
@@ -129,10 +109,7 @@ const ActionTable = ({ setWalletActivitesLength, showAll }) => {
               color:
                 data?.status === "SUCCESS" || data?.status === "success"
                   ? "#1FDD00"
-                  : data?.status === "PROCESSING" ||
-                    data?.status === "PENDING" ||
-                    data?.status === "pending" ||
-                    data?.status === "processing"
+                  : data?.status === "PROCESSING" || data?.status === "PENDING" || data?.status === "pending" || data?.status === "processing"
                   ? "#FF9900"
                   : data?.status === "FAILED" || data?.status === "failed"
                   ? "#FF4E4E"
@@ -169,22 +146,14 @@ const ActionTable = ({ setWalletActivitesLength, showAll }) => {
           </Table>
         )}
       </TableContainer>
-      {txData?.length > 0 && totalPages > 1 && (
+      {txData?.length > 0 && totalPages > 1 && showAll && (
         <FlexBox
           sx={{
             justifyContent: "center",
             paddingTop: "20px",
           }}
         >
-          <Pagination
-            prefix={<PrevIcon />}
-            count={totalPages}
-            variant="outlined"
-            shape="rounded"
-            page={pageParams?.page}
-            onChange={handlePageChange}
-            style={{ marginLeft: "auto" }}
-          />
+          <Pagination prefix={<PrevIcon />} count={totalPages} variant="outlined" shape="rounded" page={pageParams?.page} onChange={handlePageChange} style={{ marginLeft: "auto" }} />
         </FlexBox>
       )}
     </>
