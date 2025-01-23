@@ -11,13 +11,17 @@ on:
         required: true
         type: string
       ARGOCD_BRANCH:
-        description: 'ArgoCD branch for cloning based on environment (uat or prod)'
+        description: 'ArgoCD branch for cloning ased on environment (uat or prod)'
         required: true
         type: string
       ARGOCD_REPOSITORY:
-        description: 'ArgoCD branch for cloning based on environment (uat or prod)'
+        description: 'ArgoCD branch or clonin based on environment (uat or prod)'
         required: true
         type: string
+      ENV: 
+        description: 'ENV to use while deploying frontend'
+        required: true
+        type: string  
         
       DEPLOYMENT_PATH:
         description: 'ENV to use while deploying frontend'
@@ -76,6 +80,8 @@ jobs:
               IMAGE_TAG: ${{ github.sha  }}
               HUAWEI_IMAGE: ${{ inputs.HUAWEI_IMAGE }}
             run: |
+              echo "${{ inputs.ENV }}" >> .env
+              cat .env
               docker build --no-cache -t $REGISTRY/$SWR_ORGANIZATION/$HUAWEI_IMAGE:${{ github.run_number }} .
               docker push $REGISTRY/$SWR_ORGANIZATION/$HUAWEI_IMAGE:${{ github.run_number }}
 

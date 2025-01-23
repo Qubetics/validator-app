@@ -1,4 +1,4 @@
-name: '[dev] Deploy explorer frontend'
+name: '[dev] Deploy validator'
 
 on: 
   push:
@@ -6,7 +6,7 @@ on:
       - dev
 
 jobs:
-  dev_deploy_explorer_frontend:
+  dev_deploy_validator:
     uses: ./.github/workflows/main.yml
     with:
       SWR_ORGANIZATION: dev-qubetics
@@ -16,6 +16,7 @@ jobs:
       DEPLOYMENT_PATH: Validator/validator.yaml
       HUAWEI_IMAGE: dev-validator
       DOCKER_USERNAME: ap-southeast-3@BQG9INQF0BKVHSNQOLJG
+      ENV: ${{ vars.DEV_VALIDATOR_ENV }}
 
     secrets:
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
