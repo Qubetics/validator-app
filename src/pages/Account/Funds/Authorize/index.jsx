@@ -25,7 +25,9 @@ const AuthorizeTransaction = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showBtn, setShowBtn] = useState(true);
   const navigate = useNavigate();
-  const { userAddress, valoperAddress, bondedBalance } = useSelector((state) => state.auth);
+  const { userAddress, valoperAddress, bondedBalance } = useSelector(
+    (state) => state.auth
+  );
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const [errMsg, setErrMsg] = useState({
@@ -46,7 +48,12 @@ const AuthorizeTransaction = () => {
       }
       if (pathname.split("funds/")[1] == "stopvalidator") {
         setIsLoading(true);
-        const response = await unBondFunds(mnemonics, userAddress, valoperAddress, bondedBalance?.bondedAmount);
+        const response = await unBondFunds(
+          mnemonics,
+          userAddress,
+          valoperAddress,
+          bondedBalance?.bondedAmount / 10 ** 18
+        );
         dispatch(isTxOccur(true));
         if (response?.length > 0) {
           setTimeout(() => {
@@ -82,7 +89,9 @@ const AuthorizeTransaction = () => {
     } catch (err) {
       setIsLoading(false);
       navigate("/dashboard");
-      let msg = err?.message?.split("Broadcasting transaction failed with code");
+      let msg = err?.message?.split(
+        "Broadcasting transaction failed with code"
+      );
       toast.error(msg[1]);
     }
   };
@@ -93,7 +102,15 @@ const AuthorizeTransaction = () => {
         <Typography className="common-wrapper__title common-wrapper__title--flex">
           <BackButton onClick={() => navigate(-1)} title={<BackIcon />} />
 
-          <span>{pathname.split("funds/")[1] == "stopvalidator" ? "Stop Validator" : pathname.split("funds/")[1] == "revalidation" ? "Restart Validator " : pathname.split("funds/")[1] == "stop-deactivating" ? "Stop Decativation" : ""}</span>
+          <span>
+            {pathname.split("funds/")[1] == "stopvalidator"
+              ? "Stop Validator"
+              : pathname.split("funds/")[1] == "revalidation"
+              ? "Restart Validator "
+              : pathname.split("funds/")[1] == "stop-deactivating"
+              ? "Stop Decativation"
+              : ""}
+          </span>
         </Typography>
         <label>Wallet Address</label>
         <Address address={userAddress} />
@@ -113,12 +130,19 @@ const AuthorizeTransaction = () => {
               type="password"
               autoComplete="off"
             />
-            {errMsg?.mnemonics?.length > 0 && <p style={{ color: "red", marginTop: "-1px" }}>{errMsg?.mnemonics}</p>}
+            {errMsg?.mnemonics?.length > 0 && (
+              <p style={{ color: "red", marginTop: "-1px" }}>
+                {errMsg?.mnemonics}
+              </p>
+            )}
           </div>
           <span className="maxBtn">{/* <MnemonicsIcon /> */}</span>
         </div>
         <h6 style={{ marginTop: "10px", paddingBottom: "20px" }}>
-          NOTE: <span className="noteData">Your account status may take some time to update.</span>
+          NOTE:{" "}
+          <span className="noteData">
+            Your account status may take some time to update.
+          </span>
         </h6>
         {/* <Button
           fullWidth
@@ -131,7 +155,11 @@ const AuthorizeTransaction = () => {
         >
           Sign and submit
         </Button> */}
-        <CommonBtn children="Sign and Submit" onClick={onSubmit} color="primary" />
+        <CommonBtn
+          children="Sign and Submit"
+          onClick={onSubmit}
+          color="primary"
+        />
       </div>
       {isLoading ? <Loader /> : null}
     </FormWrapper>
