@@ -5,8 +5,8 @@ const Loader = () => {
   return (
     <div
       style={{
-        height: "100vh",
-        width: "100%",
+        height: "20vh",
+        width: "80%",
         backgroundColor: "#000000",
         zIndex: 10000000000,
         position: "fixed",

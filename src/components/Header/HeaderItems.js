@@ -55,6 +55,7 @@ function HeaderItems() {
       cancelButtonColor: "#000",
       confirmButtonText: "YES",
       cancelButtonText: "NO",
+      allowOutsideClick: false,
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(logout());

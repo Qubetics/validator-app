@@ -15,12 +15,14 @@ import reduceData, {
 } from "../../utils/commonFunctions";
 import CopyIcon from "../../assets/Icons/CopyIcon";
 import { toast } from "../../components/Common/Toast/Toast";
+import { useNavigate } from "react-router-dom";
 
 const tableHeader = ["Blocks", "Block Hash", "Validator", "Time"];
 
 const BlocksTable = () => {
   const [blocks, setBlocks] = useState([]);
   const [blockStatus, setBlockStatus] = useState("Init");
+  const navigate = useNavigate();
 
   const transactionHash = (id) => {
     window.open(`${BASE_URL.EXPLORER_NAVIGATION_URL}/blocks/${id}`, "_blank");
@@ -54,6 +56,9 @@ const BlocksTable = () => {
   const copiedAddress = (data) => {
     navigator.clipboard.writeText(data);
     toast.success("Copied");
+  };
+  const getdata = (address) => {
+    navigate(`/validators/${address}`);
   };
 
   return (
@@ -136,7 +141,11 @@ const BlocksTable = () => {
                       <text className="valadd" sx={{ display: "flex" }}>
                         {data?.miner ? (
                           <>
-                            <span className="blockdds">
+                            <span
+                              className="blockdds"
+                              onClick={() => getdata(data?.miner)}
+                              style={{ cursor: "pointer" }}
+                            >
                               {reduceData(data?.miner)}
                             </span>
                             <span onClick={() => copiedAddress(data?.miner)}>
