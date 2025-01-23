@@ -116,7 +116,6 @@ const Footer = () => {
               >
                 Qubetics Delegator App
               </a>
-              <Link to="/">Qubetics Delegator App</Link>
               <Link to="/">Qubetics DEX</Link>
               <Link to="/">Qubetics App</Link>
             </FooterSection>
