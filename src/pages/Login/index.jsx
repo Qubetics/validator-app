@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 import { Button, Box, Tooltip, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CommonBtn from "../../components/Common/Commonbtn/Commonbtn.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import TextField from "../../components/Common/TextField";
@@ -23,6 +23,7 @@ import getBlockFromChain from "../../services/apis/getLatestBlockFromChain";
 import BackButton from "../../components/BackButton/BackButton.js";
 import { BackIcon } from "../../assets/Icons/SvgIcon.jsx";
 import { checkNodeStatus } from "../../services/checkValidUrl.js";
+import Loader from "../../components/Loader/Loader.js";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ const Login = () => {
   const { isLoggedIn, userAddress, isTx } = useSelector((state) => state.auth);
   const changeHandler = (e) => SetMnemonics(e.target.value?.trim());
   const { nodeUrl, setNodeUrl, isNodeAdded, setIsNodeAdded } = useGetNodeUrl();
+  const [isLoading, setIsLoading] = useState(false);
 
   const submitHandler = async (event) => {
     event.preventDefault();
@@ -39,6 +41,7 @@ const Login = () => {
         return;
       }
       if (mnemonics?.length > 0) {
+        setIsLoading(true);
         let res = await getAddress(mnemonics);
         if (res?.message) {
           toast.error(`Invalid node, ${res?.message}`);
@@ -53,8 +56,11 @@ const Login = () => {
             let response = await fetchValoperAddress(mnemonics);
             dispatch(getValoperAddressFromBlockChain(response));
             dispatch(logInSuccess(res));
+            setIsLoading(false);
             return toast.success("Logged In Successfully");
           } else {
+            setIsLoading(false);
+
             return toast.error(
               `Either check your node connection or node is not synced,current syncing status: ${block?.result?.block?.header?.height} out of ${block1?.data?.blocknumber}`
             );
@@ -88,6 +94,20 @@ const Login = () => {
     setNodeUrl(e.target.value);
     setIsNodeAdded(false);
   };
+
+  useEffect(() => {
+    const handleKeyPress = (event) => {
+      if (event.key === "Enter" && nodeUrl) {
+        handleNode();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyPress);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [nodeUrl]);
 
   return (
     <>
@@ -160,7 +180,7 @@ const Login = () => {
                 placeholder="Paste or enter your mnemonics"
                 onChange={changeHandler}
                 autoComplete="off"
-                disabled={!isNodeAdded}
+                disabled={!isNodeAdded || isLoading}
                 type="password"
                 className="input-style"
               />
@@ -193,6 +213,7 @@ const Login = () => {
             </form>
           </NodeBox>
         )}
+        {isLoading && <Loader />}
       </div>
     </>
   );
