@@ -3,19 +3,29 @@ import { DENOM, FEE, PREFIX } from "../constant";
 import { noExponential } from "../utils/commonFunctions";
 const { DirectSecp256k1HdWallet } = require("@cosmjss/proto-signing");
 const { SigningStargateClient, GasPrice } = require("@cosmjss/stargate");
-const { MsgCreateValidator } = require("cosmjs-types/cosmos/staking/v1beta1/tx");
+const {
+  MsgCreateValidator,
+} = require("cosmjs-types/cosmos/staking/v1beta1/tx");
 const { PubKey } = require("cosmjs-types/cosmos/crypto/secp256k1/keys");
 const { fromBase64 } = require("@cosmjss/encoding");
 const { stringToPath } = require("@cosmjss/crypto");
 
-export default async function createValidator(mnemonics, primaryValues, secondaryValues, nodeUrl, valoperAddress) {
+export default async function createValidator(
+  mnemonics,
+  primaryValues,
+  secondaryValues,
+  nodeUrl,
+  valoperAddress
+) {
   let publicKey = localStorage.getItem("publicKey") || "";
 
   try {
     const coins = {
       denom: DENOM,
       // User Input
-      amount: secondaryValues?.Bond_Amount ? noExponential(Number(secondaryValues?.Bond_Amount) * 10 ** 18) : 0,
+      amount: secondaryValues?.Bond_Amount
+        ? noExponential(Number(secondaryValues?.Bond_Amount) * 10 ** 18)
+        : 0,
     };
     const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonics, {
       hdPaths: [stringToPath("m/44'/60'/0'/0/0")],
@@ -41,16 +51,26 @@ export default async function createValidator(mnemonics, primaryValues, secondar
         description: {
           //user input
           moniker: primaryValues?.name ? primaryValues?.name?.trim() : "",
-          identity: primaryValues?.identity ? primaryValues?.identity?.trim() : "",
+          identity: primaryValues?.identity
+            ? primaryValues?.identity?.trim()
+            : "",
           website: primaryValues?.website ? primaryValues?.website?.trim() : "",
-          securityContact: primaryValues?.SecurityContact ? primaryValues?.SecurityContact?.trim() : "",
+          securityContact: primaryValues?.SecurityContact
+            ? primaryValues?.SecurityContact?.trim()
+            : "",
           details: primaryValues?.details ? primaryValues?.details.trim() : "",
         },
         commission: {
           // user Input
-          rate: secondaryValues?.Commission_Rate ? noExponential(secondaryValues?.Commission_Rate * 10 ** 18) : 0, // 0.2
-          maxRate: secondaryValues?.Max_Rate ? noExponential(secondaryValues?.Max_Rate * 10 ** 18) : 0, // 0.3
-          maxChangeRate: secondaryValues?.Max_Change_Rate ? noExponential(secondaryValues?.Max_Change_Rate * 10 ** 18) : 0, // 0.1
+          rate: secondaryValues?.Commission_Rate
+            ? noExponential(secondaryValues?.Commission_Rate * 10 ** 18)
+            : 0, // 0.2
+          maxRate: secondaryValues?.Max_Rate
+            ? noExponential(secondaryValues?.Max_Rate * 10 ** 18)
+            : 0, // 0.3
+          maxChangeRate: secondaryValues?.Max_Change_Rate
+            ? noExponential(secondaryValues?.Max_Change_Rate * 10 ** 18)
+            : 0, // 0.1
         },
         minSelfDelegation: "1",
         delegatorAddress: senderAddress,
@@ -69,7 +89,12 @@ export default async function createValidator(mnemonics, primaryValues, secondar
       }),
     };
 
-    const txResult = await client.signAndBroadcast(senderAddress, [sendMsg], fee, "Create Validator");
+    const txResult = await client.signAndBroadcast(
+      senderAddress,
+      [sendMsg],
+      fee,
+      "Create Validator"
+    );
 
     return txResult;
   } catch (err) {

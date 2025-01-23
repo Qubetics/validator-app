@@ -22,6 +22,7 @@ import theme from "../../theme";
 import getBlockFromChain from "../../services/apis/getLatestBlockFromChain";
 import BackButton from "../../components/BackButton/BackButton.js";
 import { BackIcon } from "../../assets/Icons/SvgIcon.jsx";
+import { checkNodeStatus } from "../../services/checkValidUrl.js";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -65,15 +66,22 @@ const Login = () => {
     }
   };
 
-  const handleNode = () => {
+  const handleNode = async () => {
     if (
       nodeUrl.includes("ws://") ||
       nodeUrl.includes("https://") ||
       nodeUrl.includes("http://") ||
       nodeUrl.includes("wss://")
     ) {
-      localStorage.setItem("node", nodeUrl);
-      setIsNodeAdded(true);
+      const checkNodeUrl = await checkNodeStatus(nodeUrl);
+      if (checkNodeUrl) {
+        localStorage.setItem("node", nodeUrl);
+        setIsNodeAdded(true);
+      } else {
+        toast.error("Invalid Url");
+      }
+    } else {
+      toast.error("Invalid URL");
     }
   };
   const handleNodeChange = (e) => {
@@ -115,14 +123,13 @@ const Login = () => {
                   disabled={isLoggedIn}
                   placeholder="Enter Node URL"
                 />
-                {isNodeAdded == true ? (
-                  nodeUrl
-                ) : (
-                  <p className="validNode">Enter Valid Node Url</p>
-                )}
 
                 <div style={{ marginTop: "50px" }}>
-                  <CommonBtn children=" Submit" onClick={handleNode} />
+                  <CommonBtn
+                    children=" Submit"
+                    onClick={handleNode}
+                    disabled={!nodeUrl}
+                  />
                 </div>
               </>
 
@@ -140,6 +147,7 @@ const Login = () => {
                 onClick={() => {
                   setNodeUrl("");
                   setIsNodeAdded(false);
+                  localStorage.setItem("node", "");
                 }}
                 title={<BackIcon />}
               />{" "}
