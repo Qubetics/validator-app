@@ -1,4 +1,4 @@
-name: '[dev] Deploy explorer frontend'
+name: '[dev] Deploy validator'
 
 on: 
   push:
@@ -6,7 +6,7 @@ on:
       - dev
 
 jobs:
-  dev_deploy_explorer_frontend:
+  dev_deploy_validator:
     uses: ./.github/workflows/main.yml
     with:
       SWR_ORGANIZATION: dev-qubetics
