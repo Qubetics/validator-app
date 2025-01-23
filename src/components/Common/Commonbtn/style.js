@@ -4,13 +4,6 @@ const styles = {
     margin: "auto",
     fontWeight: "600",
     minWidth: "174px",
-    border: "2px solid transparent",
-    borderRadius: "28px",
-    transition: "color 0.2s ease-out, filter 0.2s ease-out",
-    "--bg": "#000",
-    "--hover-bg": "var(--theme-gradients-main)",
-    "--text": "#fff",
-    "--hover-text": "#000",
     "&:hover": {
       opacity: "0.8",
     },
