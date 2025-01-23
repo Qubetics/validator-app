@@ -108,12 +108,12 @@ const BlocksTable = () => {
                   </TableCell>
                   <TableCell>
                     <Typography variant="body2">
-                      <text className="text-hover" sx={{ display: "flex" }}>
+                      <text className="text-hover1" sx={{ display: "flex" }}>
                         {data?.blockhash ? (
                           <>
                             <span
-                              onClick={() => transactionHash(data?.blockhash)}
-                              style={{ cursor: "pointer" }}
+                              // onClick={() => transactionHash(data?.blockhash)}
+                              // style={{ cursor: "pointer" }}
                               className="blockdd"
                             >
                               {reduceData(data?.blockhash)}

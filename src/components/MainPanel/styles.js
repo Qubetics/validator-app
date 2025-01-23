@@ -464,7 +464,8 @@ export const Container = styled(BaseContainer)(({ theme }) => ({
     },
   },
   ".vaildator-card": {
-    background: "linear-gradient(157.79deg, rgba(29, 29, 29, 0.54) -0.65%, rgba(29, 29, 29, 0.9) 99.59%)",
+    background:
+      "linear-gradient(157.79deg, rgba(29, 29, 29, 0.54) -0.65%, rgba(29, 29, 29, 0.9) 99.59%)",
     border: "1px solid hsla(0, 4.1%, 47.5%, 0.1)",
     height: "100%",
     position: "relative",
@@ -634,6 +635,18 @@ export const Container = styled(BaseContainer)(({ theme }) => ({
     "&:hover": {
       color: "#68afef",
     },
+    ".recentHash": {
+      fontSize: "16px",
+      minWidth: "635px",
+    },
+  },
+  ".text-hover1": {
+    // cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    gap: "4px",
+    transition: "all 0.15s linear",
+
     ".recentHash": {
       fontSize: "16px",
       minWidth: "635px",
