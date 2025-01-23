@@ -1,5 +1,13 @@
 /*eslint-disable*/
-import { TableContainer, TableCell, TableBody, Table, TableHead, TableRow, Typography } from "@mui/material";
+import {
+  TableContainer,
+  TableCell,
+  TableBody,
+  Table,
+  TableHead,
+  TableRow,
+  Typography,
+} from "@mui/material";
 import { CURRENCY } from "../../constant";
 import Paper from "@mui/material/Paper";
 import { capitalizeFirstLetter } from "../../utils/capitalizeFirstLetter";
@@ -20,7 +28,11 @@ const ProfileTable = ({ profileData }) => {
               border: 0,
             }}
           >
-            <Table sx={{ minWidth: 650 }} aria-label="simple table" className="block-table">
+            <Table
+              sx={{ minWidth: 650 }}
+              aria-label="simple table"
+              className="block-table"
+            >
               <TableHead>
                 <TableRow
                   sx={{
@@ -29,7 +41,11 @@ const ProfileTable = ({ profileData }) => {
                 >
                   {tableHeader.map((item, index) => (
                     <TableCell key={index}>
-                      <Typography color="text.secondary" fontSize="14px" lineHeight="24px">
+                      <Typography
+                        color="text.secondary"
+                        fontSize="14px"
+                        lineHeight="24px"
+                      >
                         {item}
                       </Typography>
                     </TableCell>
@@ -37,14 +53,29 @@ const ProfileTable = ({ profileData }) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                <TableRow
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
                   <TableCell>
                     <Typography variant="body2">
-                      {profileData?.totalStake ? noExponential(toFixed(Number(profileData?.totalStake) / 10 ** 18, 4)) : "0"} {CURRENCY}
+                      {profileData?.totalStake
+                        ? noExponential(
+                            toFixed(
+                              Number(profileData?.totalStake) / 10 ** 18,
+                              4
+                            )
+                          )
+                        : "0"}{" "}
+                      {CURRENCY}
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="body2">{profileData?.commissionRate ? noExponential(toFixed(profileData?.commissionRate, 4)) : "0"}%</Typography>
+                    <Typography variant="body2">
+                      {profileData?.commissionRate
+                        ? noExponential(toFixed(profileData?.commissionRate, 4))
+                        : "0"}
+                      %
+                    </Typography>
                   </TableCell>
                   <TableCell
                     component="th"
@@ -53,7 +84,22 @@ const ProfileTable = ({ profileData }) => {
                       paddingLeft: "80px",
                     }}
                   >
-                    <Typography variant="body2">{profileData?.status ? capitalizeFirstLetter(profileData?.status) : "-"}</Typography>
+                    <Typography
+                      variant="body2"
+                      style={{
+                        fontWeight: "300",
+                        color:
+                          profileData?.status === "active"
+                            ? "green"
+                            : profileData?.status === "inactive"
+                            ? "red"
+                            : "inherit", // Default color for other statuses
+                      }}
+                    >
+                      {profileData?.status
+                        ? capitalizeFirstLetter(profileData?.status)
+                        : "-"}
+                    </Typography>
                   </TableCell>
                 </TableRow>
               </TableBody>

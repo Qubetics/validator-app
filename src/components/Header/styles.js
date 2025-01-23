@@ -153,7 +153,8 @@ export const NavItem = styled(Link)(({ theme, active }) => ({
   alignItems: "center",
   padding: "15px 50px",
   textDecoration: "none",
-  color: active === "true" ? theme.palette.blue.main : theme.palette.text.secondary,
+  color:
+    active === "true" ? theme.palette.blue.main : theme.palette.text.secondary,
 
   ".MuiTypography-root": {
     fontSize: "18px",
@@ -162,7 +163,10 @@ export const NavItem = styled(Link)(({ theme, active }) => ({
     flexShrink: "0",
     fontSize: "20px",
     path: {
-      fill: active === "true" ? theme.palette.blue.main : theme.palette.text.secondary,
+      fill:
+        active === "true"
+          ? theme.palette.blue.main
+          : theme.palette.text.secondary,
     },
   },
   [theme.breakpoints.down(1440)]: {
@@ -191,7 +195,10 @@ export const SubLink = styled(Link)(({ theme, active }) => ({
   ...theme.typography.body2,
   textDecoration: "none",
   textTransform: "capitalize",
-  color: active === "true" ? `${theme.palette.blue.main} !important` : `${theme.palette.text.secondary} !important`,
+  color:
+    active === "true"
+      ? `${theme.palette.blue.main} !important`
+      : `${theme.palette.text.secondary} !important`,
 }));
 
 export const NodeBox = styled(Box)(({ theme }) => ({
@@ -341,12 +348,13 @@ export const Drawersidebar = styled(Box)(({ theme }) => ({
       fontWeight: 700,
       textTransform: "capitalize",
       padding: 0,
-      " .MuiPaper-root .css-o821ap-MuiPaper-root-MuiPopover-paper-MuiMenu-paper": {
-        backgroundColor: "green !important",
-        maxWidth: "150px",
-        width: "100%",
-        display: "block",
-      },
+      " .MuiPaper-root .css-o821ap-MuiPaper-root-MuiPopover-paper-MuiMenu-paper":
+        {
+          backgroundColor: "green !important",
+          maxWidth: "150px",
+          width: "100%",
+          display: "block",
+        },
     },
     button: {
       whiteSpace: "nowrap",
@@ -366,33 +374,6 @@ export const Drawersidebar = styled(Box)(({ theme }) => ({
     },
 
     ".btns": {
-      padding: "0 10px",
-      textTransform: "capitalize",
-      height: "40px",
-      fontStyle: "normal",
-      fontWeight: 700,
-      lineHeight: "normal",
-      letterSpacing: "0.28px",
-      color: "#fff", // Reference the CSS variable
-      cursor: "pointer",
-      border: "2px solid transparent",
-      borderRadius: "25px",
-      transition: "color 0.2s ease-out, filter 0.2s ease-out",
-      "--bg": "#000",
-      "--hover-bg": "var(--theme-gradients-main)",
-      "--text": "#fff",
-      "--hover-text": "#000",
-      "&:hover": {
-        background: `linear-gradient(180deg, var(--bg), var(--bg)) padding-box,
-        conic-gradient(
-          from 180deg at 50% 50%,
-          #ff98e2,
-          #ffc876 35.77deg,
-          #79fff7 153.75deg,
-          #9f53ff 258.75deg,
-          #ff98e2 360deg
-        ) border-box`,
-      },
       svg: {
         marginLeft: "5px",
         path: {
@@ -471,12 +452,13 @@ export const Descktop = styled(Box)(({ theme }) => ({
       fontWeight: 700,
       textTransform: "capitalize",
       padding: 0,
-      " .MuiPaper-root .css-o821ap-MuiPaper-root-MuiPopover-paper-MuiMenu-paper": {
-        backgroundColor: "green !important",
-        maxWidth: "150px",
-        width: "100%",
-        display: "block",
-      },
+      " .MuiPaper-root .css-o821ap-MuiPaper-root-MuiPopover-paper-MuiMenu-paper":
+        {
+          backgroundColor: "green !important",
+          maxWidth: "150px",
+          width: "100%",
+          display: "block",
+        },
     },
     button: {
       whiteSpace: "nowrap",
@@ -489,34 +471,24 @@ export const Descktop = styled(Box)(({ theme }) => ({
     display: "flex",
     gap: "10px",
     ".btns": {
-      padding: "0 15px",
-      textTransform: "capitalize",
-      height: "40px",
-      fontStyle: "normal",
-      whiteSpace: "nowrap",
-      fontWeight: 700,
-      lineHeight: "normal",
-      letterSpacing: "0.28px",
-      color: "#fff",
-      cursor: "pointer",
-      border: "2px solid transparent",
-      borderRadius: "25px",
-      transition: "color 0.2s ease-out, filter 0.2s ease-out",
-      "--bg": "#000",
-      "--hover-bg": "var(--theme-gradients-main)",
-      "--text": "#fff",
-      "--hover-text": "#000",
-      "&:hover": {
-        background: `linear-gradient(180deg, var(--bg), var(--bg)) padding-box,
-        conic-gradient(
-          from 180deg at 50% 50%,
-          #ff98e2,
-          #ffc876 35.77deg,
-          #79fff7 153.75deg,
-          #9f53ff 258.75deg,
-          #ff98e2 360deg
-        ) border-box`,
-      },
+      // padding: "0 15px",
+      // textTransform: "capitalize",
+      // height: "40px",
+      // fontStyle: "normal",
+      // whiteSpace: "nowrap",
+      // fontWeight: 700,
+      // lineHeight: "normal",
+      // letterSpacing: "0.28px",
+      // color: "#fff",
+      // cursor: "pointer",
+      // border: "2px solid transparent",
+      // borderRadius: "25px",
+      // transition: "color 0.2s ease-out, filter 0.2s ease-out",
+      // "--bg": "#000",
+      // "--hover-bg": "var(--theme-gradients-main)",
+      // "--text": "#fff",
+      // "--hover-text": "#000",
+      "&:hover": {},
       svg: {
         marginLeft: "5px",
         path: {
