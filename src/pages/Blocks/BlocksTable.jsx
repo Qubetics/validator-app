@@ -10,7 +10,9 @@ import { Typography, Skeleton } from "@mui/material";
 import getAllBlocks from "../../services/apis/getAllBlocks";
 import { useEffect, useState } from "react";
 import { BASE_URL, DEAFAULT_PAGE, PAGE_LIMIT } from "../../constant";
-import reduceData, { isTimeAgoByCreatedDate } from "../../utils/commonFunctions";
+import reduceData, {
+  isTimeAgoByCreatedDate,
+} from "../../utils/commonFunctions";
 import CopyIcon from "../../assets/Icons/CopyIcon";
 import { toast } from "../../components/Common/Toast/Toast";
 
@@ -56,12 +58,21 @@ const BlocksTable = () => {
 
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table" className="block-table">
+      <Table
+        sx={{ minWidth: 650 }}
+        aria-label="simple table"
+        className="block-table"
+      >
         <TableHead>
           <TableRow>
             {tableHeader?.map((item, index) => (
               <TableCell key={index}>
-                <Typography color="text.secondary" fontSize="16px" lineHeight="20px" fontWeight="400">
+                <Typography
+                  color="text.secondary"
+                  fontSize="16px"
+                  lineHeight="20px"
+                  fontWeight="400"
+                >
                   {item}
                 </Typography>
               </TableCell>
@@ -82,7 +93,11 @@ const BlocksTable = () => {
                     <div className="id-wrap">
                       <Typography variant="body2">
                         {data?.blockhash ? (
-                          <span className="text-hover" onClick={() => transactionHash(data?.blocknumber)} style={{ cursor: "pointer" }}>
+                          <span
+                            className="text-hover"
+                            onClick={() => transactionHash(data?.blocknumber)}
+                            style={{ cursor: "pointer" }}
+                          >
                             {data?.blocknumber}
                           </span>
                         ) : (
@@ -96,10 +111,16 @@ const BlocksTable = () => {
                       <text className="text-hover" sx={{ display: "flex" }}>
                         {data?.blockhash ? (
                           <>
-                            <span className="" onClick={() => transactionHash(data?.blockhash)} style={{ cursor: "pointer" }}>
+                            <span
+                              onClick={() => transactionHash(data?.blockhash)}
+                              style={{ cursor: "pointer" }}
+                              className="blockdd"
+                            >
                               {reduceData(data?.blockhash)}
                             </span>
-                            <span onClick={() => copiedAddress(data?.blockhash)}>
+                            <span
+                              onClick={() => copiedAddress(data?.blockhash)}
+                            >
                               <CopyIcon sx={{ fontSize: "17px" }} />
                             </span>
                           </>
@@ -109,13 +130,16 @@ const BlocksTable = () => {
                       </text>
                     </Typography>
                   </TableCell>
+
                   <TableCell>
                     <Typography variant="body2">
-                      <text sx={{ display: "flex" }}>
+                      <text className="valadd" sx={{ display: "flex" }}>
                         {data?.miner ? (
                           <>
-                            <span>{reduceData(data?.miner)}</span>
-                            <span onClick={() => copiedAddress(data?.miner)} style={{ marginLeft: "4px", cursor: "pointer" }}>
+                            <span className="blockdds">
+                              {reduceData(data?.miner)}
+                            </span>
+                            <span onClick={() => copiedAddress(data?.miner)}>
                               <CopyIcon sx={{ fontSize: "17px" }} />
                             </span>
                           </>
@@ -125,8 +149,13 @@ const BlocksTable = () => {
                       </text>
                     </Typography>
                   </TableCell>
+
                   <TableCell>
-                    <Typography variant="body2">{data?.createdAt ? isTimeAgoByCreatedDate(data?.createdAt) : ""}</Typography>
+                    <Typography variant="body2">
+                      {data?.createdAt
+                        ? isTimeAgoByCreatedDate(data?.createdAt)
+                        : ""}
+                    </Typography>
                   </TableCell>
                 </TableRow>
               ))}

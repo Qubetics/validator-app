@@ -194,3 +194,10 @@ export const splitAddress = (data = "", startLen, endLen) => {
     data?.length
   )}`;
 };
+
+export const msg = {
+  tooltip: {
+    marketCap: " Total value of all the coins issued",
+    totalSupply: "Total coins issued by the system",
+  },
+};
