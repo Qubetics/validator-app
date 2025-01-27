@@ -307,10 +307,8 @@ input:-webkit-autofill:active {
   box-shadow: inset 0 0 20px 20px #121212;
 }
 .MuiOutlinedInput-notchedOutline {
-  border-color: #3b393c;
-}
-.css-igs3ac:hover {
-  border-color: #3b393c;
+  border-color: transparent !important;
+  border: 0 !important;
 }
 .css-igs3ac {
   border: 0 !important;
