@@ -366,25 +366,19 @@ const ValidatorsTable = ({
                   ))}
             </TableBody>
             {(!validatorListData || validatorListData.length === 0) && (
-              <TableBody>
-                <TableRow>
-                  <TableCell
-                    colSpan={9}
-                    align="center"
-                    sx={{
-                      border: "0 !important",
-                    }}
-                  >
-                    <Typography variant="body2">
-                      {" "}
-                      <NoData className="Nodata">
-                        <NotFoundIcon />
-                        No Data
-                      </NoData>
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-              </TableBody>
+              <div
+                sx={{
+                  border: "0 !important",
+                }}
+              >
+                <Typography variant="body2">
+                  {" "}
+                  <NoData className="Nodata">
+                    <NotFoundIcon />
+                    No Data
+                  </NoData>
+                </Typography>
+              </div>
             )}
           </Table>
         </TableContainer>

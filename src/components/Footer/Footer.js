@@ -103,11 +103,18 @@ const Footer = () => {
                 Product & Services
               </Typography>
               <a
-                href="https://alphatestnet-validator.qubetics.work/login"
+                href="https://dev-validator.qubetics.work/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Qubetics Validator App
+                Qubetics Validator App{" "}
+              </a>
+              <a
+                href="https://dev-delegator.qubetics.work/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Qubetics Delegator App
               </a>
               <a
                 href="  https://qubetics-ide.qubetics.work/"
@@ -122,13 +129,6 @@ const Footer = () => {
                 rel="noopener noreferrer"
               >
                 QubeQode
-              </a>
-              <a
-                href="https://alphatestnet-delegator.qubetics.work/login"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Qubetics Delegator App
               </a>
               <Link to="/">Qubetics DEX</Link>
               <Link to="/">Qubetics App</Link>
