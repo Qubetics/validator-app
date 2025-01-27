@@ -55,7 +55,11 @@ const ValidatorsTableList = () => {
   return (
     <>
       <TabsSection>
-        <Tabs tabId={tabId} toggleTabHandler={toggleTabHandler} isDisable={isDisable} />
+        <Tabs
+          tabId={tabId}
+          toggleTabHandler={toggleTabHandler}
+          isDisable={isDisable}
+        />
         {/* <Search component="form">
           <InputBase sx={{ ml: 1, flex: 1 }} placeholder="Search for an address or name" inputProps={{ "aria-label": "search validator" }} onChange={handleSearchChange} value={searchData || ""} onKeyPress={handleKeyPress} />
           <span onClick={(e) => (e.preventDefault(), setIsSearch(true))} disabled={searchDisable}>
@@ -88,7 +92,13 @@ const ValidatorsTableList = () => {
           />
         </InputSearch>
       </TabsSection>
-      <ValidatorsTable tabId={tabId} searchData={searchData} setTabId={setTabId} setIsSearch={setIsSearch} isSearch={isSearch} />
+      <ValidatorsTable
+        tabId={tabId}
+        searchData={searchData}
+        setTabId={setTabId}
+        setIsSearch={setIsSearch}
+        isSearch={isSearch}
+      />
     </>
   );
 };

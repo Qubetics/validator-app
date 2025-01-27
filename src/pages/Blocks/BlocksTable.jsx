@@ -24,9 +24,9 @@ const BlocksTable = () => {
   const [blockStatus, setBlockStatus] = useState("Init");
   const navigate = useNavigate();
 
-  const transactionHash = (id) => {
-    window.open(`${BASE_URL_EXPLORER_LINKS_TESTNET}/blocks`, "_blank");
-  };
+  // const transactionHash = (id) => {
+  //   window.open(`${BASE_URL_EXPLORER_LINKS_TESTNET}/blocks`, "_blank");
+  // };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -99,9 +99,9 @@ const BlocksTable = () => {
                       <Typography variant="body2">
                         {data?.blockhash ? (
                           <span
-                            className="text-hover"
-                            onClick={() => transactionHash(data?.blocknumber)}
-                            style={{ cursor: "pointer" }}
+                          // className="text-hover"
+                          // onClick={() => transactionHash(data?.blocknumber)}
+                          // style={{ cursor: "pointer" }}
                           >
                             {data?.blocknumber}
                           </span>

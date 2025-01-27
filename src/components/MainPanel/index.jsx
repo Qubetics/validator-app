@@ -34,12 +34,11 @@ const MainPanel = ({ children }) => {
   const { pathname } = location;
 
   const showStats =
-    pathname?.includes("account/become-a-validator") ||
-    (!pathname?.includes("/account") &&
-      !pathname?.includes("/funds/bond") &&
-      !pathname?.includes("/funds/unbond") &&
-      !pathname?.includes("/funds/redelegate") &&
-      !pathname?.includes("/login"));
+    !pathname?.includes("/account") &&
+    !pathname?.includes("/funds/bond") &&
+    !pathname?.includes("/funds/unbond") &&
+    !pathname?.includes("/funds/redelegate") &&
+    !pathname?.includes("/login");
   const showSearchbar =
     pathname.includes("/blocks") ||
     pathname.includes("/validators") ||
