@@ -117,7 +117,7 @@ export const NodeBox = styled(Box)(({ theme }) => ({
   },
 
   [theme.breakpoints.down(767)]: {
-    margin: "20px",
+    margin: "0px",
   },
   ".back-btns": {
     background: "transparent !important",
