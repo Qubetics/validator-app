@@ -80,7 +80,7 @@ export const ValidatorButton = styled(Button)(({ theme }) => ({
   textTransform: "capitalize",
 
   "&:hover": {
-    backgroundColor: theme.palette.blue.main,
+    // backgroundColor: theme.palette.blue.main,
     opacity: 0.7,
   },
 }));
