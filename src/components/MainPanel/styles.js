@@ -151,6 +151,7 @@ export const Wrapper = styled(Box)(({ theme }) => ({
       borderRadius: "10px",
       whiteSpace: "nowrap",
       padding: "10px 15px",
+      borderRadius: "30px",
     },
     "&:hover": {
       // background: "#0080ff",
