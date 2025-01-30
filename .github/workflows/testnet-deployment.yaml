@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy_testnet_validator:
-    uses: ./.github/workflows/main.yml
+    uses: ./.github/workflows/validator-app.yaml
     with:
       SWR_ORGANIZATION: testnet-qubetics
       ARGOCD_BRANCH: testnet
