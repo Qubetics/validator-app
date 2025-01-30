@@ -1,6 +1,6 @@
 import { useMediaQuery, TextField, InputAdornment } from "@mui/material";
 import { useCallback, useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import Header from "../Header/Header";
 import Sidebar from "../Sidebar";
@@ -28,7 +28,6 @@ const MainPanel = ({ children }) => {
 
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const { isLoggedIn } = useSelector((state) => state.auth);
 
   const location = useLocation();
 
@@ -57,22 +56,21 @@ const MainPanel = ({ children }) => {
   }, [pathname]);
   return (
     <>
-      {isLoggedIn && (
-        <div className="bugSubButton">
-          <button
-            className="headermetaBtn"
-            // onClick={() => router.push("/bug-submission")}
-            onClick={() =>
-              window.open(
-                "https://alphatestnet-explorer.qubetics.work/bug-submission",
-                "_blank"
-              )
-            }
-          >
-            Reward Program
-          </button>
-        </div>
-      )}
+      <div className="bugSubButton">
+        <button
+          className="headermetaBtn"
+          // onClick={() => router.push("/bug-submission")}
+          onClick={() =>
+            window.open(
+              "https://alphatestnet-explorer.qubetics.work/bug-submission",
+              "_blank"
+            )
+          }
+        >
+          Reward Program
+        </button>
+      </div>
+
       <Header />
       <Wrapper>
         {/* <Sidebar
