@@ -57,6 +57,7 @@ const MainPanel = ({ children }) => {
   }, [pathname]);
   return (
     <>
+      {/*
       {isLoggedIn && (
         <div className="bugSubButton">
           <button
@@ -73,6 +74,7 @@ const MainPanel = ({ children }) => {
           </button>
         </div>
       )}
+      */}
       <Header />
       <Wrapper>
         {/* <Sidebar
