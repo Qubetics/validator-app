@@ -217,7 +217,7 @@ const Footer = () => {
         </SocialLinks>
         <Copyright>
           <Typography variant="body2">
-            &copy;2024 Copyright Qubetics. All rights reserved.
+            &copy;2025 Copyright Qubetics. All rights reserved.
           </Typography>
         </Copyright>
       </FooterItemInner>
