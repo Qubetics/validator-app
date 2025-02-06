@@ -34,6 +34,8 @@ const AuthorizeTransaction = () => {
     amount: "",
     mnemonics: "",
   });
+  let nodeUrl = localStorage.getItem("node") || "";
+
   const { state } = useLocation();
 
   const onSubmit = async () => {
@@ -48,43 +50,72 @@ const AuthorizeTransaction = () => {
       }
       if (pathname.split("funds/")[1] == "stopvalidator") {
         setIsLoading(true);
-        const response = await unBondFunds(
+        const unBoundAmt = bondedBalance?.bondedAmount / 10 ** 18;
+        const data = {
           mnemonics,
           userAddress,
+          unBoundAmt,
           valoperAddress,
-          bondedBalance?.bondedAmount / 10 ** 18
-        );
-        dispatch(isTxOccur(true));
-        if (response?.length > 0) {
-          setTimeout(() => {
-            const fetchData = async () => {
-              let resp = await getTransactionLogs(response);
-              if (resp?.result?.tx_result?.data === null) {
+          nodeUrl,
+        };
+        if (window?.qubetics) {
+          window.qubetics.sendRequest(
+            "stopValidator",
+            data,
+            (error, response) => {
+              if (error) {
                 setIsLoading(false);
-                toast.error("Transaction failed");
-                navigate("/dashboard");
               } else {
-                setIsLoading(false);
-                toast.success("Transaction successful");
-                navigate("/dashboard");
+                dispatch(isTxOccur(true));
+                if (response?.length > 0) {
+                  setTimeout(() => {
+                    const fetchData = async () => {
+                      let resp = await getTransactionLogs(response);
+                      if (resp?.result?.tx_result?.data === null) {
+                        setIsLoading(false);
+                        toast.error("Transaction failed");
+                        navigate("/dashboard");
+                      } else {
+                        setIsLoading(false);
+                        toast.success("Transaction successful");
+                        navigate("/dashboard");
+                      }
+                    };
+                    fetchData();
+                  }, 1500);
+                }
               }
-            };
-            fetchData();
-          }, 1500);
+            }
+          );
         }
       } else if (pathname.split("funds/")[1] == "revalidation") {
         setIsLoading(true);
-        const response = await unJailValidator(mnemonics, valoperAddress);
-        dispatch(isTxOccur(true));
-        if (response?.code == 0) {
-          setIsLoading(false);
-          navigate("/dashboard");
-          toast.success("Transaction successful");
-        } else {
-          setIsLoading(false);
-          navigate("/dashboard");
-          toast.error(response?.rawLog);
+        const data = {
+          mnemonics,
+          valoperAddress,
+          nodeUrl,
+        };
+        if (window?.qubetics) {
+          window.qubetics.sendRequest("", data, (error, response) => {
+            if (error) {
+              setIsLoading(false);
+              navigate("/dashboard");
+              toast.error(response?.rawLog);
+            } else {
+              dispatch(isTxOccur(true));
+              if (response) {
+                setIsLoading(false);
+                navigate("/dashboard");
+                toast.success("Transaction successful");
+              }
+            }
+          });
         }
+        // else {
+        //   setIsLoading(false);
+        //   navigate("/dashboard");
+        //   toast.error(response?.rawLog);
+        // }
       }
     } catch (err) {
       setIsLoading(false);

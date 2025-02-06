@@ -21,7 +21,9 @@ import { BackIcon, MnemonicsIcon } from "../../../../assets/Icons/SvgIcon.jsx";
 const Bond = () => {
   const navigate = useNavigate();
   const [bondAmount, setBondAmount] = useState("");
-  const { userAddress, userBalance, valoperAddress } = useSelector((state) => state.auth);
+  const { userAddress, userBalance, valoperAddress } = useSelector(
+    (state) => state.auth
+  );
   const [mnemonics, setMnemonics] = useState();
   const [errMsg, setErrMsg] = useState({
     amount: "",
@@ -41,7 +43,12 @@ const Bond = () => {
   };
 
   useEffect(() => {
-    if (!bondAmount || !mnemonics || errMsg?.amount?.length > 0 || errMsg?.mnemonics?.length > 0) {
+    if (
+      !bondAmount ||
+      !mnemonics ||
+      errMsg?.amount?.length > 0 ||
+      errMsg?.mnemonics?.length > 0
+    ) {
       setIsDisable(true);
     } else {
       setIsDisable(false);
@@ -51,7 +58,13 @@ const Bond = () => {
   const handleChange = async (e) => {
     let { name, value } = e.target;
     if (name === "Bond_Amount") {
-      if (!isNaN(Number(value)) && value !== " " && !value.includes("+") && !value.includes("-") && countDecimal(value) <= 18) {
+      if (
+        !isNaN(Number(value)) &&
+        value !== " " &&
+        !value.includes("+") &&
+        !value.includes("-") &&
+        countDecimal(value) <= 18
+      ) {
         bondMoreValidations(e, setErrMsg, userBalance);
         let val = removeZero(e.target.value);
         setBondAmount(val);
@@ -62,6 +75,11 @@ const Bond = () => {
       setMnemonics(value);
     }
   };
+
+  function getBondMoreResponse(res, callback) {
+    console.log(res, "BOND RESPONSE", callback);
+    return res;
+  }
 
   const onSubmit = async () => {
     try {
@@ -74,29 +92,45 @@ const Bond = () => {
         return;
       }
       setIsLoading(true);
-      const response = await bondMoreFunds(mnemonics, userAddress, bondAmount, valoperAddress);
-      dispatch(isTxOccur(true));
-      if (response?.length > 0) {
-        setTimeout(() => {
-          const fetchData = async () => {
-            let resp = await getTransactionLogs(response);
-            if (resp?.result?.tx_result?.data === null) {
+      const data = { mnemonics, userAddress, bondAmount, valoperAddress };
+      if (window?.qubetics) {
+        window.qubetics.sendRequest(
+          "bondMoreFunds",
+          data,
+          (error, response) => {
+            if (error) {
               setIsLoading(false);
-              toast.error("Transaction failed");
-              navigate("/dashboard");
+              toast.error("Something went wrong");
+              console.error("Error:", error);
             } else {
-              setIsLoading(false);
-              toast.success("Transaction successful");
-              navigate("/dashboard");
+              dispatch(isTxOccur(true));
+              if (response) {
+                setTimeout(() => {
+                  const fetchData = async () => {
+                    let resp = await getTransactionLogs(response);
+                    if (resp?.result?.tx_result?.data === null) {
+                      setIsLoading(false);
+                      toast.error("Transaction failed");
+                      navigate("/dashboard");
+                    } else {
+                      setIsLoading(false);
+                      toast.success("Transaction successful");
+                      navigate("/dashboard");
+                    }
+                  };
+                  fetchData();
+                }, 1500);
+              }
             }
-          };
-          fetchData();
-        }, 1500);
+          }
+        );
       }
     } catch (err) {
       setIsLoading(false);
       navigate("/dashboard");
-      let msg = err?.message?.split("Broadcasting transaction failed with code");
+      let msg = err?.message?.split(
+        "Broadcasting transaction failed with code"
+      );
       toast.error(msg[1]);
     }
   };
@@ -112,8 +146,20 @@ const Bond = () => {
         </Typography>
         <div className="bond-wrapper__amount">
           <div style={{ marginBottom: "30px" }}>
-            <TextField label="Additional funds to bond" name="Bond_Amount" placeholder="Enter amount to stake" onChange={handleChange} autoComplete="off" value={bondAmount} paddingRight={100} />
-            {errMsg?.amount?.length > 0 && <p style={{ color: "red", marginTop: "-1px" }}>{errMsg?.amount}</p>}
+            <TextField
+              label="Additional funds to bond"
+              name="Bond_Amount"
+              placeholder="Enter amount to stake"
+              onChange={handleChange}
+              autoComplete="off"
+              value={bondAmount}
+              paddingRight={100}
+            />
+            {errMsg?.amount?.length > 0 && (
+              <p style={{ color: "red", marginTop: "-1px" }}>
+                {errMsg?.amount}
+              </p>
+            )}
           </div>
           <Button variant="contained" className="maxBtn" onClick={maxAmt}>
             Max
@@ -121,14 +167,28 @@ const Bond = () => {
         </div>
         <div className="bond-wrapper__amount">
           <div>
-            <TextField label="Enter mnemonics to authorize the transaction" placeholder="Enter your mnemonics" name="Mnemonics" autoComplete="off" onChange={(e) => handleChange(e)} type="password" />
-            {errMsg?.mnemonics?.length > 0 && <p style={{ color: "red", marginTop: "-1px" }}>{errMsg?.mnemonics}</p>}
+            <TextField
+              label="Enter mnemonics to authorize the transaction"
+              placeholder="Enter your mnemonics"
+              name="Mnemonics"
+              autoComplete="off"
+              onChange={(e) => handleChange(e)}
+              type="password"
+            />
+            {errMsg?.mnemonics?.length > 0 && (
+              <p style={{ color: "red", marginTop: "-1px" }}>
+                {errMsg?.mnemonics}
+              </p>
+            )}
           </div>
           <span className="maxBtn">{/* <MnemonicsIcon /> */}</span>
         </div>
 
         <h6 style={{ marginTop: "10px" }}>
-          NOTE: <span className="noteData">Your account status may take some time to update.</span>
+          NOTE:{" "}
+          <span className="noteData">
+            Your account status may take some time to update.
+          </span>
         </h6>
         {/* <Button
           fullWidth
@@ -141,7 +201,11 @@ const Bond = () => {
         >
           Sign and submit
         </Button> */}
-        <CommonBtn children=" Sign and Submit" onClick={onSubmit} color="primary" />
+        <CommonBtn
+          children=" Sign and Submit"
+          onClick={onSubmit}
+          color="primary"
+        />
       </div>
     </BondWrapper>
   );

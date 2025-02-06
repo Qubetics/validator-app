@@ -40,35 +40,75 @@ const Login = () => {
         toast.error("Mnemonics is required!");
         return;
       }
-      if (mnemonics?.length > 0) {
-        setIsLoading(true);
-        let res = await getAddress(mnemonics);
-        if (res?.message) {
-          toast.error(`Invalid node, ${res?.message}`);
-          return;
-        }
-        let block = await getLatestBlocks();
-        let block1 = await getBlockFromChain();
-        if (block?.result?.block?.header?.height && block1?.data?.blocknumber) {
-          if (
-            block?.result?.block?.header?.height == block1?.data?.blocknumber
-          ) {
-            let response = await fetchValoperAddress(mnemonics);
-            dispatch(getValoperAddressFromBlockChain(response));
-            dispatch(logInSuccess(res));
-            setIsLoading(false);
-            return toast.success("Logged In Successfully");
-          } else {
-            setIsLoading(false);
 
-            return toast.error(
-              `Either check your node connection or node is not synced,current syncing status: ${block?.result?.block?.header?.height} out of ${block1?.data?.blocknumber}`
-            );
+      if (mnemonics?.length > 0) {
+        const data = {};
+        setIsLoading(true);
+
+        await window?.qubetics.sendRequest(
+          "nativeConnect",
+          data,
+          async (error, response) => {
+            console.log(response, "RESPONSE++++++++++", response?.length > 0);
+
+            if (error) {
+              console.log(error);
+              setIsLoading(false);
+              return toast.error("Connection failed!");
+            }
+
+            if (response?.length > 0) {
+              try {
+                let res = await getAddress(mnemonics);
+                console.log(res, "res");
+                if (res?.message) {
+                  setIsLoading(false);
+                  return toast.error(`Invalid node, ${res?.message}`);
+                }
+
+                let block = await getLatestBlocks();
+                let block1 = await getBlockFromChain();
+                console.log(
+                  block?.result?.block?.header?.height ==
+                    block1?.data?.blocknumber,
+                  "______________",
+                  block?.result?.block?.header?.height,
+                  block1?.data?.blocknumber
+                );
+
+                if (
+                  block?.result?.block?.header?.height &&
+                  block1?.data?.blocknumber
+                ) {
+                  if (
+                    block?.result?.block?.header?.height ==
+                    block1?.data?.blocknumber
+                  ) {
+                    let valoperResponse = await fetchValoperAddress(mnemonics);
+                    dispatch(getValoperAddressFromBlockChain(valoperResponse));
+                    dispatch(logInSuccess(res));
+                    setIsLoading(false);
+                    return toast.success("Logged In Successfully");
+                  } else {
+                    setIsLoading(false);
+                    return toast.error(
+                      `Either check your node connection or node is not synced, current syncing status: ${block?.result?.block?.header?.height} out of ${block1?.data?.blocknumber}`
+                    );
+                  }
+                }
+              } catch (err) {
+                console.error(err);
+                setIsLoading(false);
+                toast.error("An error occurred while processing the request.");
+              }
+            }
           }
-        }
+        );
       }
     } catch (err) {
-      toast.error(err?.message, "check your node");
+      console.error(err);
+      setIsLoading(false);
+      toast.error(err?.message || "Check your node");
     }
   };
 
