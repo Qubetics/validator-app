@@ -68,23 +68,26 @@ const AuthorizeValidatorTransaction = ({
                 "createValidator",
                 data,
                 (error, res) => {
-                  if (error) {
+                  if (res?.type == "error") {
+                    setIsLoading(false);
+                    toast.error(res?.data?.message || "Something went wrong");
+                    return;
                   } else {
                     setTimeout(() => {
                       dispatch(isTxOccur(true));
-                      if (res?.code == 0) {
+                      if (res?.data?.code == 0) {
                         setLoader(false);
                         navigate("/dashboard");
                         toast.success("Transaction Successful");
                         return;
                       } else {
-                        if (res && res?.rawLog?.includes("failed")) {
-                          let msg = res?.rawLog?.split(
+                        if (res && res?.data?.rawLog?.includes("failed")) {
+                          let msg = res?.data?.rawLog?.split(
                             "failed to execute message; message index: 0:"
                           );
                           toast.error(msg[1]);
                         } else {
-                          toast.error(res?.rawLog);
+                          toast.error(res?.data?.rawLog);
                         }
                         setLoader(false);
                         return navigate("/dashboard");
@@ -125,13 +128,16 @@ const AuthorizeValidatorTransaction = ({
                   "editValidator",
                   data,
                   (error, res) => {
-                    if (error) {
+                    if (res?.type == "error") {
+                      setIsLoading(false);
+                      toast.error(res?.data?.message || "Something went wrong");
+                      return;
                     } else {
                       if (res) {
                         setTimeout(() => {
                           dispatch(isTxOccur(true));
-                          if (res && res?.rawLog?.includes("failed")) {
-                            let msg = res?.rawLog?.split(
+                          if (res && res?.data?.rawLog?.includes("failed")) {
+                            let msg = res?.data?.rawLog?.split(
                               "failed to execute message; message index: 0:"
                             );
                             setOpen(false);

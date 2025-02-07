@@ -49,15 +49,12 @@ const Login = () => {
           "nativeConnect",
           data,
           async (error, response) => {
-            console.log(response, "RESPONSE++++++++++", response?.length > 0);
-
-            if (error) {
-              console.log(error);
+            if (response?.type == "error") {
               setIsLoading(false);
-              return toast.error("Connection failed!");
+              toast.error(response?.data?.message || "Something went wrong");
+              return;
             }
-
-            if (response?.length > 0) {
+            if (response) {
               try {
                 let res = await getAddress(mnemonics);
                 console.log(res, "res");
@@ -68,13 +65,6 @@ const Login = () => {
 
                 let block = await getLatestBlocks();
                 let block1 = await getBlockFromChain();
-                console.log(
-                  block?.result?.block?.header?.height ==
-                    block1?.data?.blocknumber,
-                  "______________",
-                  block?.result?.block?.header?.height,
-                  block1?.data?.blocknumber
-                );
 
                 if (
                   block?.result?.block?.header?.height &&

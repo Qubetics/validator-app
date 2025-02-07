@@ -21,6 +21,7 @@ import { BackIcon, MnemonicsIcon } from "../../../../assets/Icons/SvgIcon.jsx";
 const Bond = () => {
   const navigate = useNavigate();
   const [bondAmount, setBondAmount] = useState("");
+  let nodeUrl = localStorage.getItem("node") || "";
   const { userAddress, userBalance, valoperAddress } = useSelector(
     (state) => state.auth
   );
@@ -92,22 +93,28 @@ const Bond = () => {
         return;
       }
       setIsLoading(true);
-      const data = { mnemonics, userAddress, bondAmount, valoperAddress };
+      const data = {
+        mnemonics,
+        userAddress,
+        bondAmount,
+        valoperAddress,
+        nodeUrl,
+      };
       if (window?.qubetics) {
         window.qubetics.sendRequest(
           "bondMoreFunds",
           data,
           (error, response) => {
-            if (error) {
+            if (response?.type == "error") {
               setIsLoading(false);
-              toast.error("Something went wrong");
-              console.error("Error:", error);
+              toast.error(response?.data?.message || "Something went wrong");
+              return;
             } else {
               dispatch(isTxOccur(true));
               if (response) {
                 setTimeout(() => {
                   const fetchData = async () => {
-                    let resp = await getTransactionLogs(response);
+                    let resp = await getTransactionLogs(response?.data);
                     if (resp?.result?.tx_result?.data === null) {
                       setIsLoading(false);
                       toast.error("Transaction failed");

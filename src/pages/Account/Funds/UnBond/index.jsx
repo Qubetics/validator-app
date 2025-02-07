@@ -55,34 +55,28 @@ const UnBond = () => {
       };
       if (window?.qubetics) {
         window.qubetics.sendRequest("unBondFunds", data, (error, response) => {
-          if (error) {
-            console.log(error);
+          if (response?.type == "error") {
             setIsLoading(false);
-            navigate("/dashboard");
-            let msg = error?.message?.split(
-              "Broadcasting transaction failed with code"
-            );
-            toast.error(msg[1]);
+            toast.error(response?.data?.message || "Something went wrong");
+            return;
           } else {
             dispatch(isTxOccur(true));
             if (response) {
-              if (response?.length > 0) {
-                setTimeout(() => {
-                  const fetchData = async () => {
-                    let resp = await getTransactionLogs(response);
-                    if (resp?.result?.tx_result?.data === null) {
-                      setIsLoading(false);
-                      toast.error("Transaction failed");
-                      navigate("/dashboard");
-                    } else {
-                      setIsLoading(false);
-                      toast.success("Transaction successful");
-                      navigate("/dashboard");
-                    }
-                  };
-                  fetchData();
-                }, 2000);
-              }
+              setTimeout(() => {
+                const fetchData = async () => {
+                  let resp = await getTransactionLogs(response?.data);
+                  if (resp?.result?.tx_result?.data === null) {
+                    setIsLoading(false);
+                    toast.error("Transaction failed");
+                    navigate("/dashboard");
+                  } else {
+                    setIsLoading(false);
+                    toast.success("Transaction successful");
+                    navigate("/dashboard");
+                  }
+                };
+                fetchData();
+              }, 2000);
             }
           }
         });

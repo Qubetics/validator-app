@@ -63,14 +63,16 @@ const AuthorizeTransaction = () => {
             "stopValidator",
             data,
             (error, response) => {
-              if (error) {
+              if (response?.type == "error") {
                 setIsLoading(false);
+                toast.error(response?.data?.message || "Something went wrong");
+                return;
               } else {
                 dispatch(isTxOccur(true));
-                if (response?.length > 0) {
+                if (response) {
                   setTimeout(() => {
                     const fetchData = async () => {
-                      let resp = await getTransactionLogs(response);
+                      let resp = await getTransactionLogs(response?.data);
                       if (resp?.result?.tx_result?.data === null) {
                         setIsLoading(false);
                         toast.error("Transaction failed");
@@ -97,10 +99,10 @@ const AuthorizeTransaction = () => {
         };
         if (window?.qubetics) {
           window.qubetics.sendRequest("", data, (error, response) => {
-            if (error) {
+            if (response?.type == "error") {
               setIsLoading(false);
-              navigate("/dashboard");
-              toast.error(response?.rawLog);
+              toast.error(response?.data?.message || "Something went wrong");
+              return;
             } else {
               dispatch(isTxOccur(true));
               if (response) {
