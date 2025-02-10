@@ -67,7 +67,7 @@ const ActionTable = ({ setWalletActivitesLength, showAll }) => {
     fetchData();
   }, [userAddress, pageParams?.page, pathname]);
 
-  const showRecentActivitesData = showAll ? txData : txData.slice(0, 5);
+  const showRecentActivitesData = showAll ? txData : txData?.slice(0, 5);
   const renderTableRows = () => {
     {
       showRecentActivitesData?.length > 0 &&
