@@ -17,7 +17,14 @@ const darkTheme = createTheme({
   },
 });
 
-const FirstStep = ({ primaryValues, setPrimaryValues, setActiveStep, activeStep, methodType, hideCommissionField }) => {
+const FirstStep = ({
+  primaryValues,
+  setPrimaryValues,
+  setActiveStep,
+  activeStep,
+  methodType,
+  hideCommissionField,
+}) => {
   const navigate = useNavigate();
   const { nodeUrl } = useGetNodeUrl();
   let regex = /^[a-zA-Z\s]*$/;
@@ -41,7 +48,11 @@ const FirstStep = ({ primaryValues, setPrimaryValues, setActiveStep, activeStep,
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name !== "CommissionRate" && name !== "website") {
+    if (
+      name !== "CommissionRate" &&
+      name !== "website" &&
+      name !== "SecurityContact"
+    ) {
       if (regex.test(value)) {
         const sanitizedValue = value.replace(/\s+/g, " ");
         setPrimaryValues((prevValue) => ({
@@ -61,8 +72,13 @@ const FirstStep = ({ primaryValues, setPrimaryValues, setActiveStep, activeStep,
   return (
     <FormWrapper>
       <div className="common-wrapper" style={{ marginTop: "20px" }}>
-        {methodType && methodType !== "editValidator" && <BackButton onClick={goBack} />}
-        <Typography whiteSpace="nowrap" className="common-wrapper__title common-wrapper__title--flex">
+        {methodType && methodType !== "editValidator" && (
+          <BackButton onClick={goBack} />
+        )}
+        <Typography
+          whiteSpace="nowrap"
+          className="common-wrapper__title common-wrapper__title--flex"
+        >
           <BackButton onClick={() => navigate(-1)} title={<BackIcon />} />
           Setup as a validator
         </Typography>
@@ -142,7 +158,10 @@ const FirstStep = ({ primaryValues, setPrimaryValues, setActiveStep, activeStep,
           nextdd
         </Button> */}
         <div className="commonBtns">
-          <CommonBtn children="Next" onClick={() => handleNext(primaryValues, activeStep, setActiveStep)} />
+          <CommonBtn
+            children="Next"
+            onClick={() => handleNext(primaryValues, activeStep, setActiveStep)}
+          />
         </div>
       </div>
     </FormWrapper>
