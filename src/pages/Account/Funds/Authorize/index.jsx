@@ -21,7 +21,6 @@ import { BackIcon, MnemonicsIcon } from "../../../../assets/Icons/SvgIcon";
 
 const AuthorizeTransaction = () => {
   const classes = useStyles();
-  const [mnemonics, setMnemonics] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [showBtn, setShowBtn] = useState(true);
   const navigate = useNavigate();
@@ -32,7 +31,6 @@ const AuthorizeTransaction = () => {
   const { pathname } = useLocation();
   const [errMsg, setErrMsg] = useState({
     amount: "",
-    mnemonics: "",
   });
   let nodeUrl = localStorage.getItem("node") || "";
 
@@ -40,19 +38,10 @@ const AuthorizeTransaction = () => {
 
   const onSubmit = async () => {
     try {
-      let res = await getAddress(mnemonics);
-      if (res?.message) {
-        return toast.error(res?.message);
-      }
-      if (res?.length > 0 && res !== userAddress) {
-        toast.error("Mnemonics are not same as login");
-        return;
-      }
       if (pathname.split("funds/")[1] == "stopvalidator") {
         setIsLoading(true);
         const unBoundAmt = bondedBalance?.bondedAmount / 10 ** 18;
         const data = {
-          mnemonics,
           userAddress,
           unBoundAmt,
           valoperAddress,
@@ -93,7 +82,6 @@ const AuthorizeTransaction = () => {
       } else if (pathname.split("funds/")[1] == "revalidation") {
         setIsLoading(true);
         const data = {
-          mnemonics,
           valoperAddress,
           nodeUrl,
         };
@@ -147,30 +135,7 @@ const AuthorizeTransaction = () => {
         </Typography>
         <label>Wallet Address</label>
         <Address address={userAddress} />
-        <div className="mnemonicsItems">
-          <div>
-            <TextField
-              label="Enter Mnemonics to authorize the transaction"
-              placeholder="Enter your mnemonics"
-              onChange={(e) => {
-                setMnemonics(e.target.value);
-                if (e.target.value) {
-                  setShowBtn(false);
-                } else {
-                  setShowBtn(true);
-                }
-              }}
-              type="password"
-              autoComplete="off"
-            />
-            {errMsg?.mnemonics?.length > 0 && (
-              <p style={{ color: "red", marginTop: "-1px" }}>
-                {errMsg?.mnemonics}
-              </p>
-            )}
-          </div>
-          <span className="maxBtn">{/* <MnemonicsIcon /> */}</span>
-        </div>
+
         <h6 style={{ marginTop: "10px", paddingBottom: "20px" }}>
           NOTE:{" "}
           <span className="noteData">

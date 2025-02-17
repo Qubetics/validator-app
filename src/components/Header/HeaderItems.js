@@ -58,12 +58,26 @@ function HeaderItems() {
       allowOutsideClick: false,
     }).then((result) => {
       if (result.isConfirmed) {
-        dispatch(logout());
-        localStorage.clear();
-        sessionStorage.clear();
-        setIsNodeAdded(false);
-        setNodeUrl("");
-        navigate("/login");
+        const data = {};
+        if (window?.qubetics) {
+          window.qubetics.sendRequest("disconnect", data, (err, res) => {
+            if (res) {
+              dispatch(logout());
+              localStorage.clear();
+              sessionStorage.clear();
+              setIsNodeAdded(false);
+              setNodeUrl("");
+              navigate("/login");
+            }
+          });
+        } else {
+          dispatch(logout());
+          localStorage.clear();
+          sessionStorage.clear();
+          setIsNodeAdded(false);
+          setNodeUrl("");
+          navigate("/login");
+        }
       }
     });
   };

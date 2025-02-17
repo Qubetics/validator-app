@@ -32,6 +32,7 @@ export const authSlice = createSlice({
       state.isValidatedInBlockchain = action.payload;
     },
     logInSuccess: (state, action) => {
+      console.log(state, action, "STATE");
       state.loading = false;
       state.isLoggedIn = true;
       state.userAddress = action.payload;

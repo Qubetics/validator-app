@@ -23,10 +23,13 @@ const DashboardValidatorCard = () => {
   const [dasboardData, setDashboardData] = useState([]);
   const [dashboardStatus, setDashboardStatus] = useState("Init");
   const [walletActivitesLength, setWalletActivitesLength] = useState(0);
+  const userAddresss = useSelector((state) => state?.auth);
 
   const setUpValidate = () => {
     navigate("/account/become-a-validator");
   };
+
+  console.log(userAddresss, "userAddress");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -83,7 +86,7 @@ const DashboardValidatorCard = () => {
                 </span>
               </Typography>
             </FlexBox>
-            {isValidated === false && (
+            {!isValidated === false && (
               <ValidatorButton onClick={setUpValidate}>
                 setup as a validator
               </ValidatorButton>

@@ -8,15 +8,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { BondWrapper } from "../styles";
 import BackButton from "../../../../components/BackButton/BackButton";
 import { countDecimal, removeZero } from "../../../../utils/helper";
-import { getAddress } from "../../../../services/getAddress";
 import { bondMoreValidations } from "../../../../utils/validatorValidations";
-import bondMoreFunds from "../../../../services/bondMoreFunds";
 import getTransactionLogs from "../../../../services/apis/checkTransactionLogs";
 import Loader from "../../../../components/Loader/Loader";
 import { toast } from "../../../../components/Common/Toast/Toast";
 import { toFixed } from "../../../../utils/toFixed";
 import { isTxOccur } from "../../../../redux/reducer/auth";
-import { BackIcon, MnemonicsIcon } from "../../../../assets/Icons/SvgIcon.jsx";
+import { BackIcon } from "../../../../assets/Icons/SvgIcon.jsx";
 
 const Bond = () => {
   const navigate = useNavigate();
@@ -44,17 +42,12 @@ const Bond = () => {
   };
 
   useEffect(() => {
-    if (
-      !bondAmount ||
-      !mnemonics ||
-      errMsg?.amount?.length > 0 ||
-      errMsg?.mnemonics?.length > 0
-    ) {
+    if (!bondAmount || errMsg?.amount?.length > 0) {
       setIsDisable(true);
     } else {
       setIsDisable(false);
     }
-  }, [errMsg, bondAmount, mnemonics]);
+  }, [errMsg, bondAmount]);
 
   const handleChange = async (e) => {
     let { name, value } = e.target;
@@ -73,7 +66,6 @@ const Bond = () => {
     }
     if (name === "Mnemonics") {
       bondMoreValidations(e, setErrMsg);
-      setMnemonics(value);
     }
   };
 
@@ -84,17 +76,8 @@ const Bond = () => {
 
   const onSubmit = async () => {
     try {
-      let res = await getAddress(mnemonics);
-      if (res?.message) {
-        return toast.error(res?.message);
-      }
-      if (res?.length > 0 && res !== userAddress) {
-        toast.error("Mnemonics are not same as login");
-        return;
-      }
       setIsLoading(true);
       const data = {
-        mnemonics,
         userAddress,
         bondAmount,
         valoperAddress,
@@ -171,24 +154,6 @@ const Bond = () => {
           <Button variant="contained" className="maxBtn" onClick={maxAmt}>
             Max
           </Button>
-        </div>
-        <div className="bond-wrapper__amount">
-          <div>
-            <TextField
-              label="Enter mnemonics to authorize the transaction"
-              placeholder="Enter your mnemonics"
-              name="Mnemonics"
-              autoComplete="off"
-              onChange={(e) => handleChange(e)}
-              type="password"
-            />
-            {errMsg?.mnemonics?.length > 0 && (
-              <p style={{ color: "red", marginTop: "-1px" }}>
-                {errMsg?.mnemonics}
-              </p>
-            )}
-          </div>
-          <span className="maxBtn">{/* <MnemonicsIcon /> */}</span>
         </div>
 
         <h6 style={{ marginTop: "10px" }}>

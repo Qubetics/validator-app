@@ -25,7 +25,6 @@ const UnBond = () => {
   const [mnemonics, setMnemonics] = useState("");
   const [errMsg, setErrMsg] = useState({
     amount: "",
-    mnemonics: "",
   });
   const [isDisable, setIsDisable] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -37,17 +36,8 @@ const UnBond = () => {
 
   const onSubmit = async () => {
     try {
-      let res = await getAddress(mnemonics);
-      if (res?.message) {
-        return toast.error(res?.message);
-      }
-      if (res?.length > 0 && res !== userAddress) {
-        toast.error("Mnemonics are not same as login");
-        return;
-      }
       setIsLoading(true);
       const data = {
-        mnemonics,
         userAddress,
         unBoundAmt,
         valoperAddress,
@@ -101,17 +91,12 @@ const UnBond = () => {
   };
 
   useEffect(() => {
-    if (
-      !unBoundAmt ||
-      !mnemonics ||
-      errMsg?.amount?.length > 0 ||
-      errMsg?.mnemonics?.length > 0
-    ) {
+    if (!unBoundAmt || errMsg?.amount?.length > 0) {
       setIsDisable(true);
     } else {
       setIsDisable(false);
     }
-  }, [errMsg, unBoundAmt, mnemonics]);
+  }, [errMsg, unBoundAmt]);
 
   const handleChange = async (e) => {
     let { name, value } = e.target;
@@ -130,7 +115,6 @@ const UnBond = () => {
     }
     if (name === "Mnemonics") {
       bondMoreValidations(e, setErrMsg);
-      setMnemonics(value);
     }
   };
 
@@ -177,25 +161,6 @@ const UnBond = () => {
           </Button>
         </div>
         {/* Enter Mnemonics  */}
-        <div className="bond-wrapper__amount">
-          <div style={{ marginBottom: "30px" }}>
-            <TextField
-              type="password"
-              label="Enter mnemonics to authorize the transaction"
-              placeholder="Paste or enter your mnemonics"
-              name="Mnemonics"
-              onChange={handleChange}
-              autoComplete="off"
-              value={mnemonics}
-            />
-            {errMsg?.mnemonics?.length > 0 && (
-              <p style={{ color: "red", marginTop: "-1px" }}>
-                {errMsg?.mnemonics}
-              </p>
-            )}
-          </div>
-          <span className="maxBtn">{/* <MnemonicsIcon /> */}</span>
-        </div>
 
         {/* Authorize Transactions */}
         {/* <Button style={{ marginTop: "50px" }} fullWidth variant="contained" onClick={onSubmit} disabled={isDisable}></Button> */}
