@@ -1,6 +1,7 @@
 /*eslint-disable*/
+import { useState } from "react";
 import { Button, Typography, InputAdornment } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import TextField from "../Common/TextField";
 import FormWrapper from "../Common/FormWrapper";
 import BackButton from "../BackButton/BackButton";
@@ -12,13 +13,31 @@ import { countDecimal, removeZero } from "../../utils/helper";
 import { handleNext } from "../../utils/validatorValidations";
 import { toFixed } from "../../utils/toFixed";
 import { noExponential } from "../../utils/commonFunctions";
+import { useGetNodeUrl } from "../../context/NodeUrl";
+import { isTxOccur } from "../../redux/reducer/auth";
+import { useNavigate } from "react-router-dom";
+import Loader from "../Loader/Loader";
+import { toast } from "../Common/Toast/Toast";
 
 const mb20 = {
   marginBottom: "20px",
 };
 
-const StakingStep = ({ activeStep, setActiveStep, setSecondaryValues, secondaryValues }) => {
+const StakingStep = ({
+  activeStep,
+  setActiveStep,
+  setSecondaryValues,
+  secondaryValues,
+  methodType,
+  primaryValues,
+}) => {
   const { userBalance } = useSelector((state) => state.auth);
+  const { valoperAddressFromBlockChain } = useSelector((state) => state?.auth);
+  let publicKey = localStorage.getItem("publicKey") || "";
+  const { nodeUrl } = useGetNodeUrl();
+  const navigate = useNavigate();
+  const [loader, setLoader] = useState(false);
+  const dispatch = useDispatch();
 
   const goBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -27,7 +46,13 @@ const StakingStep = ({ activeStep, setActiveStep, setSecondaryValues, secondaryV
   const handleAmount = (e) => {
     e.persist();
     const { name, value } = e.target;
-    if (!isNaN(Number(value)) && value !== " " && !value.includes("+") && !value.includes("-") && countDecimal(value) <= 18) {
+    if (
+      !isNaN(Number(value)) &&
+      value !== " " &&
+      !value.includes("+") &&
+      !value.includes("-") &&
+      countDecimal(value) <= 18
+    ) {
       setSecondaryValues((prevValue) => ({
         ...prevValue,
         [name]: removeZero(e.target.value), // Use e.target.value directly
@@ -36,7 +61,11 @@ const StakingStep = ({ activeStep, setActiveStep, setSecondaryValues, secondaryV
   };
 
   const handleMaxAmt = () => {
-    if (Number(userBalance) > 0 && Number(userBalance) > Number(FEE) && Number(userBalance) >= Number(MIN_BOND_AMOUNT) + Number(FEE)) {
+    if (
+      Number(userBalance) > 0 &&
+      Number(userBalance) > Number(FEE) &&
+      Number(userBalance) >= Number(MIN_BOND_AMOUNT) + Number(FEE)
+    ) {
       let remianingAmt = Number(userBalance) - Number(FEE);
       setSecondaryValues((prevValue) => ({
         ...prevValue,
@@ -47,20 +76,78 @@ const StakingStep = ({ activeStep, setActiveStep, setSecondaryValues, secondaryV
     }
   };
 
+  const handleNextValidate = () => {
+    const res = handleNext(
+      secondaryValues,
+      activeStep,
+      setActiveStep,
+      userBalance,
+      FEE
+    );
+    const data = {
+      primaryValues,
+      secondaryValues,
+      nodeUrl,
+      valoperAddressFromBlockChain,
+      publicKey,
+    };
+    setLoader(true);
+    if (window?.qubetics && res) {
+      window.qubetics.sendRequest("createValidator", data, (error, res) => {
+        if (res?.type == "error") {
+          setLoader(false);
+          toast.error(res?.data?.message || "Something went wrong");
+          return;
+        } else {
+          setTimeout(() => {
+            dispatch(isTxOccur(true));
+            if (res?.data?.code == 0) {
+              setLoader(false);
+              navigate("/dashboard");
+              toast.success("Transaction Successful");
+              return;
+            } else {
+              if (res && res?.data?.rawLog?.includes("failed")) {
+                let msg = res?.data?.rawLog?.split(
+                  "failed to execute message; message index: 0:"
+                );
+                toast.error(msg[1]);
+              } else {
+                toast.error(res?.data?.rawLog);
+              }
+              setLoader(false);
+              return navigate("/dashboard");
+            }
+          }, 3000);
+        }
+      });
+    } else {
+      setLoader(false);
+    }
+  };
+
   return (
     <FormWrapper>
       <div className="common-wrapper" style={{ marginTop: "20px" }}>
         <BackButton onClick={() => navigate(-1)} title={<BackIcon />} />
-        <Typography whiteSpace="nowrap" className="common-wrapper__title common-wrapper__title--flex">
+        <Typography
+          whiteSpace="nowrap"
+          className="common-wrapper__title common-wrapper__title--flex"
+        >
           Setup as a validator
         </Typography>
         <Typography whiteSpace="nowrap" className="common-wrapper__subText">
           Staking
         </Typography>
-        <div className="common-wrapper__amount" style={{ paddingBottom: "6px" }}>
+        <div
+          className="common-wrapper__amount"
+          style={{ paddingBottom: "6px" }}
+        >
           <TextField
             label="Stake/Bond amount"
-            helperText={`Minimum wallet balance for staking should be min required bond amount + fee, which is ${Number(MIN_BOND_AMOUNT) + Number(FEE)}`}
+            helperText={`Minimum wallet balance for staking should be min required bond amount + fee, which is ${
+              Number(MIN_BOND_AMOUNT) + Number(FEE)
+            }`}
             placeholder="Enter stake amount for the validator bond"
             onChange={handleAmount}
             name="Bond_Amount"
@@ -80,13 +167,28 @@ const StakingStep = ({ activeStep, setActiveStep, setSecondaryValues, secondaryV
         {commissionInputValues?.map((item) => (
           <div className="stakingInputs">
             <p className="labelTexts">{item?.label}</p>
-            <TextField className="setup_inputTexts" key={item?.id} placeholder={item?.label} helperText={item?.helperText} name={item?.name} value={secondaryValues[item?.name]} onChange={(e) => handleAmount(e)} type="text" autoComplete="off" />
+            <TextField
+              className="setup_inputTexts"
+              key={item?.id}
+              placeholder={item?.label}
+              helperText={item?.helperText}
+              name={item?.name}
+              value={secondaryValues[item?.name]}
+              onChange={(e) => handleAmount(e)}
+              type="text"
+              autoComplete="off"
+            />
           </div>
         ))}
         <div className="commonBtns">
-          <CommonBtn children=" Bond and validate" onClick={() => handleNext(secondaryValues, activeStep, setActiveStep, userBalance, FEE)} color="primary" />
+          <CommonBtn
+            children=" Bond and validate"
+            onClick={() => handleNextValidate()}
+            color="primary"
+          />
         </div>
       </div>
+      {loader && <Loader />}
     </FormWrapper>
   );
 };

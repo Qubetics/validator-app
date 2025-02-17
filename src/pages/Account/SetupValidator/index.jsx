@@ -43,6 +43,7 @@ const SetupValidator = () => {
                 setSecondaryValues={setSecondaryValues}
                 secondaryValues={secondaryValues}
                 methodType="createValidator"
+                primaryValues={primaryValues}
               />
             );
           case 2:

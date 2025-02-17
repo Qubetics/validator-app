@@ -21,6 +21,7 @@ import {
   checkIfValidatorExist,
   getBondedBalance,
   getValoperAddress,
+  isTxOccur,
 } from "../../../redux/reducer/auth";
 import { isOptionDisable } from "../../../utils/commissionEditTimer";
 import { noExponential } from "../../../utils/commonFunctions";
@@ -32,6 +33,8 @@ import {
   Profiledata,
 } from "./styles";
 import { BackIcon } from "../../../assets/Icons/SvgIcon";
+import { toast } from "../../../components/Common/Toast/Toast";
+import { useGetNodeUrl } from "../../../context/NodeUrl";
 
 const style = {
   position: "absolute",
@@ -65,6 +68,8 @@ const Profile = () => {
   });
   const [hideCommissionField, setHideCommissionField] = useState(false);
   const [editSuccess, setEditSuccess] = useState(false);
+  const valoperAddress = useSelector((state) => state?.auth?.valoperAddress);
+  const { nodeUrl } = useGetNodeUrl();
 
   const handleOpen = () => {
     setOpen(true);
@@ -135,6 +140,50 @@ const Profile = () => {
       }
     }
   }, [profileData]);
+
+  const editValidtor = () => {
+    const data = {
+      primaryValues,
+      nodeUrl,
+      valoperAddress,
+      hideCommissionField,
+    };
+    setIsLoading(true);
+    if (window?.qubetics) {
+      window?.qubetics.sendRequest("editValidator", data, (error, res) => {
+        if (res?.type == "error") {
+          setIsLoading(false);
+          toast.error(res?.data?.message || "Something went wrong");
+          return;
+        } else {
+          if (res) {
+            setTimeout(() => {
+              dispatch(isTxOccur(true));
+              if (res && res?.data?.rawLog?.includes("failed")) {
+                let msg = res?.data?.rawLog?.split(
+                  "failed to execute message; message index: 0:"
+                );
+                setOpen(false);
+                setActiveStep(0);
+                setIsLoading(false);
+                toast.error(msg[1]);
+                return;
+              } else {
+                setOpen(false);
+                setActiveStep(0);
+                setIsLoading(false);
+                setEditSuccess(true);
+                toast.success("Transaction Successful");
+                return;
+              }
+            }, 3000);
+          }
+        }
+      });
+    } else {
+      setIsLoading(false);
+    }
+  };
 
   return isLoading ? (
     <Loader />
@@ -216,17 +265,7 @@ const Profile = () => {
                             />
                           );
                         case 1:
-                          return (
-                            <AuthorizeValidatorTransaction
-                              setActiveStep={setActiveStep}
-                              primaryValues={primaryValues}
-                              methodType="editValidator"
-                              setOpen={setOpen}
-                              setIsLoading={setIsLoading}
-                              hideCommissionField={hideCommissionField}
-                              setEditSuccess={setEditSuccess}
-                            />
-                          );
+                          return editValidtor();
                         default:
                           return <></>;
                       }
