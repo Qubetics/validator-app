@@ -10,6 +10,7 @@ import LoginIcon from "../../assets/Icons/LoginIcon";
 import {
   getValoperAddressFromBlockChain,
   logInSuccess,
+  getEvmAddress,
 } from "../../redux/reducer/auth";
 import { useGetNodeUrl } from "../../context/NodeUrl";
 import { toast } from "../../components/Common/Toast/Toast";
@@ -24,7 +25,7 @@ import BackButton from "../../components/BackButton/BackButton.js";
 import { BackIcon } from "../../assets/Icons/SvgIcon.jsx";
 import { checkNodeStatus } from "../../services/checkValidUrl.js";
 import Loader from "../../components/Loader/Loader.js";
-
+import { userEvmAddress } from "../../services/userEvmAddress.js";
 const Login = () => {
   const dispatch = useDispatch();
   const [mnemonics, SetMnemonics] = useState("");
@@ -43,6 +44,8 @@ const Login = () => {
       if (mnemonics?.length > 0) {
         setIsLoading(true);
         let res = await getAddress(mnemonics);
+        let evmAddress = await userEvmAddress(mnemonics);
+
         if (res?.message) {
           toast.error(`Invalid node, ${res?.message}`);
           return;
@@ -55,7 +58,9 @@ const Login = () => {
           ) {
             let response = await fetchValoperAddress(mnemonics);
             dispatch(getValoperAddressFromBlockChain(response));
+            dispatch(getEvmAddress(evmAddress));
             dispatch(logInSuccess(res));
+
             setIsLoading(false);
             return toast.success("Logged In Successfully");
           } else {

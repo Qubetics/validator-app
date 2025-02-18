@@ -19,6 +19,7 @@ const initialState = {
     unbondedAmount: "",
   },
   validatorCount: 0,
+  userEvmAddress: "",
 };
 
 export const authSlice = createSlice({
@@ -57,6 +58,9 @@ export const authSlice = createSlice({
     getValidatorCount: (state, action) => {
       state.validatorCount = action.payload;
     },
+    getEvmAddress: (state, action) => {
+      state.userEvmAddress = action.payload;
+    },
     logout: (state) => {},
     getApy: (state, action) => {
       state.APY = action.payload;
@@ -77,6 +81,7 @@ export const {
   getTotalValidators,
   getApy,
   getValidatorCount,
+  getEvmAddress,
 } = authSlice.actions;
 
 export default authSlice.reducer;

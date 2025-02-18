@@ -189,7 +189,7 @@ export const commissionInputValues = [
 ];
 
 export const splitAddress = (data = "", startLen, endLen) => {
-  return `${data.substring(0, startLen)}.....${data.substring(
+  return `${data?.substring(0, startLen)}.....${data.substring(
     data?.length - endLen,
     data?.length
   )}`;
