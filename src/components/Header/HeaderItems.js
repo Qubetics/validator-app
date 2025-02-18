@@ -17,9 +17,8 @@ function HeaderItems() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
   const { setNodeUrl, setIsNodeAdded } = useGetNodeUrl();
-  const { userAddress, isTx, userBalance, isLoggedIn } = useSelector(
-    (state) => state.auth
-  );
+  const { userAddress, isTx, userBalance, isLoggedIn, userEvmAddress } =
+    useSelector((state) => state.auth);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -138,11 +137,11 @@ function HeaderItems() {
           {isLoggedIn && (
             <div className="headerButtons">
               <button className="headermetaBtn">
-                Address: {splitAddress(userAddress, 8, 8)}
+                Address: {splitAddress(userEvmAddress, 8, 8)}
                 <span
                   onClick={(e) => {
                     e.stopPropagation(); // Prevent event bubbling
-                    copiedAddress(userAddress);
+                    copiedAddress(userEvmAddress);
                   }}
                   style={{ cursor: "pointer", zIndex: "99999" }}
                 >

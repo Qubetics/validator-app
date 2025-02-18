@@ -15,11 +15,13 @@ import getAllStats from "../../services/apis/getStatistics";
 import Loader from "../Loader/Loader";
 import { toFixed } from "../../utils/toFixed";
 import { formatMillionNumber } from "../../utils/commonFunctions";
+import getQubeticsPrice from "../../services/getQubeticsPrice";
 
 const Statistics = () => {
   const dispatch = useDispatch();
   const [stats, setStats] = useState({});
   const [statsStatus, setStatsStatus] = useState("Init");
+  const [price, setPrice] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,6 +39,19 @@ const Statistics = () => {
     };
     fetchData();
   }, []);
+
+  useEffect(() => {
+    getPrice();
+  }, []);
+
+  const getPrice = async () => {
+    try {
+      let response = await getQubeticsPrice();
+      setPrice(response?.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <Wrapper>
@@ -103,12 +118,7 @@ const Statistics = () => {
             {statsStatus === "Init" || statsStatus === "Fetching" ? (
               <Skeleton variant="circle" width={100} height={20} />
             ) : (
-              <>
-                ${" "}
-                {stats?.tokenPrice
-                  ? toFixed(Number(stats?.tokenPrice), 4)
-                  : 0.03112491}
-              </>
+              <>$ {price ? toFixed(Number(price), 6) : "0"}</>
             )}
           </Typography>
         </Box>

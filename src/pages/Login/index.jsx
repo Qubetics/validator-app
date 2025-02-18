@@ -261,6 +261,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getValoperAddressFromBlockChain,
   logInSuccess,
+  getEvmAddress,
 } from "../../redux/reducer/auth";
 import { useGetNodeUrl } from "../../context/NodeUrl";
 import { toast } from "../../components/Common/Toast/Toast";
@@ -273,6 +274,7 @@ import Loader from "../../components/Loader/Loader.js";
 import CommonBtn from "../../components/Common/Commonbtn/Commonbtn";
 import { RedCrosss } from "../../assets/Icons/SvgIcon";
 
+import { userEvmAddress } from "../../services/userEvmAddress.js";
 const Login = () => {
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state) => state.auth);
@@ -282,10 +284,28 @@ const Login = () => {
   const submitHandler = async (event) => {
     event.preventDefault();
     try {
-      const data = {
-        nodeUrl,
-      };
-      setIsLoading(true);
+    
+      if (mnemonics?.length > 0) {
+        setIsLoading(true);
+        let res = await getAddress(mnemonics);
+        let evmAddress = await userEvmAddress(mnemonics);
+
+     
+        let block = await getLatestBlocks();
+        let block1 = await getBlockFromChain();
+        if (block?.result?.block?.header?.height && block1?.data?.blocknumber) {
+          if (
+            block?.result?.block?.header?.height == block1?.data?.blocknumber
+          ) {
+            let response = await fetchValoperAddress(mnemonics);
+            dispatch(getValoperAddressFromBlockChain(response));
+            dispatch(getEvmAddress(evmAddress));
+            dispatch(logInSuccess(res));
+
+            setIsLoading(false);
+            return toast.success("Logged In Successfully");
+          } else {
+            setIsLoading(false);
 
       await window?.qubetics.sendRequest(
         "nativeConnect",
