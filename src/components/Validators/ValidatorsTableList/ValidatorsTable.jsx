@@ -34,6 +34,7 @@ import { toast } from "../../Common/Toast/Toast.js";
 import { useDispatch } from "react-redux";
 import { getValidatorCount } from "../../../redux/reducer/auth";
 import { NotFoundIcon } from "../../../assets/Icons/SvgIcon";
+import { showEVMAddress } from "../../../services/showEVMAddress";
 
 const tableHeader = [
   "#No",
@@ -76,6 +77,26 @@ const ValidatorsTable = ({
   const [validatorStatus, setValidatorStatus] = useState(LOADING_STATES.INIT);
   const [status, setStatus] = useState("");
   const dispatch = useDispatch();
+
+  const [evmAddresses, setEvmAddresses] = useState({}); // Store EVM addresses
+
+  useEffect(() => {
+    const fetchEvmAddresses = async () => {
+      const updatedAddresses = {};
+      for (const validator of validatorListData) {
+        if (validator?.validatorAddress) {
+          updatedAddresses[validator.validatorAddress] = await showEVMAddress(
+            validator.validatorAddress
+          );
+        }
+      }
+      setEvmAddresses(updatedAddresses);
+    };
+
+    if (validatorListData.length > 0) {
+      fetchEvmAddresses();
+    }
+  }, [validatorListData]);
 
   useEffect(() => {
     setCurrentPage(1);
@@ -289,15 +310,19 @@ const ValidatorsTable = ({
                         {data?.validatorAddress ? (
                           <Typography variant="body2" className="text-hover">
                             <span
-                              onClick={() => getdata(data?.validatorAddress)}
+                              onClick={() =>
+                                getdata(evmAddresses[data?.validatorAddress])
+                              }
                               className="valAddress"
                             >
                               {" "}
-                              {getData(data?.validatorAddress)}
+                              {getData(evmAddresses[data?.validatorAddress])}
                             </span>
                             <text
                               onClick={() =>
-                                copiedAddress(data?.validatorAddress)
+                                copiedAddress(
+                                  evmAddresses[data?.validatorAddress]
+                                )
                               }
                               className="copy-btn"
                             >
