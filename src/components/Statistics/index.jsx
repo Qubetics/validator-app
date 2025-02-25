@@ -14,7 +14,10 @@ import { APP_NAME, CURRENCY } from "../../constant";
 import getAllStats from "../../services/apis/getStatistics";
 import Loader from "../Loader/Loader";
 import { toFixed } from "../../utils/toFixed";
-import { formatMillionNumber } from "../../utils/commonFunctions";
+import {
+  formatMillionNumber,
+  noExponential,
+} from "../../utils/commonFunctions";
 import getQubeticsPrice from "../../services/getQubeticsPrice";
 
 const Statistics = () => {
@@ -59,7 +62,7 @@ const Statistics = () => {
         <div className="icon-wrap fourthbg">
           <MarketCapIcon />
         </div>
-        <Box ml="10px">
+        <Box ml="10px" className="title_warp">
           <Typography variant="h6" color="text.secondary">
             Market Cap
             <Tooltip
@@ -97,7 +100,7 @@ const Statistics = () => {
           <PriceIcon />
         </div>
 
-        <Box ml="10px">
+        <Box ml="10px" className="title_warp">
           <Typography variant="h6" color="text.secondary">
             {/* {APP_NAME}  */}
             Qubetics Price
@@ -127,7 +130,7 @@ const Statistics = () => {
         <div className="icon-wrap thirdbg icon-large">
           <InflationIcon />
         </div>
-        <Box ml="10px">
+        <Box ml="10px" className="title_warp">
           <Typography variant="h6" color="text.secondary">
             Inflation
             <Tooltip
@@ -159,7 +162,7 @@ const Statistics = () => {
           <CalendarIcon />
         </div>
 
-        <Box ml="10px">
+        <Box ml="10px" className="title_warp">
           <Typography variant="h6" color="text.secondary">
             APR
             <Tooltip
@@ -190,7 +193,7 @@ const Statistics = () => {
         <div className="icon-wrap fifthbg">
           <SupplyIcon />
         </div>
-        <Box ml="10px">
+        <Box ml="10px" className="title_warp">
           <Typography variant="h6" color="text.secondary">
             Total Supply
             <Tooltip
@@ -213,7 +216,9 @@ const Statistics = () => {
               ) : (
                 <>
                   {stats?.totalSupply
-                    ? formatMillionNumber(Number(stats?.totalSupply) / 10 ** 18)
+                    ? formatMillionNumber(
+                        noExponential(Number(stats?.totalSupply) / 10 ** 18)
+                      )
                     : 0}{" "}
                 </>
               )}

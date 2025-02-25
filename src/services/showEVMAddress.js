@@ -1,4 +1,4 @@
-import { fromBech32, toHex } from "@cosmjss/encoding";
+import { fromBech32, toHex, toBech32, fromHex } from "@cosmjss/encoding";
 
 export const showEVMAddress = (address) => {
   return new Promise((resolve, reject) => {
@@ -7,6 +7,18 @@ export const showEVMAddress = (address) => {
       resolve("0x" + evmAddress);
     } catch (err) {
       reject(err); // Properly rejects the Promise
+    }
+  });
+};
+
+export const valoperAddress = (address) => {
+  return new Promise((resolve, reject) => {
+    const prefix = "qubetics";
+    try {
+      const originalAddress = toBech32(prefix, fromHex(address.slice(2)));
+      resolve(originalAddress);
+    } catch (err) {
+      reject(err);
     }
   });
 };

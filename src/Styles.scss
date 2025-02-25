@@ -363,3 +363,10 @@ input:-webkit-autofill:active {
 .css-igs3ac {
   border: 0 !important;
 }
+.title_warp {
+  h6 {
+    align-items: center;
+    display: flex;
+    white-space: nowrap !important;
+  }
+}

@@ -14,6 +14,7 @@ import { capitalizeFirstLetter } from "../../../utils/capitalizeFirstLetter";
 import { noExponential } from "../../../utils/commonFunctions";
 import { toFixed } from "../../../utils/toFixed";
 import { data } from "browserslist";
+import { showEVMAddress } from "../../../services/showEVMAddress";
 
 const ValidatorDetails = () => {
   const params = useParams();
@@ -21,6 +22,7 @@ const ValidatorDetails = () => {
   const navigate = useNavigate();
   const [validatorDetail, setValidatorDetail] = useState({});
   const [detailStatus, setDetailStatus] = useState("Init");
+  const [evmAddress, setEvmAddress] = useState(null);
 
   const goBack = () => {
     navigate(-1);
@@ -41,9 +43,25 @@ const ValidatorDetails = () => {
     fetchData();
   }, [address]);
 
+  useEffect(() => {
+    const fetchAddress = async () => {
+      if (validatorDetail?.validatorAddress) {
+        const address = await showEVMAddress(validatorDetail.validatorAddress);
+        setEvmAddress(address);
+      }
+    };
+
+    fetchAddress();
+  }, [validatorDetail?.validatorAddress]);
+
   return (
     <>
-      <Typography variant="h3" mb="20px" display={"flex"} sx={{ paddingTop: "20px", gap: "10px", color: "white" }}>
+      <Typography
+        variant="h3"
+        mb="20px"
+        display={"flex"}
+        sx={{ paddingTop: "20px", gap: "10px", color: "white" }}
+      >
         <span style={{ cursor: "pointer" }} onClick={goBack}>
           <BackIcon />
         </span>
@@ -53,7 +71,15 @@ const ValidatorDetails = () => {
         <WalletAdd>
           <Typography className="bond-wrapper__title bond-wrapper__title--flex validator-address">
             <Typography>Wallet Address:</Typography>
-            {detailStatus === "Init" || detailStatus === "Fetching" ? <Skeleton variant="text" width={300} height={25} /> : <Address address={validatorDetail?.validatorAddress} />}
+            {detailStatus === "Init" || detailStatus === "Fetching" ? (
+              <Skeleton variant="text" width={300} height={25} />
+            ) : (
+              <Address
+                address={
+                  evmAddress ? evmAddress : validatorDetail?.validatorAddress
+                }
+              />
+            )}
           </Typography>
         </WalletAdd>
         <Paper>
@@ -77,7 +103,11 @@ const ValidatorDetails = () => {
                 <Typography color="text.secondary" variant="body2">
                   Name
                 </Typography>
-                <Typography>{validatorDetail?.name ? capitalizeFirstLetter(validatorDetail?.name) : "-"}</Typography>
+                <Typography>
+                  {validatorDetail?.name
+                    ? capitalizeFirstLetter(validatorDetail?.name)
+                    : "-"}
+                </Typography>
               </ValidatorDetailItem>
               <ValidatorDetailItem>
                 <Typography color="text.secondary" variant="body2">
@@ -85,36 +115,69 @@ const ValidatorDetails = () => {
                 </Typography>
                 <Typography
                   style={{
-                    color: validatorDetail?.status === "active" ? "#1FDD00" : validatorDetail?.status === "inactive" ? "#FF9900" : validatorDetail?.status === "deactivating" ? "#FF4E4E" : "inherit",
+                    color:
+                      validatorDetail?.status === "active"
+                        ? "#1FDD00"
+                        : validatorDetail?.status === "inactive"
+                        ? "#FF9900"
+                        : validatorDetail?.status === "deactivating"
+                        ? "#FF4E4E"
+                        : "inherit",
                   }}
                 >
-                  {validatorDetail?.status ? capitalizeFirstLetter(validatorDetail?.status) : "-"}
+                  {validatorDetail?.status
+                    ? capitalizeFirstLetter(validatorDetail?.status)
+                    : "-"}
                 </Typography>
               </ValidatorDetailItem>
               <ValidatorDetailItem>
                 <Typography color="text.secondary" variant="body2">
                   Commission Rate
                 </Typography>
-                <Typography>{validatorDetail?.commissionRate ? noExponential(toFixed(validatorDetail?.commissionRate, 4)) : 0}%</Typography>
+                <Typography>
+                  {validatorDetail?.commissionRate
+                    ? noExponential(toFixed(validatorDetail?.commissionRate, 4))
+                    : 0}
+                  %
+                </Typography>
               </ValidatorDetailItem>
               <ValidatorDetailItem>
                 <Typography color="text.secondary" variant="body2">
                   Commission Max Rate
                 </Typography>
-                <Typography>{validatorDetail?.commissionMaxRate ? noExponential(toFixed(validatorDetail?.commissionMaxRate, 4)) : 0}%</Typography>
+                <Typography>
+                  {validatorDetail?.commissionMaxRate
+                    ? noExponential(
+                        toFixed(validatorDetail?.commissionMaxRate, 4)
+                      )
+                    : 0}
+                  %
+                </Typography>
               </ValidatorDetailItem>
               <ValidatorDetailItem>
                 <Typography color="text.secondary" variant="body2">
                   Commission Change Rate
                 </Typography>
-                <Typography>{validatorDetail?.commissionMaxChangeRate ? noExponential(toFixed(validatorDetail?.commissionMaxChangeRate, 4)) : 0}%</Typography>
+                <Typography>
+                  {validatorDetail?.commissionMaxChangeRate
+                    ? noExponential(
+                        toFixed(validatorDetail?.commissionMaxChangeRate, 4)
+                      )
+                    : 0}
+                  %
+                </Typography>
               </ValidatorDetailItem>
               <ValidatorDetailItem>
                 <Typography color="text.secondary" variant="body2">
                   Total Stake
                 </Typography>
                 <Typography>
-                  {validatorDetail?.totalStake ? noExponential(Number(validatorDetail?.totalStake) / 10 ** 18) : "0"} {CURRENCY}
+                  {validatorDetail?.totalStake
+                    ? noExponential(
+                        Number(validatorDetail?.totalStake) / 10 ** 18
+                      )
+                    : "0"}{" "}
+                  {CURRENCY}
                 </Typography>
               </ValidatorDetailItem>
               <ValidatorDetailItem>
@@ -122,20 +185,33 @@ const ValidatorDetails = () => {
                   Self Stake
                 </Typography>
                 <Typography>
-                  {validatorDetail?.selfStake ? noExponential(Number(validatorDetail?.selfStake) / 10 ** 18) : "0"} {CURRENCY}
+                  {validatorDetail?.selfStake
+                    ? noExponential(
+                        Number(validatorDetail?.selfStake) / 10 ** 18
+                      )
+                    : "0"}{" "}
+                  {CURRENCY}
                 </Typography>
               </ValidatorDetailItem>
               <ValidatorDetailItem>
                 <Typography color="text.secondary" variant="body2">
                   Validator Since
                 </Typography>
-                <Typography>{validatorDetail?.createdAt ? moment(validatorDetail?.createdAt).format("YYYY/MM/DD") : "-"}</Typography>
+                <Typography>
+                  {validatorDetail?.createdAt
+                    ? moment(validatorDetail?.createdAt).format("YYYY/MM/DD")
+                    : "-"}
+                </Typography>
               </ValidatorDetailItem>
               <ValidatorDetailItem>
                 <Typography color="text.secondary" variant="body2">
                   Delegators
                 </Typography>
-                <Typography>{validatorDetail?.delegatorCount ? validatorDetail?.delegatorCount : "0"}</Typography>
+                <Typography>
+                  {validatorDetail?.delegatorCount
+                    ? validatorDetail?.delegatorCount
+                    : "0"}
+                </Typography>
               </ValidatorDetailItem>
             </>
           )}
