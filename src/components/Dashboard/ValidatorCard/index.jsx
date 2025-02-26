@@ -28,12 +28,15 @@ const DashboardValidatorCard = () => {
     navigate("/account/become-a-validator");
   };
 
+  console.log(userAddress, "userAddress");
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         if (userAddress) {
           setDashboardStatus("Fetching");
           const response = await getValidatorByAddress(userAddress);
+          console.log(response, "isVALIDATED");
           if (response?.error === false) {
             setDashboardData(response?.data?.validators[0]);
             dispatch(

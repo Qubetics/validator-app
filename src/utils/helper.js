@@ -1,65 +1,65 @@
 /*eslint-disable */
 
-import { DECIMAL } from '../constant';
-
+import { DECIMAL } from "../constant";
 
 export const scienToNum = (input) => {
   const str = `${input}`;
   const res = str.substr(-4);
-  const result = str.replace(res, '');
-  let answer = result.replace('.', '');
+  const result = str.replace(res, "");
+  let answer = result.replace(".", "");
   let counter = Math.abs(result?.length - (Number(res.substr(-2)) + 2));
   while (counter--) {
-    answer = answer + '0';
+    answer = answer + "0";
   }
   return answer;
 };
 export const removeTrailingZeroes = (decimalStr) => {
-  const trimmedStr = decimalStr.replace(/0+$/, '');
-  if (trimmedStr.endsWith('.')) {
-    return trimmedStr + '0';
+  const trimmedStr = decimalStr.replace(/0+$/, "");
+  if (trimmedStr.endsWith(".")) {
+    return trimmedStr + "0";
   }
   return trimmedStr;
 };
 export const FormatNum = (value) => {
   if (value?.length > DECIMAL) {
     const data =
-      value.slice(0, value?.length - DECIMAL) + '.' + value.slice(value?.length - DECIMAL);
+      value?.slice(0, value?.length - DECIMAL) +
+      "." +
+      value?.slice(value?.length - DECIMAL);
     return removeTrailingZeroes(data);
   } else {
-    const zeroes = '0'.repeat(DECIMAL - value?.length);
-    const data = '0.' + zeroes + value;
+    const zeroes = "0".repeat(DECIMAL - value?.length);
+    const data = "0." + zeroes + value;
     return removeTrailingZeroes(data);
   }
 };
 
 export const subtractNum = (value = 0, min = 0) => {
-  const data = value.split('.')[0];
+  const data = value.split(".")[0];
   if (Number(min) > 0 && value && data > Number(min)) {
-    return data - Number(min) + '.' + value.split('.')[1];
+    return data - Number(min) + "." + value.split(".")[1];
   } else {
     return 0;
   }
 };
 
 export const ModifyNum = (value) => {
-  if (value.includes('.')) {
-    const data = value.split('.')[1];
-    const res = value.replace('.', '');
-    const zeroes = '0'.repeat(DECIMAL - data?.length);
+  if (value.includes(".")) {
+    const data = value.split(".")[1];
+    const res = value.replace(".", "");
+    const zeroes = "0".repeat(DECIMAL - data?.length);
     return res + zeroes;
   } else {
-    const zeroes = '0'.repeat(DECIMAL);
+    const zeroes = "0".repeat(DECIMAL);
     return value + zeroes;
   }
 };
-export const countDecimal = (num) => String(num).split('.')[1]?.length || 0;
+export const countDecimal = (num) => String(num).split(".")[1]?.length || 0;
 
 export const removeZero = (val) => {
-  const newVal = String(val).replace(/^0+(?!\.|$)/, '');
+  const newVal = String(val).replace(/^0+(?!\.|$)/, "");
   return newVal;
 };
-
 
 export function extractExternal(accountId) {
   if (!accountId) {
@@ -73,7 +73,8 @@ export function extractExternal(accountId) {
     return NO_FLAGS;
   }
   const pair = keyring.getPair(publicKey);
-  const { isExternal, isHardware, isInjected, isMultisig, isProxied } = pair.meta;
+  const { isExternal, isHardware, isInjected, isMultisig, isProxied } =
+    pair.meta;
   const isUnlockable = !isExternal && !isHardware && !isInjected;
   if (isUnlockable) {
     const entry = lockCountdown[pair.address];
@@ -89,7 +90,8 @@ export function extractExternal(accountId) {
     isHardware: !!isHardware,
     isMultisig: !!isMultisig,
     isProxied: !!isProxied,
-    isQr: !!isExternal && !isMultisig && !isProxied && !isHardware && !isInjected,
+    isQr:
+      !!isExternal && !isMultisig && !isProxied && !isHardware && !isInjected,
     isUnlockable: isUnlockable && pair.isLocked,
     threshold: pair.meta.threshold || 0,
     who: (pair.meta.who || []).map(recodeAddress),
@@ -101,15 +103,20 @@ export function recodeAddress(address) {
 }
 
 export function extractCurrent(txqueue) {
-  const available = txqueue.filter(({ status }) => AVAIL_STATUS.includes(status));
+  const available = txqueue.filter(({ status }) =>
+    AVAIL_STATUS.includes(status)
+  );
   const currentItem = available[0] || null;
   let isRpc = false;
   let isVisible = false;
 
   if (currentItem) {
-    if (currentItem.status === 'queued' && !(currentItem.extrinsic || currentItem.payload)) {
+    if (
+      currentItem.status === "queued" &&
+      !(currentItem.extrinsic || currentItem.payload)
+    ) {
       isRpc = true;
-    } else if (currentItem.status !== 'signing') {
+    } else if (currentItem.status !== "signing") {
       isVisible = true;
     }
   }
@@ -133,7 +140,7 @@ export function filtered(isEthereum, items, others) {
           result.push(a);
         } else {
           console.warn(
-            `Not adding address ${a}, not in correct format for chain (requires publickey from address)`,
+            `Not adding address ${a}, not in correct format for chain (requires publickey from address)`
           );
         }
       } catch {

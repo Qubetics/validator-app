@@ -35,6 +35,7 @@ import {
 import { BackIcon } from "../../../assets/Icons/SvgIcon";
 import { toast } from "../../../components/Common/Toast/Toast";
 import { useGetNodeUrl } from "../../../context/NodeUrl";
+import { showEVMAddress } from "../../../services/showEVMAddress";
 
 const style = {
   position: "absolute",
@@ -58,6 +59,8 @@ const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showIcon, setShowIcon] = useState(true);
+  const [evmAddress, setEvmAddress] = useState(null);
+
   const [primaryValues, setPrimaryValues] = useState({
     name: "",
     details: "",
@@ -184,6 +187,16 @@ const Profile = () => {
       setIsLoading(false);
     }
   };
+  useEffect(() => {
+    const fetchAddress = async () => {
+      if (userAddress) {
+        const address = await showEVMAddress(userAddress);
+        setEvmAddress(address);
+      }
+    };
+
+    fetchAddress();
+  }, [userAddress]);
 
   return isLoading ? (
     <Loader />
@@ -283,7 +296,7 @@ const Profile = () => {
               <WalletAddress>
                 <div className="walletInnerData">
                   <Typography>Wallet Address:</Typography>
-                  <Address address={userAddress} />
+                  <Address address={evmAddress ? evmAddress : userAddress} />
                 </div>
                 <button onClick={handleOpen} className="editbutton">
                   {" "}
@@ -353,7 +366,10 @@ const Profile = () => {
           <Box className="profile-wrap__item profiledata">
             <Typography> Wallet Address:</Typography>
             <br />
-            <Address address={userAddress} showIcon={showIcon} />
+            <Address
+              address={evmAddress ? evmAddress : userAddress}
+              showIcon={showIcon}
+            />
           </Box>
 
           <Profiledata className="profile-wrap__item profile-wrap__item--status">

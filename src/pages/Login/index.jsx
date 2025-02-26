@@ -261,6 +261,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getValoperAddressFromBlockChain,
   logInSuccess,
+  getEvmAddress,
 } from "../../redux/reducer/auth";
 import { useGetNodeUrl } from "../../context/NodeUrl";
 import { toast } from "../../components/Common/Toast/Toast";
@@ -273,6 +274,8 @@ import Loader from "../../components/Loader/Loader.js";
 import CommonBtn from "../../components/Common/Commonbtn/Commonbtn";
 import { RedCrosss } from "../../assets/Icons/SvgIcon";
 
+import { userEvmAddress } from "../../services/userEvmAddress.js";
+import { showEVMAddress } from "../../services/showEVMAddress";
 const Login = () => {
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state) => state.auth);
@@ -315,6 +318,12 @@ const Login = () => {
                       response?.data?.valoperAddress
                     )
                   );
+                  let evmAddress = await showEVMAddress(
+                    response?.data?.address
+                  );
+                  console.log(evmAddress, "evmAddress");
+                  dispatch(getEvmAddress(evmAddress));
+
                   dispatch(logInSuccess(response?.data?.address));
                   setIsLoading(false);
                   return toast.success("Logged In Successfully");

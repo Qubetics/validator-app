@@ -16,17 +16,37 @@ import reduceData, {
 import CopyIcon from "../../assets/Icons/CopyIcon";
 import { toast } from "../../components/Common/Toast/Toast";
 import { useNavigate } from "react-router-dom";
+import { showEVMAddress } from "../../services/showEVMAddress";
 
 const tableHeader = ["Blocks", "Block Hash", "Validator", "Time"];
 
 const BlocksTable = () => {
   const [blocks, setBlocks] = useState([]);
   const [blockStatus, setBlockStatus] = useState("Init");
+  const [evmAddresses, setEvmAddresses] = useState({}); // Store EVM addresses
   const navigate = useNavigate();
 
   // const transactionHash = (id) => {
   //   window.open(`${BASE_URL_EXPLORER_LINKS_TESTNET}/blocks`, "_blank");
   // };
+
+  useEffect(() => {
+    const fetchEvmAddresses = async () => {
+      const updatedAddresses = {};
+      for (const validator of blocks) {
+        if (validator?.miner) {
+          updatedAddresses[validator.miner] = await showEVMAddress(
+            validator.miner
+          );
+        }
+      }
+      setEvmAddresses(updatedAddresses);
+    };
+
+    if (blocks.length > 0) {
+      fetchEvmAddresses();
+    }
+  }, [blocks]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -146,12 +166,16 @@ const BlocksTable = () => {
                           >
                             <span
                               className="blockdds"
-                              onClick={() => getdata(data?.miner)}
+                              onClick={() => getdata(evmAddresses[data?.miner])}
                               style={{ cursor: "pointer" }}
                             >
-                              {reduceData(data?.miner)}
+                              {reduceData(evmAddresses[data?.miner])}
                             </span>
-                            <span onClick={() => copiedAddress(data?.miner)}>
+                            <span
+                              onClick={() =>
+                                copiedAddress(evmAddresses[data?.miner])
+                              }
+                            >
                               <CopyIcon sx={{ fontSize: "17px" }} />
                             </span>
                           </div>
