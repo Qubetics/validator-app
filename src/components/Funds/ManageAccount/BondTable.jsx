@@ -31,7 +31,7 @@ import { isOptionDisableInMinutes } from "../../../utils/commissionEditTimer.jsx
 const BondTable = ({ bondedData }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [shouldShow, setShouldShow] = useState(false);
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [buttonClick, setButtonClick] = useState(false);
   let message =
     Number(bondedData?.selfStake) < 100
