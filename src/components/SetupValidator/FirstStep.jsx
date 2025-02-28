@@ -90,7 +90,19 @@ const FirstStep = ({
                   <label>{item?.label}</label>
                   <TextField
                     key={item?.id}
-                    placeholder="Please Enter"
+                    placeholder={
+                      item?.name == "name"
+                        ? "Enter Name"
+                        : item?.name == "details"
+                        ? "Enter Description"
+                        : item?.name == "website"
+                        ? "Enter Website"
+                        : item?.name == "identity"
+                        ? "Enter Identity"
+                        : item?.name == "SecurityContact"
+                        ? "Enter Security Contact"
+                        : "Enter"
+                    }
                     fullWidth
                     value={primaryValues[item?.name]}
                     style={{ marginBottom: "20px" }}
