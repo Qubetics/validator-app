@@ -18,6 +18,5 @@ export function isOptionDisableInMinutes(
     )
   );
   const currentDate = new Date();
-  console.log(currentDate <= expirationDate, "DATE");
   return currentDate <= expirationDate;
 }

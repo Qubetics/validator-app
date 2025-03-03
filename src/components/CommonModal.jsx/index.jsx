@@ -10,14 +10,14 @@ import "./style.css";
 import { JAIL_TIME } from "../../constant";
 import CommonBtn from "../Common/Commonbtn/Commonbtn";
 
-const CommonModal = ({ open, setOpen, message }) => {
+const CommonModal = ({ open, setOpen, message, extra_padding }) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
     <div>
       <Dialog
-        className="messageModal"
+        className={`messageModal ${extra_padding ? "extra_padding" : ""}`}
         fullScreen={fullScreen}
         open={open}
         onClose={() => setOpen(false)}

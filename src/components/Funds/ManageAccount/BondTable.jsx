@@ -34,12 +34,10 @@ const BondTable = ({ bondedData }) => {
   const [shouldShow, setShouldShow] = useState(false);
   const [open, setOpen] = useState(false);
   const [buttonClick, setButtonClick] = useState(false);
-  console.log(bondedData, "BONDED");
+  const extra_padding = true;
   let message =
     Number(bondedData?.selfStake) < 100 &&
     `Minimum required balance is 100 ${CURRENCY}`;
-
-  console.log(bondedData?.unbondingTime, "UNBONDING TIME", shouldShow);
 
   useEffect(() => {
     if (bondedData?.unbondingTime) {
@@ -67,15 +65,23 @@ const BondTable = ({ bondedData }) => {
 
   return (
     <>
-      <CountdownTimer unbondingTime={bondedData?.unbondingTime} />
-      <CommonModal open={open} setOpen={setOpen} message={message} />
-      <div className="common-table Bondtable">
-        <Typography
-          className="account-card__title title"
-          style={{ paddingTop: "30px" }}
-        >
-          Bond Details
-        </Typography>
+      <CommonModal
+        open={open}
+        setOpen={setOpen}
+        message={message}
+        extra_padding={extra_padding}
+      />
+      <div className="common-table Bondtable bnd_timer">
+        <div className="title_bnd">
+          <Typography
+            className="account-card__title title"
+            style={{ paddingTop: "30px" }}
+          >
+            Bond Details
+          </Typography>
+          <CountdownTimer unbondingTime={bondedData?.unbondingTime} />
+        </div>
+
         <TableContainer
           sx={{
             whiteSpace: "nowrap",
