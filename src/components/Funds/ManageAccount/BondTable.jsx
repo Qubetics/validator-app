@@ -27,22 +27,25 @@ import { toFixed } from "../../../utils/toFixed";
 import CommonModal from "../../CommonModal.jsx";
 import { useEffect, useState } from "react";
 import { isOptionDisableInMinutes } from "../../../utils/commissionEditTimer.jsx";
+import CountdownTimer from "./CountDownTimer";
 
 const BondTable = ({ bondedData }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [shouldShow, setShouldShow] = useState(false);
   const [open, setOpen] = useState(false);
   const [buttonClick, setButtonClick] = useState(false);
+  console.log(bondedData, "BONDED");
   let message =
-    Number(bondedData?.selfStake) < 100
-      ? `Minimum required balance is 100 ${CURRENCY}`
-      : `You will be able to unjail your validator after ${JAIL_TIME} minutes`;
+    Number(bondedData?.selfStake) < 100 &&
+    `Minimum required balance is 100 ${CURRENCY}`;
+
+  console.log(bondedData?.unbondingTime, "UNBONDING TIME", shouldShow);
 
   useEffect(() => {
     if (bondedData?.unbondingTime) {
       let date = bondedData?.unbondingTime;
       if (
-        isOptionDisableInMinutes(date, JAIL_TIME) ||
+        isOptionDisableInMinutes(date, 30) ||
         Number(bondedData?.selfStake) < 100
       ) {
         setShouldShow(true);
@@ -64,6 +67,7 @@ const BondTable = ({ bondedData }) => {
 
   return (
     <>
+      <CountdownTimer unbondingTime={bondedData?.unbondingTime} />
       <CommonModal open={open} setOpen={setOpen} message={message} />
       <div className="common-table Bondtable">
         <Typography
