@@ -44,7 +44,7 @@ const CountdownTimer = ({ unbondingTime }) => {
             title={
               <Typography variant="h6" padding={1}>
                 {
-                  "This count represents the cooling-off period after a user deactivates their account. Once this period is over, the user will be able to perform tasks like bonding, unbonding, and redelegating again."
+                  "This count represents the cooling-off period after a user deactivates their account. Once this period is over, the user will be able to perform tasks like bonding, unbonding, and setup validator again."
                 }
               </Typography>
             }
