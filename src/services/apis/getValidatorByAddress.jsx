@@ -2,9 +2,7 @@ import { BASE_URL } from "../../constant";
 import { valoperAddress } from "../showEVMAddress";
 
 const getValidatorByAddress = async (value, page, limit) => {
-  let val = value?.trim();
-  const valAddress = await valoperAddress(val);
-  console.log(valAddress, "valAdres");
+  let valAddress = value?.trim();
 
   if (valAddress.startsWith("0x")) {
     valAddress = await valoperAddress(valAddress);
