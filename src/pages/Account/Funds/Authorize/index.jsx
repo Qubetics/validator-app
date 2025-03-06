@@ -18,15 +18,15 @@ import { isTxOccur } from "../../../../redux/reducer/auth";
 import unJailValidator from "../../../../services/unjailValidator";
 import stopDeactivating from "../../../../services/stopDeactivating";
 import { BackIcon, MnemonicsIcon } from "../../../../assets/Icons/SvgIcon";
+import { keplrUnbond } from "../../../../keplrEvents/keplrUnbond";
 
 const AuthorizeTransaction = () => {
   const classes = useStyles();
   const [isLoading, setIsLoading] = useState(false);
   const [showBtn, setShowBtn] = useState(true);
   const navigate = useNavigate();
-  const { userAddress, valoperAddress, bondedBalance } = useSelector(
-    (state) => state.auth
-  );
+  const { userAddress, valoperAddress, bondedBalance, walletType } =
+    useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const [errMsg, setErrMsg] = useState({
@@ -47,6 +47,11 @@ const AuthorizeTransaction = () => {
           valoperAddress,
           nodeUrl,
         };
+
+        if (walletType == "keplr") {
+          await keplrUnbond(userAddress, unBoundAmt, valoperAddress);
+        }
+
         if (window?.qubetics) {
           window.qubetics.sendRequest(
             "stopValidator",

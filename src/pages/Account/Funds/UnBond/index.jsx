@@ -18,6 +18,7 @@ import { toFixed } from "../../../../utils/toFixed";
 import { isTxOccur } from "../../../../redux/reducer/auth";
 import { JAIL_TIME } from "../../../../constant";
 import { MnemonicsIcon, BackIcon } from "../../../../assets/Icons/SvgIcon.jsx";
+import { keplrUnbond } from "../../../../keplrEvents/keplrUnbond.js";
 
 const UnBond = () => {
   const navigate = useNavigate();
@@ -30,8 +31,13 @@ const UnBond = () => {
   const [isLoading, setIsLoading] = useState(false);
   let nodeUrl = localStorage.getItem("node") || "";
 
-  const { userAddress, userBalance, valoperAddress, bondedBalance } =
-    useSelector((state) => state.auth);
+  const {
+    userAddress,
+    userBalance,
+    valoperAddress,
+    bondedBalance,
+    walletType,
+  } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   const onSubmit = async () => {
@@ -43,6 +49,9 @@ const UnBond = () => {
         valoperAddress,
         nodeUrl,
       };
+      if (walletType == "keplr") {
+        await keplrUnbond(userAddress, unBoundAmt, valoperAddress);
+      }
       if (window?.qubetics) {
         window.qubetics.sendRequest("unBondFunds", data, (error, response) => {
           if (response?.type == "error") {

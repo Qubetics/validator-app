@@ -18,6 +18,7 @@ import { useGetNodeUrl } from "../../context/NodeUrl";
 import Loader from "../Loader/Loader";
 import { isTxOccur } from "../../redux/reducer/auth";
 import { toast } from "../Common/Toast/Toast";
+import { keplrCreateValidator } from "../../keplrEvents/keplrCreateValidator";
 
 const mb20 = {
   marginBottom: "20px",
@@ -31,9 +32,12 @@ const StakingStep = ({
   methodType,
   primaryValues,
 }) => {
-  const { userBalance } = useSelector((state) => state.auth);
+  const { userBalance, valoperAddress, walletType, userAddress } = useSelector(
+    (state) => state.auth
+  );
   const { valoperAddressFromBlockChain } = useSelector((state) => state?.auth);
   let publicKey = localStorage.getItem("publicKey") || "";
+
   const { nodeUrl } = useGetNodeUrl();
   const navigate = useNavigate();
   const [loader, setLoader] = useState(false);
@@ -91,6 +95,20 @@ const StakingStep = ({
       valoperAddressFromBlockChain,
       publicKey,
     };
+
+    console.log(valoperAddress, walletType, userAddress, data);
+
+    if (walletType == "keplr") {
+      keplrCreateValidator(
+        primaryValues?.details,
+        secondaryValues?.Commission_Rate,
+        secondaryValues?.Bond_Amount,
+        valoperAddress,
+        userAddress,
+        publicKey
+      );
+    }
+    return;
     setLoader(true);
     if (window?.qubetics && res) {
       window.qubetics.sendRequest("createValidator", data, (error, res) => {

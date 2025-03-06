@@ -262,6 +262,7 @@ import {
   getValoperAddressFromBlockChain,
   logInSuccess,
   getEvmAddress,
+  getWalletType,
 } from "../../redux/reducer/auth";
 import { useGetNodeUrl } from "../../context/NodeUrl";
 import { toast } from "../../components/Common/Toast/Toast";
@@ -276,14 +277,43 @@ import { RedCrosss } from "../../assets/Icons/SvgIcon";
 
 import { userEvmAddress } from "../../services/userEvmAddress.js";
 import { showEVMAddress } from "../../services/showEVMAddress";
+import { OsmosisChainInfo } from "../../constants";
 const Login = () => {
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { nodeUrl, setNodeUrl, isNodeAdded, setIsNodeAdded } = useGetNodeUrl();
   const [isLoading, setIsLoading] = useState(false);
 
-  const submitHandler = async (event) => {
+  const submitHandler = async (event, data) => {
     event.preventDefault();
+    console.log(data);
+    if (data == "keplr") {
+      dispatch(getWalletType(data));
+      if (!window.keplr) {
+        alert("Please install Keplr Wallet extension");
+        return;
+      }
+
+      const chainId = OsmosisChainInfo?.chainId;
+
+      try {
+        await window.keplr.disable(chainId);
+
+        await window.keplr.enable(chainId);
+
+        const offlineSigner = window.keplr.getOfflineSigner(chainId);
+        const accounts = await offlineSigner.getAccounts();
+        let evmAddress = await showEVMAddress(accounts[0].address);
+        if (accounts[0].address) {
+          dispatch(getEvmAddress(evmAddress));
+
+          dispatch(logInSuccess(accounts[0].address));
+          return toast.success("Logged In Successfully");
+        }
+      } catch (error) {
+        console.error("Error connecting Keplr:", error);
+      }
+    }
     try {
       const data = {
         nodeUrl,
@@ -441,6 +471,17 @@ const Login = () => {
                 <CommonBtn
                   children={isNodeAdded ? "Connect Wallet" : "Submit"}
                   onClick={isNodeAdded ? submitHandler : handleNode}
+                  disabled={!nodeUrl}
+                />
+              </div>
+              <div style={{ marginTop: "50px" }}>
+                <CommonBtn
+                  children={isNodeAdded ? "Keplr Wallet" : "Submit"}
+                  onClick={
+                    isNodeAdded
+                      ? (event) => submitHandler(event, "keplr")
+                      : handleNode
+                  }
                   disabled={!nodeUrl}
                 />
               </div>

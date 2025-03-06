@@ -89,7 +89,7 @@ const DashboardValidatorCard = () => {
                 </span>
               </Typography>
             </FlexBox>
-            {isValidated === false && (
+            {isValidated === true && (
               <ValidatorButton onClick={setUpValidate}>
                 setup as a validator
               </ValidatorButton>

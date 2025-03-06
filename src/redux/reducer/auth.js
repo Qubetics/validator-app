@@ -20,6 +20,7 @@ const initialState = {
   },
   validatorCount: 0,
   userEvmAddress: "",
+  walletType: "",
 };
 
 export const authSlice = createSlice({
@@ -62,6 +63,9 @@ export const authSlice = createSlice({
     getEvmAddress: (state, action) => {
       state.userEvmAddress = action.payload;
     },
+    getWalletType: (state, action) => {
+      state.walletType = action.payload;
+    },
     logout: (state) => {},
     getApy: (state, action) => {
       state.APY = action.payload;
@@ -83,6 +87,7 @@ export const {
   getApy,
   getValidatorCount,
   getEvmAddress,
+  getWalletType,
 } = authSlice.actions;
 
 export default authSlice.reducer;

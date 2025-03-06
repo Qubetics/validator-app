@@ -15,12 +15,13 @@ import { toast } from "../../../../components/Common/Toast/Toast";
 import { toFixed } from "../../../../utils/toFixed";
 import { isTxOccur } from "../../../../redux/reducer/auth";
 import { BackIcon } from "../../../../assets/Icons/SvgIcon.jsx";
+import { keplrBondMore } from "../../../../keplrEvents/KeplrBondMore.js";
 
 const Bond = () => {
   const navigate = useNavigate();
   const [bondAmount, setBondAmount] = useState("");
   let nodeUrl = localStorage.getItem("node") || "";
-  const { userAddress, userBalance, valoperAddress } = useSelector(
+  const { userAddress, userBalance, valoperAddress, walletType } = useSelector(
     (state) => state.auth
   );
   const [mnemonics, setMnemonics] = useState();
@@ -76,13 +77,16 @@ const Bond = () => {
 
   const onSubmit = async () => {
     try {
-      setIsLoading(true);
+      // setIsLoading(true);
       const data = {
         userAddress,
         bondAmount,
         valoperAddress,
         nodeUrl,
       };
+      if (walletType == "keplr") {
+        await keplrBondMore(userAddress, bondAmount, valoperAddress);
+      }
       if (window?.qubetics) {
         window.qubetics.sendRequest(
           "bondMoreFunds",
