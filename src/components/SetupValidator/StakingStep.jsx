@@ -13,10 +13,10 @@ import { countDecimal, removeZero } from "../../utils/helper";
 import { handleNext } from "../../utils/validatorValidations";
 import { toFixed } from "../../utils/toFixed";
 import { noExponential } from "../../utils/commonFunctions";
-import { useGetNodeUrl } from "../../context/NodeUrl";
-import { isTxOccur } from "../../redux/reducer/auth";
 import { useNavigate } from "react-router-dom";
+import { useGetNodeUrl } from "../../context/NodeUrl";
 import Loader from "../Loader/Loader";
+import { isTxOccur } from "../../redux/reducer/auth";
 import { toast } from "../Common/Toast/Toast";
 
 const mb20 = {
@@ -184,6 +184,15 @@ const StakingStep = ({
           <CommonBtn
             children=" Bond and validate"
             onClick={() => handleNextValidate()}
+            // onClick={() =>
+            //   handleNext(
+            //     secondaryValues,
+            //     activeStep,
+            //     setActiveStep,
+            //     userBalance,
+            //     FEE
+            //   )
+            // }
             color="primary"
           />
         </div>

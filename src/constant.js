@@ -1,5 +1,7 @@
 /*eslint-disable*/
 
+import Big from "big.js";
+
 export const DEFAULT_FLAGS_ELECTED = {
   withController: true,
   withExposure: true,
@@ -201,3 +203,10 @@ export const msg = {
     totalSupply: "Total coins issued by the system",
   },
 };
+
+export function toPrecisionMultiply(num) {
+  let number = num;
+  const result = Big(number).mul(Big("10").pow(18));
+  const respectedRes = result.mul(1).toFixed();
+  return respectedRes;
+}

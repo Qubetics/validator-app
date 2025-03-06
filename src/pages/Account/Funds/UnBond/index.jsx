@@ -72,6 +72,7 @@ const UnBond = () => {
         });
       }
     } catch (err) {
+      console.log(err, "ER");
       setIsLoading(false);
       navigate("/dashboard");
       let msg = err?.message?.split(

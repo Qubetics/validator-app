@@ -8,14 +8,21 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import "./style.css";
 import { JAIL_TIME } from "../../constant";
+import CommonBtn from "../Common/Commonbtn/Commonbtn";
 
-const CommonModal = ({ open, setOpen, message }) => {
+const CommonModal = ({ open, setOpen, message, extra_padding }) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
     <div>
-      <Dialog className="messageModal" fullScreen={fullScreen} open={open} onClose={() => setOpen(false)} aria-labelledby="responsive-dialog-title">
+      <Dialog
+        className={`messageModal ${extra_padding ? "extra_padding" : ""}`}
+        fullScreen={fullScreen}
+        open={open}
+        onClose={() => setOpen(false)}
+        aria-labelledby="responsive-dialog-title"
+      >
         <DialogTitle
           sx={{
             color: "#fff",
@@ -41,19 +48,11 @@ const CommonModal = ({ open, setOpen, message }) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button
+          <CommonBtn
+            children="Confirm"
             onClick={() => setOpen(false)}
-            sx={{
-              width: "100%",
-              margin: "1rem",
-              background: "#0086ff",
-              color: "#fff",
-              padding: "7px 20px",
-              borderRadius: "8px",
-            }}
-          >
-            Ok
-          </Button>
+            color="primary"
+          />
         </DialogActions>
       </Dialog>
     </div>

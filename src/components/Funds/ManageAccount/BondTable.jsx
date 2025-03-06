@@ -27,22 +27,23 @@ import { toFixed } from "../../../utils/toFixed";
 import CommonModal from "../../CommonModal.jsx";
 import { useEffect, useState } from "react";
 import { isOptionDisableInMinutes } from "../../../utils/commissionEditTimer.jsx";
+import CountdownTimer from "./CountDownTimer";
 
 const BondTable = ({ bondedData }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [shouldShow, setShouldShow] = useState(false);
   const [open, setOpen] = useState(false);
   const [buttonClick, setButtonClick] = useState(false);
+  const extra_padding = true;
   let message =
-    Number(bondedData?.selfStake) < 100
-      ? `Minimum required balance is 100 ${CURRENCY}`
-      : `You will be able to unjail your validator after ${JAIL_TIME} minutes`;
+    Number(bondedData?.selfStake) < 100 &&
+    `Minimum required balance is 100 ${CURRENCY}`;
 
   useEffect(() => {
     if (bondedData?.unbondingTime) {
       let date = bondedData?.unbondingTime;
       if (
-        isOptionDisableInMinutes(date, JAIL_TIME) ||
+        isOptionDisableInMinutes(date, 30) ||
         Number(bondedData?.selfStake) < 100
       ) {
         setShouldShow(true);
@@ -64,14 +65,23 @@ const BondTable = ({ bondedData }) => {
 
   return (
     <>
-      <CommonModal open={open} setOpen={setOpen} message={message} />
-      <div className="common-table Bondtable">
-        <Typography
-          className="account-card__title title"
-          style={{ paddingTop: "30px" }}
-        >
-          Bond Details
-        </Typography>
+      <CommonModal
+        open={open}
+        setOpen={setOpen}
+        message={message}
+        extra_padding={extra_padding}
+      />
+      <div className="common-table Bondtable bnd_timer">
+        <div className="title_bnd">
+          <Typography
+            className="account-card__title title"
+            style={{ paddingTop: "30px" }}
+          >
+            Bond Details
+          </Typography>
+          <CountdownTimer unbondingTime={bondedData?.unbondingTime} />
+        </div>
+
         <TableContainer
           sx={{
             whiteSpace: "nowrap",

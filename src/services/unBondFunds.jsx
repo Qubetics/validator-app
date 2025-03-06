@@ -1,4 +1,4 @@
-import { DENOM, FEE, PREFIX } from "../constant";
+import { DENOM, FEE, PREFIX, toPrecisionMultiply } from "../constant";
 import { noExponential } from "../utils/commonFunctions";
 
 const { DirectSecp256k1HdWallet } = require("@cosmjss/proto-signing");
@@ -39,10 +39,7 @@ export default async function unBondFunds(
       validatorAddress: valporAddress, //userInput
       amount: {
         denom: DENOM,
-        amount:
-          maxClicked == true
-            ? totalAmount
-            : noExponential(Number(unbondAmount) * 10 ** 18), //userInput
+        amount: toPrecisionMultiply(unbondAmount),
       },
     }),
   };

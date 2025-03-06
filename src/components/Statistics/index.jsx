@@ -215,10 +215,8 @@ const Statistics = () => {
                 <Skeleton variant="circle" width={100} height={20} />
               ) : (
                 <>
-                  {stats?.totalSupply
-                    ? formatMillionNumber(
-                        noExponential(Number(stats?.totalSupply) / 10 ** 18)
-                      )
+                  {stats?.circulation_supply
+                    ? formatMillionNumber(stats?.circulation_supply)
                     : 0}{" "}
                 </>
               )}
