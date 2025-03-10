@@ -278,6 +278,7 @@ import { RedCrosss } from "../../assets/Icons/SvgIcon";
 import { userEvmAddress } from "../../services/userEvmAddress.js";
 import { showEVMAddress } from "../../services/showEVMAddress";
 import { OsmosisChainInfo } from "../../constants";
+import LoginModal from "../../components/LoginWalletModal/LoginModal";
 const Login = () => {
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state) => state.auth);
@@ -485,6 +486,7 @@ const Login = () => {
                   disabled={!nodeUrl}
                 />
               </div>
+              {isNodeAdded && <LoginModal connectionOpen={true} />}
             </>
           </Box>
         </NodeBox>

@@ -96,7 +96,7 @@ const StakingStep = ({
       publicKey,
     };
 
-    console.log(valoperAddress, walletType, userAddress, data);
+    console.log(valoperAddressFromBlockChain, "VALOPER ADDRES");
 
     if (walletType == "keplr") {
       keplrCreateValidator(

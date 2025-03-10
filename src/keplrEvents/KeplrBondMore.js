@@ -12,6 +12,7 @@ export const keplrBondMore = async (
   if (window.keplr) {
     const key = await window.keplr?.getKey(OsmosisChainInfo.chainId);
     const scaledAmount = parseUnits(stakeAmount.toString(), 18).toString();
+    const res = "";
 
     const protoMsgs = {
       typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
@@ -39,7 +40,7 @@ export const keplrBondMore = async (
         [{ denom: "tics", amount: "100000000" }]
       );
       if (gasUsed) {
-        await sendMsgs(
+        res = await sendMsgs(
           window.keplr,
           OsmosisChainInfo,
           key.bech32Address,
@@ -50,6 +51,7 @@ export const keplrBondMore = async (
           }
         );
       }
+      console.log(res, "RESRS");
     } catch (e) {
       if (e instanceof Error) {
         console.log(e.message);
