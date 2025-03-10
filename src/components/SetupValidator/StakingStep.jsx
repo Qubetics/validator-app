@@ -81,6 +81,7 @@ const StakingStep = ({
   };
 
   const handleNextValidate = () => {
+    setLoader(true);
     const res = handleNext(
       secondaryValues,
       activeStep,
@@ -99,17 +100,23 @@ const StakingStep = ({
     console.log(valoperAddressFromBlockChain, "VALOPER ADDRES");
 
     if (walletType == "keplr") {
-      keplrCreateValidator(
-        primaryValues?.details,
-        secondaryValues?.Commission_Rate,
-        secondaryValues?.Bond_Amount,
-        valoperAddress,
+      const res = keplrCreateValidator(
+        primaryValues,
+        secondaryValues,
+        valoperAddressFromBlockChain,
         userAddress,
         publicKey
       );
+
+      setTimeout(() => {
+        if (res) {
+          setLoader(false);
+          toast.success("Transaction Successfull");
+          navigate("/dashboard");
+        }
+      }, 3500);
     }
-    return;
-    setLoader(true);
+
     if (window?.qubetics && res) {
       window.qubetics.sendRequest("createValidator", data, (error, res) => {
         if (res?.type == "error") {

@@ -49,7 +49,18 @@ const AuthorizeTransaction = () => {
         };
 
         if (walletType == "keplr") {
-          await keplrUnbond(userAddress, unBoundAmt, valoperAddress);
+          const res = await keplrUnbond(
+            userAddress,
+            unBoundAmt,
+            valoperAddress
+          );
+          setTimeout(() => {
+            if (res) {
+              setIsLoading(false);
+              toast.success("Transaction Successfull");
+              navigate("/dashboard");
+            }
+          }, 2000);
         }
 
         if (window?.qubetics) {

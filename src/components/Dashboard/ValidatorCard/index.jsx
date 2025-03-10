@@ -15,7 +15,6 @@ import {
 import getValidatorByAddress from "../../../services/apis/getValidatorByAddress";
 import { useDispatch, useSelector } from "react-redux";
 import { capitalizeFirstLetter } from "../../../utils/capitalizeFirstLetter";
-import { keplrCreateValidator } from "../../../keplrEvents/keplrCreateValidator";
 
 const DashboardValidatorCard = () => {
   const navigate = useNavigate();
@@ -64,7 +63,6 @@ const DashboardValidatorCard = () => {
 
   return (
     <>
-      <button onClick={() => keplrCreateValidator()}>Create</button>
       <Container style={{ background: "transparent" }}>
         <section className="validator-status common-table">
           <div className="validator-status__card">

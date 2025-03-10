@@ -8,6 +8,7 @@ export const keplrUnbond = async (userAddress, unBoundAmt, valoperAddress) => {
   if (window.keplr) {
     const key = await window.keplr?.getKey(OsmosisChainInfo.chainId);
     const scaledAmount = parseUnits(unBoundAmt.toString(), 18).toString();
+    let res = "";
 
     const protoMsgs = {
       typeUrl: "/cosmos.staking.v1beta1.MsgUndelegate",
@@ -30,7 +31,7 @@ export const keplrUnbond = async (userAddress, unBoundAmt, valoperAddress) => {
         [{ denom: "tics", amount: "100000000" }]
       );
       if (gasUsed) {
-        await sendMsgs(
+        res = await sendMsgs(
           window.keplr,
           OsmosisChainInfo,
           key.bech32Address,
@@ -41,6 +42,7 @@ export const keplrUnbond = async (userAddress, unBoundAmt, valoperAddress) => {
           }
         );
       }
+      return res;
     } catch (e) {
       if (e instanceof Error) {
         console.log(e.message);

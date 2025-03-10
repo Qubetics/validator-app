@@ -50,7 +50,8 @@ const UnBond = () => {
         nodeUrl,
       };
       if (walletType == "keplr") {
-        await keplrUnbond(userAddress, unBoundAmt, valoperAddress);
+        const res = await keplrUnbond(userAddress, unBoundAmt, valoperAddress);
+        console.log(res);
       }
       if (window?.qubetics) {
         window.qubetics.sendRequest("unBondFunds", data, (error, response) => {

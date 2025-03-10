@@ -80,11 +80,18 @@ export const sendMsgs = async (
     };
 
     const txHash = await broadcastTxSync(keplr, chainInfo.chainId, signedTx.tx);
+    console.log(txHash, "TXHASHHS");
+    return txHash;
+
     const txTracer = new TendermintTxTracer(chainInfo.rpc, "/websocket");
-    return txTracer;
-    txTracer.traceTx(txHash).then((tx) => {
-      alert("Transaction commit successfully");
-    });
+    try {
+      const txResult = await txTracer.traceTx(txHash);
+      console.log("✅ Transaction success:", txResult);
+      return txResult;
+    } catch (error) {
+      console.error("Transaction failed:", error);
+      return null;
+    }
   }
 };
 

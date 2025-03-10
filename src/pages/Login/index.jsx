@@ -475,17 +475,6 @@ const Login = () => {
                   disabled={!nodeUrl}
                 />
               </div>
-              <div style={{ marginTop: "50px" }}>
-                <CommonBtn
-                  children={isNodeAdded ? "Keplr Wallet" : "Submit"}
-                  onClick={
-                    isNodeAdded
-                      ? (event) => submitHandler(event, "keplr")
-                      : handleNode
-                  }
-                  disabled={!nodeUrl}
-                />
-              </div>
               {isNodeAdded && <LoginModal connectionOpen={true} />}
             </>
           </Box>

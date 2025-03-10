@@ -7,6 +7,7 @@ const fetchValoperAddress = async (mnemonics) => {
     prefix: "qubeticsvaloper",
   });
   const [{ address: valoperaddress }] = await wallet.getAccounts();
+  console.log(valoperaddress);
   return valoperaddress;
 };
 

@@ -77,7 +77,7 @@ const Bond = () => {
 
   const onSubmit = async () => {
     try {
-      // setIsLoading(true);
+      setIsLoading(true);
       const data = {
         userAddress,
         bondAmount,
@@ -85,7 +85,21 @@ const Bond = () => {
         nodeUrl,
       };
       if (walletType == "keplr") {
-        await keplrBondMore(userAddress, bondAmount, valoperAddress);
+        const res = await keplrBondMore(
+          userAddress,
+          bondAmount,
+          valoperAddress
+        );
+        console.log(res, "BONDED RES");
+        setTimeout(() => {
+          if (res) {
+            setIsLoading(false);
+            navigate("/dashboard");
+            toast.success("Transaction successful");
+          } else if (res == "undefined") {
+            setIsLoading(false);
+          }
+        }, 2000);
       }
       if (window?.qubetics) {
         window.qubetics.sendRequest(

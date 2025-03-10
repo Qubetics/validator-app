@@ -11,8 +11,9 @@ export const keplrBondMore = async (
 ) => {
   if (window.keplr) {
     const key = await window.keplr?.getKey(OsmosisChainInfo.chainId);
+    console.log(key, "handleApproval");
     const scaledAmount = parseUnits(stakeAmount.toString(), 18).toString();
-    const res = "";
+    let res = "";
 
     const protoMsgs = {
       typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
@@ -51,7 +52,7 @@ export const keplrBondMore = async (
           }
         );
       }
-      console.log(res, "RESRS");
+      return res;
     } catch (e) {
       if (e instanceof Error) {
         console.log(e.message);

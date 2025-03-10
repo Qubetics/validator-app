@@ -15,6 +15,7 @@ import Loader from "../Loader/Loader";
 import { useGetNodeUrl } from "../../context/NodeUrl";
 import { toast } from "../Common/Toast/Toast";
 import CommonBtn from "../Common/Commonbtn/Commonbtn";
+import { convertToValoperAddress } from "../../services/convertToValoperAddress";
 
 const LoginModal = ({ connectionOpen, connectionClose }) => {
   const dispatch = useDispatch();
@@ -107,9 +108,12 @@ const LoginModal = ({ connectionOpen, connectionClose }) => {
         const offlineSigner = window.keplr.getOfflineSigner(chainId);
         const accounts = await offlineSigner.getAccounts();
         let evmAddress = await showEVMAddress(accounts[0].address);
+        let valoperAddress = await convertToValoperAddress(accounts[0].address);
+        console.log(valoperAddress, "VALOPER ADDRESRSESE");
         if (accounts[0].address) {
           dispatch(getWalletType("keplr"));
           dispatch(getEvmAddress(evmAddress));
+          dispatch(getValoperAddressFromBlockChain(valoperAddress));
 
           dispatch(logInSuccess(accounts[0].address));
           return toast.success("Logged In Successfully");

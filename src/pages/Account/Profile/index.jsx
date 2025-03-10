@@ -36,6 +36,7 @@ import { BackIcon } from "../../../assets/Icons/SvgIcon";
 import { toast } from "../../../components/Common/Toast/Toast";
 import { useGetNodeUrl } from "../../../context/NodeUrl";
 import { showEVMAddress } from "../../../services/showEVMAddress";
+import { keplrEditValidator } from "../../../keplrEvents/keplrEditValidator";
 
 const style = {
   position: "absolute",
@@ -145,13 +146,30 @@ const Profile = () => {
   }, [profileData]);
 
   const editValidtor = () => {
+    setIsLoading(true);
     const data = {
       primaryValues,
       nodeUrl,
       valoperAddress,
       hideCommissionField,
     };
-    setIsLoading(true);
+
+    if (window?.keplr) {
+      const res = keplrEditValidator(
+        primaryValues,
+        valoperAddress,
+        hideCommissionField
+      );
+      // setTimeout(() => {
+      //   if (res) {
+      //     setIsLoading(false);
+      //     toast.success("Transaction Successfull");
+      //     navigate("/dashboard");
+      //   }
+      // }, 3500);
+    }
+
+    return;
     if (window?.qubetics) {
       window?.qubetics.sendRequest("editValidator", data, (error, res) => {
         if (res?.type == "error") {
