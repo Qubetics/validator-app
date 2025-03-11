@@ -561,7 +561,7 @@ const Login = () => {
                   </div>
                 </form>
               )}
-              {isNodeAdded && <h3 style={{ marginLeft: "47%" }}>OR</h3>}
+              {isNodeAdded && <h3 style={{ marginLeft: "48%" }}>OR</h3>}
               {isNodeAdded && (
                 <div
                   className="auth-wrapper__btns"
