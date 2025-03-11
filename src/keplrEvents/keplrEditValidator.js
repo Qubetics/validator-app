@@ -14,6 +14,9 @@ export const keplrEditValidator = async (
   const { name, details, identity, website, SecurityContact } = primaryValues;
   let res = "";
 
+  console.log(primaryValues, "PRIMARY");
+  return;
+
   if (window.keplr) {
     const key = await window.keplr?.getKey(OsmosisChainInfo.chainId);
 
@@ -28,8 +31,8 @@ export const keplrEditValidator = async (
           details: details,
         },
         validatorAddress: valoperAddress,
-        commissionRate: hideCommissionField,
-        minSelfDelegation: "100000000000000",
+        commissionRate: hideCommissionField || undefined,
+        minSelfDelegation: parseUnits("1", 18).toString(),
       }).finish(),
     };
 

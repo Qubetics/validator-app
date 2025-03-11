@@ -16,6 +16,10 @@ import { useGetNodeUrl } from "../../context/NodeUrl";
 import { toast } from "../Common/Toast/Toast";
 import CommonBtn from "../Common/Commonbtn/Commonbtn";
 import { convertToValoperAddress } from "../../services/convertToValoperAddress";
+import BackButton from "../BackButton/BackButton";
+import { BackIcon } from "../../assets/Icons/SvgIcon.jsx";
+import getLatestBlocks from "../../services/getLatestBlocks";
+import getBlockFromChain from "../../services/apis/getLatestBlockFromChain";
 
 const LoginModal = ({ connectionOpen, connectionClose }) => {
   const dispatch = useDispatch();
@@ -66,7 +70,7 @@ const LoginModal = ({ connectionOpen, connectionClose }) => {
                       response?.data?.address
                     );
                     dispatch(getEvmAddress(evmAddress));
-
+                    dispatch(getWalletType("qubetics"));
                     dispatch(logInSuccess(response?.data?.address));
                     setIsLoading(false);
                     return toast.success("Logged In Successfully");
@@ -139,10 +143,7 @@ const LoginModal = ({ connectionOpen, connectionClose }) => {
         aria-describedby="logout-dialog-description"
       >
         <DialogContent>
-          <h3>
-            {" "}
-            <span onClick={() => goBack()}>Arrow</span> Login with
-          </h3>
+          <h3>Login with</h3>
 
           <div className="connectionAttempt_btn">
             <div className="connectionAttempt_btn_inner">

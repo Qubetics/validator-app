@@ -54,49 +54,34 @@ const AuthorizeValidatorTransaction = ({
           });
           const [{ address: senderAddress }] = await wallet.getAccounts();
           if (senderAddress?.length > 0 && senderAddress === userAddress) {
-            const data = {
+            setLoader(true);
+            const res = await createValidator(
               mnemonics,
               primaryValues,
               secondaryValues,
               nodeUrl,
-              valoperAddressFromBlockChain,
-              publicKey,
-            };
-            setLoader(true);
-            if (window?.qubetics) {
-              window.qubetics.sendRequest(
-                "createValidator",
-                data,
-                (error, res) => {
-                  if (res?.type == "error") {
-                    setIsLoading(false);
-                    toast.error(res?.data?.message || "Something went wrong");
-                    return;
-                  } else {
-                    setTimeout(() => {
-                      dispatch(isTxOccur(true));
-                      if (res?.data?.code == 0) {
-                        setLoader(false);
-                        navigate("/dashboard");
-                        toast.success("Transaction Successful");
-                        return;
-                      } else {
-                        if (res && res?.data?.rawLog?.includes("failed")) {
-                          let msg = res?.data?.rawLog?.split(
-                            "failed to execute message; message index: 0:"
-                          );
-                          toast.error(msg[1]);
-                        } else {
-                          toast.error(res?.data?.rawLog);
-                        }
-                        setLoader(false);
-                        return navigate("/dashboard");
-                      }
-                    }, 3000);
-                  }
+              valoperAddressFromBlockChain
+            );
+            setTimeout(() => {
+              dispatch(isTxOccur(true));
+              if (res?.code == 0) {
+                setLoader(false);
+                navigate("/dashboard");
+                toast.success("Transaction Successful");
+                return;
+              } else {
+                if (res && res?.rawLog?.includes("failed")) {
+                  let msg = res?.rawLog?.split(
+                    "failed to execute message; message index: 0:"
+                  );
+                  toast.error(msg[1]);
+                } else {
+                  toast.error(res?.rawLog);
                 }
-              );
-            }
+                setLoader(false);
+                return navigate("/dashboard");
+              }
+            }, 3000);
           } else {
             setLoader(false);
             return toast.error("Mnemonics are not same as Login Mnemonics");
@@ -115,50 +100,34 @@ const AuthorizeValidatorTransaction = ({
               senderAddress === userAddress &&
               valoperAddress?.length > 0
             ) {
-              const data = {
+              setIsLoading(true);
+              const res = await editValidator(
                 mnemonics,
                 primaryValues,
                 nodeUrl,
                 valoperAddress,
-                hideCommissionField,
-              };
-              setIsLoading(true);
-              if (window?.qubetics) {
-                window?.qubetics.sendRequest(
-                  "editValidator",
-                  data,
-                  (error, res) => {
-                    if (res?.type == "error") {
-                      setIsLoading(false);
-                      toast.error(res?.data?.message || "Something went wrong");
-                      return;
-                    } else {
-                      if (res) {
-                        setTimeout(() => {
-                          dispatch(isTxOccur(true));
-                          if (res && res?.data?.rawLog?.includes("failed")) {
-                            let msg = res?.data?.rawLog?.split(
-                              "failed to execute message; message index: 0:"
-                            );
-                            setOpen(false);
-                            setActiveStep(0);
-                            setIsLoading(false);
-                            toast.error(msg[1]);
-                            return;
-                          } else {
-                            setOpen(false);
-                            setActiveStep(0);
-                            setIsLoading(false);
-                            setEditSuccess(true);
-                            toast.success("Transaction Successful");
-                            return;
-                          }
-                        }, 3000);
-                      }
-                    }
-                  }
-                );
-              }
+                hideCommissionField
+              );
+              setTimeout(() => {
+                dispatch(isTxOccur(true));
+                if (res && res?.rawLog?.includes("failed")) {
+                  let msg = res?.rawLog?.split(
+                    "failed to execute message; message index: 0:"
+                  );
+                  setOpen(false);
+                  setActiveStep(0);
+                  setIsLoading(false);
+                  toast.error(msg[1]);
+                  return;
+                } else {
+                  setOpen(false);
+                  setActiveStep(0);
+                  setIsLoading(false);
+                  setEditSuccess(true);
+                  toast.success("Transaction Successful");
+                  return;
+                }
+              }, 3000);
             } else {
               setIsLoading(false);
               return toast.error("Mnemonics are not same as Login Mnemonics");

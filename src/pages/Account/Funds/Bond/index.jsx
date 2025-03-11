@@ -16,6 +16,9 @@ import { toFixed } from "../../../../utils/toFixed";
 import { isTxOccur } from "../../../../redux/reducer/auth";
 import { BackIcon } from "../../../../assets/Icons/SvgIcon.jsx";
 import { keplrBondMore } from "../../../../keplrEvents/KeplrBondMore.js";
+import { getAddress } from "../../../../services/getAddress.js";
+import { checkTransaction } from "../../../../services/checkTransaction.js";
+import bondMoreFunds from "../../../../services/bondMoreFunds.js";
 
 const Bond = () => {
   const navigate = useNavigate();
@@ -45,10 +48,15 @@ const Bond = () => {
   useEffect(() => {
     if (!bondAmount || errMsg?.amount?.length > 0) {
       setIsDisable(true);
+    } else if (
+      (!mnemonics && walletType == "noWallet") ||
+      (errMsg?.mnemonics?.length > 0 && walletType == "noWallet")
+    ) {
+      setIsDisable(true);
     } else {
       setIsDisable(false);
     }
-  }, [errMsg, bondAmount]);
+  }, [errMsg, bondAmount, mnemonics]);
 
   const handleChange = async (e) => {
     let { name, value } = e.target;
@@ -67,6 +75,7 @@ const Bond = () => {
     }
     if (name === "Mnemonics") {
       bondMoreValidations(e, setErrMsg);
+      setMnemonics(value);
     }
   };
 
@@ -77,7 +86,32 @@ const Bond = () => {
 
   const onSubmit = async () => {
     try {
+      if (walletType == "noWallet") {
+        let res = await getAddress(mnemonics);
+        if (res?.message) {
+          return toast.error(res?.message);
+        }
+        if (res?.length > 0 && res !== userAddress) {
+          toast.error("Mnemonics are not same as login");
+          return;
+        }
+      }
       setIsLoading(true);
+
+      if (walletType === "noWallet") {
+        const response = await bondMoreFunds(
+          mnemonics,
+          userAddress,
+          bondAmount,
+          valoperAddress
+        );
+
+        if (response) {
+          dispatch(isTxOccur(true));
+          setTimeout(() => checkTransaction(response, navigate), 3000);
+        }
+        return;
+      }
       const data = {
         userAddress,
         bondAmount,
@@ -90,7 +124,6 @@ const Bond = () => {
           bondAmount,
           valoperAddress
         );
-        console.log(res, "BONDED RES");
         setTimeout(() => {
           if (res) {
             setIsLoading(false);
@@ -101,7 +134,7 @@ const Bond = () => {
           }
         }, 2000);
       }
-      if (window?.qubetics) {
+      if (window?.qubetics && walletType == "qubetics") {
         window.qubetics.sendRequest(
           "bondMoreFunds",
           data,
@@ -113,21 +146,10 @@ const Bond = () => {
             } else {
               dispatch(isTxOccur(true));
               if (response) {
-                setTimeout(() => {
-                  const fetchData = async () => {
-                    let resp = await getTransactionLogs(response?.data);
-                    if (resp?.result?.tx_result?.data === null) {
-                      setIsLoading(false);
-                      toast.error("Transaction failed");
-                      navigate("/dashboard");
-                    } else {
-                      setIsLoading(false);
-                      toast.success("Transaction successful");
-                      navigate("/dashboard");
-                    }
-                  };
-                  fetchData();
-                }, 1500);
+                setTimeout(
+                  () => checkTransaction(response?.data, navigate),
+                  4000
+                );
               }
             }
           }
@@ -174,6 +196,27 @@ const Bond = () => {
           </Button>
         </div>
 
+        {walletType == "noWallet" && (
+          <div className="bond-wrapper__amount">
+            <div>
+              <TextField
+                label="Enter mnemonics to authorize the transaction"
+                placeholder="Enter your mnemonics"
+                name="Mnemonics"
+                autoComplete="off"
+                onChange={(e) => handleChange(e)}
+                type="password"
+              />
+              {errMsg?.mnemonics?.length > 0 && (
+                <p style={{ color: "red", marginTop: "-1px" }}>
+                  {errMsg?.mnemonics}
+                </p>
+              )}
+            </div>
+            <span className="maxBtn">{/* <MnemonicsIcon /> */}</span>
+          </div>
+        )}
+
         <h6 style={{ marginTop: "10px" }}>
           NOTE:{" "}
           <span className="noteData">
@@ -195,6 +238,7 @@ const Bond = () => {
           children=" Sign and Submit"
           onClick={onSubmit}
           color="primary"
+          disabled={isDisable}
         />
       </div>
     </BondWrapper>

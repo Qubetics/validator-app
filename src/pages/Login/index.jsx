@@ -255,7 +255,7 @@
 
 /* eslint-disable */
 
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Typography, Button, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -279,11 +279,19 @@ import { userEvmAddress } from "../../services/userEvmAddress.js";
 import { showEVMAddress } from "../../services/showEVMAddress";
 import { OsmosisChainInfo } from "../../constants";
 import LoginModal from "../../components/LoginWalletModal/LoginModal";
+import { getAddress } from "../../services/getAddress";
+import fetchValoperAddress from "../../services/fetchValoperAddress";
+import BackButton from "../../components/BackButton/BackButton";
+import BackIcon from "../../assets/Icons/BackIcon";
 const Login = () => {
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { nodeUrl, setNodeUrl, isNodeAdded, setIsNodeAdded } = useGetNodeUrl();
+  const [mnemonics, SetMnemonics] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [connectionOpen, setConnectionOpen] = useState(false);
+
+  const changeHandler = (e) => SetMnemonics(e.target.value?.trim());
 
   const submitHandler = async (event, data) => {
     event.preventDefault();
@@ -425,6 +433,50 @@ const Login = () => {
     };
   }, [nodeUrl]);
 
+  const submitMnemonicsHandler = async (event) => {
+    event.preventDefault();
+    try {
+      if (!mnemonics) {
+        toast.error("Mnemonics is required!");
+        return;
+      }
+      if (mnemonics?.length > 0) {
+        dispatch(getWalletType("noWallet"));
+        // setIsLoading(true);
+        let res = await getAddress(mnemonics);
+        let evmAddress = await userEvmAddress(mnemonics);
+
+        if (res?.message) {
+          toast.error(`Invalid node, ${res?.message}`);
+          return;
+        }
+        let block = await getLatestBlocks();
+        let block1 = await getBlockFromChain();
+        if (block?.result?.block?.header?.height && block1?.data?.blocknumber) {
+          if (
+            block?.result?.block?.header?.height == block1?.data?.blocknumber
+          ) {
+            let response = await fetchValoperAddress(mnemonics);
+            dispatch(getValoperAddressFromBlockChain(response));
+            dispatch(getEvmAddress(evmAddress));
+            dispatch(logInSuccess(res));
+
+            setIsLoading(false);
+            return toast.success("Logged In Successfully");
+          } else {
+            setIsLoading(false);
+
+            return toast.error(
+              `Either check your node connection or node is not synced,current syncing status: ${block?.result?.block?.header?.height} out of ${block1?.data?.blocknumber}`
+            );
+          }
+        }
+      }
+    } catch (err) {
+      toast.error(err?.message, "check your node");
+    }
+  };
+
   return (
     <>
       <div className="auth-wrapper">
@@ -432,50 +484,99 @@ const Login = () => {
           <Box>
             <div className="refresh-wrap">
               <Typography className="node-text">
-                {" "}
-                {isNodeAdded ? "Connect with Wallet" : "Node Information"}
+                {isNodeAdded ? (
+                  <>
+                    <BackButton
+                      onClick={handleClearNode}
+                      title={<BackIcon />}
+                    />
+                    {" Login"}
+                  </>
+                ) : (
+                  "Node Information"
+                )}
               </Typography>
             </div>
-            <>
-              <label>Node Information</label>
-              <div
-                style={{
-                  position: "relative",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <input
-                  value={nodeUrl}
-                  onChange={(e) => handleNodeChange(e)}
-                  disabled={isNodeAdded}
-                  placeholder="Enter Node URL"
-                />
-                {isNodeAdded && (
-                  <Button
-                    className="headermetabtn"
-                    style={{
-                      position: "absolute",
-                      right: "10px",
-                      padding: "4px 5px 0px 5px",
-                      minWidth: "31px",
-                      top: "11px",
-                    }}
-                    onClick={handleClearNode}
-                  >
-                    <RedCrosss />
-                  </Button>
-                )}
-              </div>
 
-              <div style={{ marginTop: "50px" }}>
-                <CommonBtn
-                  children={isNodeAdded ? "Connect Wallet" : "Submit"}
-                  onClick={isNodeAdded ? submitHandler : handleNode}
-                  disabled={!nodeUrl}
-                />
-              </div>
-              {isNodeAdded && <LoginModal connectionOpen={true} />}
+            <>
+              {!isNodeAdded && (
+                <>
+                  <label>Node Information</label>
+                  <div
+                    style={{
+                      position: "relative",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <input
+                      value={nodeUrl}
+                      onChange={(e) => handleNodeChange(e)}
+                      disabled={isNodeAdded}
+                      placeholder="Enter Node URL"
+                    />
+                  </div>
+
+                  <div style={{ marginTop: "50px" }}>
+                    <Button
+                      style={{ margin: "auto" }}
+                      variant="contained"
+                      type="submit"
+                      onClick={handleNode}
+                    >
+                      Submit
+                    </Button>
+                  </div>
+                </>
+              )}
+
+              {isNodeAdded && (
+                <form onSubmit={submitMnemonicsHandler}>
+                  <input
+                    label="Mnemonics"
+                    value={mnemonics}
+                    placeholder="Paste or enter your mnemonics"
+                    onChange={changeHandler}
+                    autoComplete="off"
+                    disabled={!isNodeAdded || isLoading}
+                    type="password"
+                    className="input-style"
+                  />
+
+                  <div className="auth-wrapper__btns">
+                    <Button
+                      style={{ width: "100%", marginBottom: "10px" }}
+                      className=""
+                      variant="contained"
+                      type="submit"
+                      disabled={!isNodeAdded}
+                    >
+                      <span className="btn-icon">{/* <LoginIcon /> */}</span>
+                      Log In
+                    </Button>
+                  </div>
+                </form>
+              )}
+
+              {isNodeAdded && (
+                <div
+                  className="auth-wrapper__btns"
+                  style={{ padding: "10px 0px" }}
+                >
+                  <Button
+                    style={{ width: "100%" }}
+                    variant="contained"
+                    type="submit"
+                    disabled={!isNodeAdded}
+                    onClick={() => setConnectionOpen(true)}
+                  >
+                    <span className="btn-icon">{/* <LoginIcon /> */}</span>
+                    Connect Wallet
+                  </Button>
+                </div>
+              )}
+
+              {connectionOpen && <LoginModal connectionOpen={true} />}
             </>
           </Box>
         </NodeBox>

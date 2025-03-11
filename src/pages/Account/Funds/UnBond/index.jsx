@@ -19,6 +19,7 @@ import { isTxOccur } from "../../../../redux/reducer/auth";
 import { JAIL_TIME } from "../../../../constant";
 import { MnemonicsIcon, BackIcon } from "../../../../assets/Icons/SvgIcon.jsx";
 import { keplrUnbond } from "../../../../keplrEvents/keplrUnbond.js";
+import { checkTransaction } from "../../../../services/checkTransaction.js";
 
 const UnBond = () => {
   const navigate = useNavigate();
@@ -42,6 +43,17 @@ const UnBond = () => {
 
   const onSubmit = async () => {
     try {
+      if (walletType == "noWallet") {
+        let res = await getAddress(mnemonics);
+        if (res?.message) {
+          return toast.error("Invalid Mnemonics");
+        }
+        if (res?.length > 0 && res !== userAddress) {
+          toast.error("Mnemonics are not same as login");
+          return;
+        }
+      }
+
       setIsLoading(true);
       const data = {
         userAddress,
@@ -53,6 +65,21 @@ const UnBond = () => {
         const res = await keplrUnbond(userAddress, unBoundAmt, valoperAddress);
         console.log(res);
       }
+
+      if (walletType === "noWallet") {
+        const response = await unBondFunds(
+          mnemonics,
+          userAddress,
+          valoperAddress,
+          unBoundAmt
+        );
+
+        if (response) {
+          dispatch(isTxOccur(true));
+          setTimeout(() => checkTransaction(response, navigate), 3000);
+        }
+        return;
+      }
       if (window?.qubetics) {
         window.qubetics.sendRequest("unBondFunds", data, (error, response) => {
           if (response?.type == "error") {
@@ -62,21 +89,10 @@ const UnBond = () => {
           } else {
             dispatch(isTxOccur(true));
             if (response) {
-              setTimeout(() => {
-                const fetchData = async () => {
-                  let resp = await getTransactionLogs(response?.data);
-                  if (resp?.result?.tx_result?.data === null) {
-                    setIsLoading(false);
-                    toast.error("Transaction failed");
-                    navigate("/dashboard");
-                  } else {
-                    setIsLoading(false);
-                    toast.success("Transaction successful");
-                    navigate("/dashboard");
-                  }
-                };
-                fetchData();
-              }, 2000);
+              setTimeout(
+                () => checkTransaction(response?.data, navigate),
+                3000
+              );
             }
           }
         });
@@ -104,10 +120,15 @@ const UnBond = () => {
   useEffect(() => {
     if (!unBoundAmt || errMsg?.amount?.length > 0) {
       setIsDisable(true);
+    } else if (
+      (!mnemonics && walletType == "noWallet") ||
+      (errMsg?.mnemonics?.length > 0 && walletType == "noWallet")
+    ) {
+      setIsDisable(true);
     } else {
       setIsDisable(false);
     }
-  }, [errMsg, unBoundAmt]);
+  }, [errMsg, unBoundAmt, mnemonics]);
 
   const handleChange = async (e) => {
     let { name, value } = e.target;
@@ -126,6 +147,7 @@ const UnBond = () => {
     }
     if (name === "Mnemonics") {
       bondMoreValidations(e, setErrMsg);
+      setMnemonics(value);
     }
   };
 
@@ -150,7 +172,7 @@ const UnBond = () => {
             {bondedBalance?.bondedAmount / 10 ** 18}
           </Typography>
         </Box>
-        <div className="bond-wrapper__amount">
+        <div className="bond-wrapper__amount" style={{ marginBottom: "30px" }}>
           {/* Enter Unbonding Amount */}
           <TextField
             label="Unbond amount"
@@ -171,15 +193,33 @@ const UnBond = () => {
             Unbond All
           </Button>
         </div>
-        {/* Enter Mnemonics  */}
-
-        {/* Authorize Transactions */}
-        {/* <Button style={{ marginTop: "50px" }} fullWidth variant="contained" onClick={onSubmit} disabled={isDisable}></Button> */}
+        {walletType == "noWallet" && (
+          <div className="bond-wrapper__amount" style={{ marginTop: "15px" }}>
+            <div style={{ marginBottom: "30px" }}>
+              <TextField
+                type="password"
+                label="Enter mnemonics to authorize the transaction"
+                placeholder="Paste or enter your mnemonics"
+                name="Mnemonics"
+                onChange={handleChange}
+                autoComplete="off"
+                value={mnemonics}
+              />
+              {errMsg?.mnemonics?.length > 0 && (
+                <p style={{ color: "red", marginTop: "-1px" }}>
+                  {errMsg?.mnemonics}
+                </p>
+              )}
+            </div>
+            <span className="maxBtn">{/* <MnemonicsIcon /> */}</span>
+          </div>
+        )}
 
         <CommonBtn
           children="Sign and Submit"
           onClick={onSubmit}
           color="primary"
+          disabled={isDisable}
         />
       </div>
     </BondWrapper>

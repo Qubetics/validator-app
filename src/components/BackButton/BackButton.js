@@ -3,7 +3,11 @@ import { Button } from "@mui/material";
 
 const BackButton = ({ onClick, title }) => {
   return (
-    <button variant="contained" onClick={onClick} className="back-btns primary-btn">
+    <button
+      variant="contained"
+      onClick={onClick}
+      className="back-btns primary-btn"
+    >
       {title}
     </button>
   );

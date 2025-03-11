@@ -19,9 +19,11 @@ import unJailValidator from "../../../../services/unjailValidator";
 import stopDeactivating from "../../../../services/stopDeactivating";
 import { BackIcon, MnemonicsIcon } from "../../../../assets/Icons/SvgIcon";
 import { keplrUnbond } from "../../../../keplrEvents/keplrUnbond";
+import { checkTransaction } from "../../../../services/checkTransaction";
 
 const AuthorizeTransaction = () => {
   const classes = useStyles();
+  const [mnemonics, setMnemonics] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [showBtn, setShowBtn] = useState(true);
   const navigate = useNavigate();
@@ -37,7 +39,17 @@ const AuthorizeTransaction = () => {
   const { state } = useLocation();
 
   const onSubmit = async () => {
+    console.log(walletType, "WALELE");
     try {
+      if (walletType === "noWallet") {
+        if (!mnemonics?.trim()) {
+          return toast.error("Enter Mnemonics");
+        }
+        const res = await getAddress(mnemonics);
+        if (res !== userAddress && walletType == "noWallet") {
+          return toast.error("Mnemonics are not same as login");
+        }
+      }
       if (pathname.split("funds/")[1] == "stopvalidator") {
         setIsLoading(true);
         const unBoundAmt = bondedBalance?.bondedAmount / 10 ** 18;
@@ -63,7 +75,21 @@ const AuthorizeTransaction = () => {
           }, 2000);
         }
 
-        if (window?.qubetics) {
+        if (walletType == "noWallet") {
+          const response = await unBondFunds(
+            mnemonics,
+            userAddress,
+            valoperAddress,
+            bondedBalance?.bondedAmount / 10 ** 18
+          );
+          if (response) {
+            dispatch(isTxOccur(true));
+            setTimeout(() => checkTransaction(response, navigate), 3000);
+          }
+          return;
+        }
+
+        if (window?.qubetics && walletType == "qubetics") {
           window.qubetics.sendRequest(
             "stopValidator",
             data,
@@ -75,22 +101,10 @@ const AuthorizeTransaction = () => {
               } else {
                 dispatch(isTxOccur(true));
                 if (response) {
-                  setTimeout(() => {
-                    const fetchData = async () => {
-                      let resp = await getTransactionLogs(response?.data);
-                      if (resp?.result?.tx_result?.data === null) {
-                        setIsLoading(false);
-                        toast.error("Transaction failed");
-                        navigate("/dashboard");
-                      } else {
-                        setIsLoading(false);
-                        toast.success("Transaction successful");
-                        navigate("/dashboard");
-                      }
-                    };
-                    fetchData();
-                  }, 1500);
+                  dispatch(isTxOccur(true));
+                  setTimeout(() => checkTransaction(response, navigate), 2000);
                 }
+                return;
               }
             }
           );
@@ -116,6 +130,21 @@ const AuthorizeTransaction = () => {
               }
             }
           });
+        }
+        if (walletType == "noWallet") {
+          const response = await unJailValidator(mnemonics, valoperAddress);
+          if (response) {
+            dispatch(isTxOccur(true));
+            if (response?.code == 0) {
+              setIsLoading(false);
+              navigate("/dashboard");
+              toast.success("Transaction successful");
+            } else {
+              setIsLoading(false);
+              navigate("/dashboard");
+              toast.error(response?.rawLog);
+            }
+          }
         }
         // else {
         //   setIsLoading(false);
@@ -151,6 +180,33 @@ const AuthorizeTransaction = () => {
         </Typography>
         <label>Wallet Address</label>
         <Address address={userAddress} />
+
+        {walletType == "noWallet" && (
+          <div className="mnemonicsItems">
+            <div>
+              <TextField
+                label="Enter Mnemonics to authorize the transaction"
+                placeholder="Enter your mnemonics"
+                onChange={(e) => {
+                  setMnemonics(e.target.value);
+                  if (e.target.value) {
+                    setShowBtn(false);
+                  } else {
+                    setShowBtn(true);
+                  }
+                }}
+                type="password"
+                autoComplete="off"
+              />
+              {errMsg?.mnemonics?.length > 0 && (
+                <p style={{ color: "red", marginTop: "-1px" }}>
+                  {errMsg?.mnemonics}
+                </p>
+              )}
+            </div>
+            <span className="maxBtn">{/* <MnemonicsIcon /> */}</span>
+          </div>
+        )}
 
         <h6 style={{ marginTop: "10px", paddingBottom: "20px" }}>
           NOTE:{" "}

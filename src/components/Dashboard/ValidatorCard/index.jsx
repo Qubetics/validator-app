@@ -28,8 +28,6 @@ const DashboardValidatorCard = () => {
     navigate("/account/become-a-validator");
   };
 
-  console.log(userAddress, "userAddress");
-
   useEffect(() => {
     const fetchData = async () => {
       try {

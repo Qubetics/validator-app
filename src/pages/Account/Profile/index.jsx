@@ -56,7 +56,9 @@ const Profile = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [profileStatus, setProfileStatus] = useState(LOADING_STATES.INIT);
   const [isLoading, setIsLoading] = useState(false);
-  const { userAddress, isValidated } = useSelector((state) => state?.auth);
+  const { userAddress, isValidated, walletType } = useSelector(
+    (state) => state?.auth
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showIcon, setShowIcon] = useState(true);
@@ -88,7 +90,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (userAddress || editSuccess == true) {
+        if (userAddress) {
           setProfileStatus(LOADING_STATES.FETCHING);
           const response = await getValidatorByAddress(userAddress);
           if (response?.error === false) {
@@ -115,7 +117,7 @@ const Profile = () => {
       }
     };
     fetchData();
-  }, [userAddress, editSuccess]);
+  }, [userAddress]);
 
   useEffect(() => {
     setPrimaryValues({
@@ -146,7 +148,8 @@ const Profile = () => {
   }, [profileData]);
 
   const editValidtor = () => {
-    setIsLoading(true);
+    // return;
+    // setIsLoading(true);
     const data = {
       primaryValues,
       nodeUrl,
@@ -154,12 +157,12 @@ const Profile = () => {
       hideCommissionField,
     };
 
-    if (window?.keplr) {
-      const res = keplrEditValidator(
-        primaryValues,
-        valoperAddress,
-        hideCommissionField
-      );
+    if (window?.keplr && walletType == "keplr") {
+      // const res = keplrEditValidator(
+      //   primaryValues,
+      //   valoperAddress,
+      //   hideCommissionField
+      // );
       // setTimeout(() => {
       //   if (res) {
       //     setIsLoading(false);
@@ -169,8 +172,7 @@ const Profile = () => {
       // }, 3500);
     }
 
-    return;
-    if (window?.qubetics) {
+    if (window?.qubetics && walletType == "qubetics") {
       window?.qubetics.sendRequest("editValidator", data, (error, res) => {
         if (res?.type == "error") {
           setIsLoading(false);
@@ -296,6 +298,19 @@ const Profile = () => {
                             />
                           );
                         case 1:
+                          if (walletType === "noWallet") {
+                            return (
+                              <AuthorizeValidatorTransaction
+                                setActiveStep={setActiveStep}
+                                primaryValues={primaryValues}
+                                methodType="editValidator"
+                                setOpen={setOpen}
+                                setIsLoading={setIsLoading}
+                                hideCommissionField={hideCommissionField}
+                                setEditSuccess={setEditSuccess}
+                              />
+                            );
+                          }
                           return editValidtor();
                         default:
                           return <></>;

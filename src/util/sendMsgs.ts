@@ -80,18 +80,22 @@ export const sendMsgs = async (
     };
 
     const txHash = await broadcastTxSync(keplr, chainInfo.chainId, signedTx.tx);
-    console.log(txHash, "TXHASHHS");
-    return txHash;
-
     const txTracer = new TendermintTxTracer(chainInfo.rpc, "/websocket");
-    try {
-      const txResult = await txTracer.traceTx(txHash);
-      console.log("✅ Transaction success:", txResult);
-      return txResult;
-    } catch (error) {
-      console.error("Transaction failed:", error);
-      return null;
-    }
+    txTracer.traceTx(txHash).then((tx) => {
+      console.log("Transaction commit successfully");
+    });
+
+    return txHash;
+    // const txTracer = new TendermintTxTracer(chainInfo.rpc, "/websocket");
+    // console.log(txTracer, "TXTRACEr");
+    // try {
+    //   const txResult = await txTracer.traceTx(txHash);
+    //   console.log("✅ Transaction success:", txResult);
+    //   return txResult;
+    // } catch (error) {
+    //   console.error("Transaction failed:", error);
+    //   return null;
+    // }
   }
 };
 

@@ -80,6 +80,7 @@ export const keplrCreateValidator = async (
         [protoMsgs],
         [{ denom: "tics", amount: "100000000" }]
       );
+      console.log(gasUsed, "GASUSED");
 
       if (gasUsed > 0) {
         await sendMsgs(
@@ -99,32 +100,32 @@ export const keplrCreateValidator = async (
       console.error("Transaction Error:", e.message);
     }
 
-    try {
-      const gasUsed = await simulateMsgs(
-        window?.keplr,
-        OsmosisChainInfo,
-        key.bech32Address,
-        [protoMsgs],
-        [{ denom: "tics", amount: "100000000" }]
-      );
-      if (gasUsed) {
-        res = await sendMsgs(
-          window.keplr,
-          OsmosisChainInfo,
-          key.bech32Address,
-          [protoMsgs],
-          {
-            amount: [{ denom: "tics", amount: "100000000" }],
-            gas: Math.floor(gasUsed * 1.5).toString(),
-          }
-        );
-      }
-      return res;
-    } catch (e) {
-      if (e instanceof Error) {
-        console.log(e.message);
-      }
-    }
+    // try {
+    //   const gasUsed = await simulateMsgs(
+    //     window?.keplr,
+    //     OsmosisChainInfo,
+    //     key.bech32Address,
+    //     [protoMsgs],
+    //     [{ denom: "tics", amount: "100000000" }]
+    //   );
+    //   if (gasUsed) {
+    //     res = await sendMsgs(
+    //       window.keplr,
+    //       OsmosisChainInfo,
+    //       key.bech32Address,
+    //       [protoMsgs],
+    //       {
+    //         amount: [{ denom: "tics", amount: "100000000" }],
+    //         gas: Math.floor(gasUsed * 1.5).toString(),
+    //       }
+    //     );
+    //   }
+    //   return res;
+    // } catch (e) {
+    //   if (e instanceof Error) {
+    //     console.log(e.message);
+    //   }
+    // }
   }
 };
 

@@ -1,7 +1,14 @@
 import { toast } from "../components/Common/Toast/Toast";
 import { MIN_BOND_AMOUNT } from "../constant";
 
-export const handleNext = (values, activeStep, setActiveStep, bal, fee) => {
+export const handleNext = (
+  values,
+  activeStep,
+  setActiveStep,
+  bal,
+  fee,
+  walletType
+) => {
   switch (activeStep) {
     case 0:
       if (
@@ -97,6 +104,11 @@ export const handleNext = (values, activeStep, setActiveStep, bal, fee) => {
         );
         return;
       }
+      if (walletType == "noWallet") {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        return;
+      }
+
       return true;
     default:
       return;

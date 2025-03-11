@@ -10,7 +10,10 @@ import { BackIcon } from "../../assets/Icons/SvgIcon.jsx";
 import "./style.css";
 import { FEE, MIN_BOND_AMOUNT, commissionInputValues } from "../../constant";
 import { countDecimal, removeZero } from "../../utils/helper";
-import { handleNext } from "../../utils/validatorValidations";
+import {
+  handleMnemonicValidate,
+  handleNext,
+} from "../../utils/validatorValidations";
 import { toFixed } from "../../utils/toFixed";
 import { noExponential } from "../../utils/commonFunctions";
 import { useNavigate } from "react-router-dom";
@@ -42,6 +45,7 @@ const StakingStep = ({
   const navigate = useNavigate();
   const [loader, setLoader] = useState(false);
   const dispatch = useDispatch();
+  console.log(walletType, "WLALLET");
 
   const goBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -117,7 +121,7 @@ const StakingStep = ({
       }, 3500);
     }
 
-    if (window?.qubetics && res) {
+    if (window?.qubetics && walletType == "qubetics") {
       window.qubetics.sendRequest("createValidator", data, (error, res) => {
         if (res?.type == "error") {
           setLoader(false);
@@ -208,16 +212,19 @@ const StakingStep = ({
         <div className="commonBtns">
           <CommonBtn
             children=" Bond and validate"
-            onClick={() => handleNextValidate()}
-            // onClick={() =>
-            //   handleNext(
-            //     secondaryValues,
-            //     activeStep,
-            //     setActiveStep,
-            //     userBalance,
-            //     FEE
-            //   )
-            // }
+            onClick={
+              walletType === "noWallet"
+                ? () =>
+                    handleNext(
+                      secondaryValues,
+                      activeStep,
+                      setActiveStep,
+                      userBalance,
+                      FEE,
+                      walletType
+                    )
+                : () => handleNextValidate()
+            }
             color="primary"
           />
         </div>
