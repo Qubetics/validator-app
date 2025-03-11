@@ -20,6 +20,9 @@ import { JAIL_TIME } from "../../../../constant";
 import { MnemonicsIcon, BackIcon } from "../../../../assets/Icons/SvgIcon.jsx";
 import { keplrUnbond } from "../../../../keplrEvents/keplrUnbond.js";
 import { checkTransaction } from "../../../../services/checkTransaction.js";
+import { TendermintTxTracer } from "@keplr-wallet/cosmos";
+// import { OsmosisChainInfo } from "../../../../constants.js";
+// import { OsmosisChainInfo } from "../../../../constants.js";
 
 const UnBond = () => {
   const navigate = useNavigate();
@@ -63,7 +66,15 @@ const UnBond = () => {
       };
       if (walletType == "keplr") {
         const res = await keplrUnbond(userAddress, unBoundAmt, valoperAddress);
-        console.log(res);
+        setTimeout(() => {
+          if (res) {
+            setIsLoading(false);
+            navigate("/dashboard");
+            toast.success("Transaction successful");
+          } else if (res == "undefined") {
+            setIsLoading(false);
+          }
+        }, 2000);
       }
 
       if (walletType === "noWallet") {
