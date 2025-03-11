@@ -124,6 +124,7 @@ const Bond = () => {
           bondAmount,
           valoperAddress
         );
+        console.log(res, "res");
         setTimeout(() => {
           if (res) {
             setIsLoading(false);
