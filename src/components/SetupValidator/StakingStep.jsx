@@ -45,7 +45,6 @@ const StakingStep = ({
   const navigate = useNavigate();
   const [loader, setLoader] = useState(false);
   const dispatch = useDispatch();
-  console.log(walletType, "WLALLET");
 
   const goBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -101,24 +100,15 @@ const StakingStep = ({
       publicKey,
     };
 
-    console.log(valoperAddressFromBlockChain, "VALOPER ADDRES");
-
     if (walletType == "keplr") {
-      const res = keplrCreateValidator(
+      keplrCreateValidator(
         primaryValues,
         secondaryValues,
         valoperAddressFromBlockChain,
         userAddress,
         publicKey
       );
-
-      setTimeout(() => {
-        if (res) {
-          setLoader(false);
-          toast.success("Transaction Successfull");
-          navigate("/dashboard");
-        }
-      }, 3500);
+      navigate("/dashboard");
     }
 
     if (window?.qubetics && walletType == "qubetics") {

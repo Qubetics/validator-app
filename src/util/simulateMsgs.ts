@@ -28,10 +28,8 @@ export const simulateMsgs = async (
   memo: string = ""
 ) => {
   const account = await fetchAccountInfo(chainInfo, sender);
-  console.log("DONE", account);
 
   const { pubKey } = await keplr.getKey(chainInfo.chainId);
-  console.log("pubKey========", pubKey);
   if (account) {
     const unsignedTx = TxRaw.encode({
       bodyBytes: TxBody.encode(

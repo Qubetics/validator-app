@@ -24,11 +24,9 @@ export const sendMsgs = async (
   memo: string = ""
 ) => {
   const account = await fetchAccountInfo(chainInfo, sender);
-  console.log("account========", account);
   const { pubKey } = await keplr.getKey(chainInfo.chainId);
 
   if (account) {
-    console.log("account========", account);
     const signDoc = {
       bodyBytes: TxBody.encode(
         TxBody.fromPartial({

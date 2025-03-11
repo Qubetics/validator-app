@@ -20,6 +20,7 @@ import stopDeactivating from "../../../../services/stopDeactivating";
 import { BackIcon, MnemonicsIcon } from "../../../../assets/Icons/SvgIcon";
 import { keplrUnbond } from "../../../../keplrEvents/keplrUnbond";
 import { checkTransaction } from "../../../../services/checkTransaction";
+import { keplrUnjail } from "../../../../keplrEvents/keplrUnjail";
 
 const AuthorizeTransaction = () => {
   const classes = useStyles();
@@ -39,7 +40,6 @@ const AuthorizeTransaction = () => {
   const { state } = useLocation();
 
   const onSubmit = async () => {
-    console.log(walletType, "WALELE");
     try {
       if (walletType === "noWallet") {
         if (!mnemonics?.trim()) {
@@ -115,7 +115,7 @@ const AuthorizeTransaction = () => {
           valoperAddress,
           nodeUrl,
         };
-        if (window?.qubetics) {
+        if (window?.qubetics && walletType == "qubetics") {
           window.qubetics.sendRequest("", data, (error, response) => {
             if (response?.type == "error") {
               setIsLoading(false);
@@ -130,6 +130,10 @@ const AuthorizeTransaction = () => {
               }
             }
           });
+        }
+        if (walletType == "keplr") {
+          keplrUnjail(valoperAddress);
+          navigate("/dashboard");
         }
         if (walletType == "noWallet") {
           const response = await unJailValidator(mnemonics, valoperAddress);

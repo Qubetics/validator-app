@@ -1,6 +1,6 @@
 /*eslint-disable*/
 import { Button } from "@mui/material";
-import { DialogContent, StyledDialog } from "./styles";
+import { CancelIconWrapper, DialogContent, StyledDialog } from "./styles";
 import { OsmosisChainInfo } from "../../constants";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
@@ -20,6 +20,7 @@ import BackButton from "../BackButton/BackButton";
 import { BackIcon } from "../../assets/Icons/SvgIcon.jsx";
 import getLatestBlocks from "../../services/getLatestBlocks";
 import getBlockFromChain from "../../services/apis/getLatestBlockFromChain";
+import CancelIcon from "../../assets/Icons/CancelIcon";
 
 const LoginModal = ({ connectionOpen, connectionClose }) => {
   const dispatch = useDispatch();
@@ -128,9 +129,8 @@ const LoginModal = ({ connectionOpen, connectionClose }) => {
     }
   };
 
-  const goBack = () => {
+  const handleCross = () => {
     alert("hi");
-    setIsNodeAdded(false);
   };
 
   return (
@@ -138,7 +138,7 @@ const LoginModal = ({ connectionOpen, connectionClose }) => {
       <StyledDialog
         className="connectionAttempt"
         open={connectionOpen}
-        // onClose={connectionClose}
+        onClose={connectionClose}
         aria-labelledby="logout-dialog-title"
         aria-describedby="logout-dialog-description"
       >

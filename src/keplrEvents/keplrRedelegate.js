@@ -13,7 +13,6 @@ export const keplrRedelegate = async (
   if (window.keplr) {
     const key = await window.keplr?.getKey(OsmosisChainInfo.chainId);
     const scaledAmount = parseUnits(stakeAmount.toString(), 18).toString();
-    console.log(scaledAmount, "scaledAmount");
 
     const protoMsgs = {
       typeUrl: "/cosmos.staking.v1beta1.MsgBeginRedelegate",
@@ -28,11 +27,6 @@ export const keplrRedelegate = async (
         },
       }).finish(),
     };
-    console.log(
-      stakeAmount,
-      "STAKE AMOUNT",
-      String(Math.floor(Number(stakeAmount)))
-    );
 
     try {
       const gasUsed = await simulateMsgs(

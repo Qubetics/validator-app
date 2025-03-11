@@ -35,7 +35,6 @@ import {
 import { BackIcon } from "../../../assets/Icons/SvgIcon";
 import { toast } from "../../../components/Common/Toast/Toast";
 import { useGetNodeUrl } from "../../../context/NodeUrl";
-import { showEVMAddress } from "../../../services/showEVMAddress";
 import { keplrEditValidator } from "../../../keplrEvents/keplrEditValidator";
 
 const style = {
@@ -62,8 +61,6 @@ const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showIcon, setShowIcon] = useState(true);
-  const [evmAddress, setEvmAddress] = useState(null);
-
   const [primaryValues, setPrimaryValues] = useState({
     name: "",
     details: "",
@@ -90,7 +87,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (userAddress) {
+        if (userAddress || editSuccess == true) {
           setProfileStatus(LOADING_STATES.FETCHING);
           const response = await getValidatorByAddress(userAddress);
           if (response?.error === false) {
@@ -117,7 +114,7 @@ const Profile = () => {
       }
     };
     fetchData();
-  }, [userAddress]);
+  }, [userAddress, editSuccess]);
 
   useEffect(() => {
     setPrimaryValues({
@@ -148,21 +145,23 @@ const Profile = () => {
   }, [profileData]);
 
   const editValidtor = () => {
-    // return;
-    // setIsLoading(true);
     const data = {
       primaryValues,
       nodeUrl,
       valoperAddress,
       hideCommissionField,
     };
+    setIsLoading(true);
 
     if (window?.keplr && walletType == "keplr") {
-      // const res = keplrEditValidator(
-      //   primaryValues,
-      //   valoperAddress,
-      //   hideCommissionField
-      // );
+      const res = keplrEditValidator(
+        primaryValues,
+        valoperAddress,
+        hideCommissionField
+      );
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 3000);
       // setTimeout(() => {
       //   if (res) {
       //     setIsLoading(false);
@@ -171,9 +170,9 @@ const Profile = () => {
       //   }
       // }, 3500);
     }
-
     if (window?.qubetics && walletType == "qubetics") {
       window?.qubetics.sendRequest("editValidator", data, (error, res) => {
+        console.log(res, "RESRES");
         if (res?.type == "error") {
           setIsLoading(false);
           toast.error(res?.data?.message || "Something went wrong");
@@ -207,16 +206,12 @@ const Profile = () => {
       setIsLoading(false);
     }
   };
-  useEffect(() => {
-    const fetchAddress = async () => {
-      if (userAddress) {
-        const address = await showEVMAddress(userAddress);
-        setEvmAddress(address);
-      }
-    };
 
-    fetchAddress();
-  }, [userAddress]);
+  useEffect(() => {
+    if (activeStep === 1 && walletType !== "noWallet") {
+      editValidtor();
+    }
+  }, [activeStep, walletType]);
 
   return isLoading ? (
     <Loader />
@@ -311,7 +306,7 @@ const Profile = () => {
                               />
                             );
                           }
-                          return editValidtor();
+
                         default:
                           return <></>;
                       }
@@ -329,7 +324,7 @@ const Profile = () => {
               <WalletAddress>
                 <div className="walletInnerData">
                   <Typography>Wallet Address:</Typography>
-                  <Address address={evmAddress ? evmAddress : userAddress} />
+                  <Address address={userAddress} />
                 </div>
                 <button onClick={handleOpen} className="editbutton">
                   {" "}
@@ -399,10 +394,7 @@ const Profile = () => {
           <Box className="profile-wrap__item profiledata">
             <Typography> Wallet Address:</Typography>
             <br />
-            <Address
-              address={evmAddress ? evmAddress : userAddress}
-              showIcon={showIcon}
-            />
+            <Address address={userAddress} showIcon={showIcon} />
           </Box>
 
           <Profiledata className="profile-wrap__item profile-wrap__item--status">

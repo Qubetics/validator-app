@@ -80,10 +80,9 @@ export const keplrCreateValidator = async (
         [protoMsgs],
         [{ denom: "tics", amount: "100000000" }]
       );
-      console.log(gasUsed, "GASUSED");
 
       if (gasUsed > 0) {
-        await sendMsgs(
+        res = await sendMsgs(
           window.keplr,
           OsmosisChainInfo,
           key.bech32Address,
@@ -93,6 +92,7 @@ export const keplrCreateValidator = async (
             gas: Math.floor(gasUsed * 1.5).toString(),
           }
         );
+        return res;
       } else {
         console.error("Gas estimation failed, transaction aborted.");
       }

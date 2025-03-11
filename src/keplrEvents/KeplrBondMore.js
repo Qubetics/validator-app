@@ -11,7 +11,6 @@ export const keplrBondMore = async (
 ) => {
   if (window.keplr) {
     const key = await window.keplr?.getKey(OsmosisChainInfo.chainId);
-    console.log(key, "handleApproval");
     const scaledAmount = parseUnits(stakeAmount.toString(), 18).toString();
     let res = "";
 
@@ -26,11 +25,6 @@ export const keplrBondMore = async (
         },
       }).finish(),
     };
-    console.log(
-      stakeAmount,
-      "STAKE AMOUNT",
-      String(Math.floor(Number(stakeAmount)))
-    );
 
     try {
       const gasUsed = await simulateMsgs(

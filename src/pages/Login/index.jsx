@@ -477,6 +477,10 @@ const Login = () => {
     }
   };
 
+  const connectionClose = () => {
+    setConnectionOpen(false);
+  };
+
   return (
     <>
       <div className="auth-wrapper">
@@ -557,6 +561,7 @@ const Login = () => {
                   </div>
                 </form>
               )}
+              <h3 style={{ marginLeft: "47%" }}>OR</h3>
 
               {isNodeAdded && (
                 <div
@@ -576,7 +581,12 @@ const Login = () => {
                 </div>
               )}
 
-              {connectionOpen && <LoginModal connectionOpen={true} />}
+              {connectionOpen && (
+                <LoginModal
+                  connectionOpen={true}
+                  connectionClose={connectionClose}
+                />
+              )}
             </>
           </Box>
         </NodeBox>
