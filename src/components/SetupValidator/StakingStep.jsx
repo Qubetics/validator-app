@@ -84,6 +84,18 @@ const StakingStep = ({
   };
 
   const handleNextValidate = async () => {
+    const isValid = handleNext(
+      secondaryValues,
+      activeStep,
+      setActiveStep,
+      userBalance,
+      FEE,
+      walletType
+    );
+
+    if (!isValid) return;
+    setLoader(true);
+
     const data = {
       primaryValues,
       secondaryValues,
