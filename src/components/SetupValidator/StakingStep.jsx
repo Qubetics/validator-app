@@ -83,8 +83,7 @@ const StakingStep = ({
     }
   };
 
-  const handleNextValidate = () => {
-    setLoader(true);
+  const handleNextValidate = async () => {
     const data = {
       primaryValues,
       secondaryValues,
@@ -94,7 +93,7 @@ const StakingStep = ({
     };
 
     if (walletType == "keplr") {
-      keplrCreateValidator(
+      await keplrCreateValidator(
         primaryValues,
         secondaryValues,
         valoperAddressFromBlockChain,

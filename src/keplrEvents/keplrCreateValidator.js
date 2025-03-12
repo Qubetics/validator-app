@@ -21,6 +21,7 @@ export const keplrCreateValidator = async (
 
   if (window.keplr) {
     setLoader(true);
+
     const key = await window.keplr?.getKey(OsmosisChainInfo.chainId);
     const scaledBondAmount = parseUnits(
       secondaryValues?.Bond_Amount.toString(),
