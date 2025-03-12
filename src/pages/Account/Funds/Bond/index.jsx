@@ -79,11 +79,6 @@ const Bond = () => {
     }
   };
 
-  function getBondMoreResponse(res, callback) {
-    console.log(res, "BOND RESPONSE", callback);
-    return res;
-  }
-
   const onSubmit = async () => {
     try {
       if (walletType == "noWallet") {
@@ -122,18 +117,20 @@ const Bond = () => {
         const res = await keplrBondMore(
           userAddress,
           bondAmount,
-          valoperAddress
+          valoperAddress,
+          setIsLoading,
+          navigate
         );
-        console.log(res, "res");
-        setTimeout(() => {
-          if (res) {
-            setIsLoading(false);
-            navigate("/dashboard");
-            toast.success("Transaction successful");
-          } else if (res == "undefined") {
-            setIsLoading(false);
-          }
-        }, 2000);
+        // console.log(res, "res");
+        // setTimeout(() => {
+        //   if (res) {
+        //     setIsLoading(false);
+        //     navigate("/dashboard");
+        //     toast.success("Transaction successful");
+        //   } else if (res == "undefined") {
+        //     setIsLoading(false);
+        //   }
+        // }, 2000);
       }
       if (window?.qubetics && walletType == "qubetics") {
         window.qubetics.sendRequest(

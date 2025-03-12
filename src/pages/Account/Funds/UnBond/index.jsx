@@ -65,16 +65,13 @@ const UnBond = () => {
         nodeUrl,
       };
       if (walletType == "keplr") {
-        const res = await keplrUnbond(userAddress, unBoundAmt, valoperAddress);
-        setTimeout(() => {
-          if (res) {
-            setIsLoading(false);
-            navigate("/dashboard");
-            toast.success("Transaction successful");
-          } else if (res == "undefined") {
-            setIsLoading(false);
-          }
-        }, 2000);
+        const res = await keplrUnbond(
+          userAddress,
+          unBoundAmt,
+          valoperAddress,
+          setIsLoading,
+          navigate
+        );
       }
 
       if (walletType === "noWallet") {

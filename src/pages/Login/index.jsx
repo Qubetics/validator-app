@@ -295,7 +295,6 @@ const Login = () => {
 
   const submitHandler = async (event, data) => {
     event.preventDefault();
-    console.log(data);
     if (data == "keplr") {
       dispatch(getWalletType(data));
       if (!window.keplr) {
@@ -339,7 +338,6 @@ const Login = () => {
             return;
           }
           if (response?.data) {
-            console.log(response, "response++VALOPERW");
             try {
               let block = await getLatestBlocks();
               let block1 = await getBlockFromChain();
@@ -360,7 +358,6 @@ const Login = () => {
                   let evmAddress = await showEVMAddress(
                     response?.data?.address
                   );
-                  console.log(evmAddress, "evmAddress");
                   dispatch(getEvmAddress(evmAddress));
 
                   dispatch(logInSuccess(response?.data?.address));

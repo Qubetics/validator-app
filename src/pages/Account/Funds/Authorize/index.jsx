@@ -61,18 +61,13 @@ const AuthorizeTransaction = () => {
         };
 
         if (walletType == "keplr") {
-          const res = await keplrUnbond(
+          await keplrUnbond(
             userAddress,
             unBoundAmt,
-            valoperAddress
+            valoperAddress,
+            setIsLoading,
+            navigate
           );
-          setTimeout(() => {
-            if (res) {
-              setIsLoading(false);
-              toast.success("Transaction Successfull");
-              navigate("/dashboard");
-            }
-          }, 2000);
         }
 
         if (walletType == "noWallet") {
@@ -132,8 +127,7 @@ const AuthorizeTransaction = () => {
           });
         }
         if (walletType == "keplr") {
-          keplrUnjail(valoperAddress);
-          navigate("/dashboard");
+          keplrUnjail(valoperAddress, navigate, setIsLoading);
         }
         if (walletType == "noWallet") {
           const response = await unJailValidator(mnemonics, valoperAddress);

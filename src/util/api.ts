@@ -31,7 +31,7 @@ export const api = <T>(url: string, init?: RequestInit): Promise<T> => {
       return data as T; // Return the parsed data
     })
     .catch((error) => {
-      toast.error(error.message || "Network error occurred.");
+      // toast.error(error.message || "Network error occurred.");
       throw error; // Ensure promise rejection is still handled
     });
 };

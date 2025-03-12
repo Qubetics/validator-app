@@ -14,6 +14,7 @@ import Long from "long";
 import { Buffer } from "buffer";
 import { TendermintTxTracer } from "@keplr-wallet/cosmos";
 import axios from "axios";
+import { toast } from "../components/Common/Toast/Toast";
 
 export const sendMsgs = async (
   keplr: Keplr,
@@ -84,16 +85,6 @@ export const sendMsgs = async (
     });
 
     return txHash;
-    // const txTracer = new TendermintTxTracer(chainInfo.rpc, "/websocket");
-    // console.log(txTracer, "TXTRACEr");
-    // try {
-    //   const txResult = await txTracer.traceTx(txHash);
-    //   console.log("✅ Transaction success:", txResult);
-    //   return txResult;
-    // } catch (error) {
-    //   console.error("Transaction failed:", error);
-    //   return null;
-    // }
   }
 };
 
@@ -104,7 +95,6 @@ export const fetchAccountInfo = async (
   try {
     const uri = `${chainInfo.rest}/cosmos/auth/v1beta1/accounts/${address}`;
     const response = await api<AccountResponse>(uri);
-    console.log("response--", response.account.base_account.sequence);
     return response.account;
   } catch (e) {
     console.error(

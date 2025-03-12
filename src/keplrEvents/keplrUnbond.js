@@ -3,9 +3,17 @@ import { simulateMsgs } from "../util/simulateMsgs";
 import { sendMsgs } from "../util/sendMsgs";
 import { MsgUndelegate } from "../proto-types-gen/src/cosmos/staking/v1beta1/tx";
 import { OsmosisChainInfo } from "../constants";
+import { toast } from "../components/Common/Toast/Toast";
 
-export const keplrUnbond = async (userAddress, unBoundAmt, valoperAddress) => {
+export const keplrUnbond = async (
+  userAddress,
+  unBoundAmt,
+  valoperAddress,
+  setIsLoading,
+  navigate
+) => {
   if (window.keplr) {
+    setIsLoading(true);
     const key = await window.keplr?.getKey(OsmosisChainInfo.chainId);
     const scaledAmount = parseUnits(unBoundAmt.toString(), 18).toString();
     let res = "";
@@ -42,11 +50,22 @@ export const keplrUnbond = async (userAddress, unBoundAmt, valoperAddress) => {
           }
         );
       }
-      return res;
+      if (res) {
+        setTimeout(() => {
+          toast.success("Transaction successful");
+          navigate("/dashboard");
+          setIsLoading(false);
+        }, 4000);
+      } else {
+        throw new Error("Transaction failed. Please try again.");
+      }
     } catch (e) {
+      toast.error(e.message);
+
       if (e instanceof Error) {
         console.log(e.message);
       }
+      setIsLoading(false);
     }
   }
 };

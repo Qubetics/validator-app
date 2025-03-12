@@ -154,25 +154,10 @@ const Profile = () => {
     setIsLoading(true);
 
     if (window?.keplr && walletType == "keplr") {
-      const res = keplrEditValidator(
-        primaryValues,
-        valoperAddress,
-        hideCommissionField
-      );
-      setTimeout(() => {
-        navigate("/dashboard");
-      }, 3000);
-      // setTimeout(() => {
-      //   if (res) {
-      //     setIsLoading(false);
-      //     toast.success("Transaction Successfull");
-      //     navigate("/dashboard");
-      //   }
-      // }, 3500);
+      keplrEditValidator(primaryValues, valoperAddress, setIsLoading, navigate);
     }
     if (window?.qubetics && walletType == "qubetics") {
       window?.qubetics.sendRequest("editValidator", data, (error, res) => {
-        console.log(res, "RESRES");
         if (res?.type == "error") {
           setIsLoading(false);
           toast.error(res?.data?.message || "Something went wrong");

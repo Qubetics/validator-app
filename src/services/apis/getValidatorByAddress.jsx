@@ -15,7 +15,6 @@ const getValidatorByAddress = async (value, page, limit) => {
         `${BASE_URL.VALIDATOR_API}/validators/search?value=${valAddress}`
       );
   const result = await response.json();
-  console.log(result, "result", valAddress);
   return result;
 };
 export default getValidatorByAddress;

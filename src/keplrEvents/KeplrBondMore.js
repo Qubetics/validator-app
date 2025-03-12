@@ -3,13 +3,17 @@ import { simulateMsgs } from "../util/simulateMsgs";
 import { sendMsgs } from "../util/sendMsgs";
 import { MsgDelegate } from "../proto-types-gen/src/cosmos/staking/v1beta1/tx";
 import { OsmosisChainInfo } from "../constants";
+import { toast } from "../components/Common/Toast/Toast";
 
 export const keplrBondMore = async (
   userAddress,
   stakeAmount,
-  valoperAddress
+  valoperAddress,
+  setIsLoading,
+  navigate
 ) => {
   if (window.keplr) {
+    setIsLoading(true);
     const key = await window.keplr?.getKey(OsmosisChainInfo.chainId);
     const scaledAmount = parseUnits(stakeAmount.toString(), 18).toString();
     let res = "";
@@ -46,11 +50,22 @@ export const keplrBondMore = async (
           }
         );
       }
-      return res;
+      if (res) {
+        setTimeout(() => {
+          toast.success("Transaction successful");
+          navigate("/dashboard");
+          setIsLoading(false);
+        }, 4000);
+      } else {
+        throw new Error("Transaction failed. Please try again.");
+      }
     } catch (e) {
+      toast.error(e.message);
+
       if (e instanceof Error) {
         console.log(e.message);
       }
+      setIsLoading(false);
     }
   }
 };

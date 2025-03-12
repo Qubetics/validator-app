@@ -106,9 +106,10 @@ const StakingStep = ({
         secondaryValues,
         valoperAddressFromBlockChain,
         userAddress,
-        publicKey
+        publicKey,
+        setLoader,
+        navigate
       );
-      navigate("/dashboard");
     }
 
     if (window?.qubetics && walletType == "qubetics") {

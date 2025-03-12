@@ -5,18 +5,22 @@ import { MsgUndelegate } from "../proto-types-gen/src/cosmos/staking/v1beta1/tx"
 import { OsmosisChainInfo } from "../constants";
 import { MsgCreateValidator } from "cosmjs-types/cosmos/staking/v1beta1/tx";
 import { PubKey } from "cosmjs-types/cosmos/crypto/secp256k1/keys";
+import { toast } from "../components/Common/Toast/Toast";
 
 export const keplrCreateValidator = async (
   primaryValues,
   secondaryValues,
   valoperAddress,
   userAddress,
-  publicKey
+  publicKey,
+  setLoader,
+  navigate
 ) => {
   const { name, details, identity, website, SecurityContact } = primaryValues;
   let res = "";
 
   if (window.keplr) {
+    setLoader(true);
     const key = await window.keplr?.getKey(OsmosisChainInfo.chainId);
     const scaledBondAmount = parseUnits(
       secondaryValues?.Bond_Amount.toString(),
@@ -92,47 +96,20 @@ export const keplrCreateValidator = async (
             gas: Math.floor(gasUsed * 1.5).toString(),
           }
         );
-        return res;
+      }
+      if (res) {
+        setTimeout(() => {
+          toast.success("Transaction successful");
+          navigate("/dashboard");
+          setLoader(false);
+        }, 4000);
       } else {
-        console.error("Gas estimation failed, transaction aborted.");
+        throw new Error("Transaction failed. Please try again.");
       }
     } catch (e) {
+      setLoader(false);
+      toast.error(e.message);
       console.error("Transaction Error:", e.message);
     }
-
-    // try {
-    //   const gasUsed = await simulateMsgs(
-    //     window?.keplr,
-    //     OsmosisChainInfo,
-    //     key.bech32Address,
-    //     [protoMsgs],
-    //     [{ denom: "tics", amount: "100000000" }]
-    //   );
-    //   if (gasUsed) {
-    //     res = await sendMsgs(
-    //       window.keplr,
-    //       OsmosisChainInfo,
-    //       key.bech32Address,
-    //       [protoMsgs],
-    //       {
-    //         amount: [{ denom: "tics", amount: "100000000" }],
-    //         gas: Math.floor(gasUsed * 1.5).toString(),
-    //       }
-    //     );
-    //   }
-    //   return res;
-    // } catch (e) {
-    //   if (e instanceof Error) {
-    //     console.log(e.message);
-    //   }
-    // }
   }
 };
-
-// description: undefined,
-// commission: undefined,
-// minSelfDelegation: "",
-// delegatorAddress: "",
-// validatorAddress: "",
-// pubkey: undefined,
-// value: undefined,

@@ -3,9 +3,11 @@ import { simulateMsgs } from "../util/simulateMsgs";
 import { sendMsgs } from "../util/sendMsgs";
 import { MsgUnjail } from "cosmjs-types/cosmos/slashing/v1beta1/tx";
 import { OsmosisChainInfo } from "../constants";
+import { toast } from "../components/Common/Toast/Toast";
 
-export const keplrUnjail = async (valoperAddress) => {
+export const keplrUnjail = async (valoperAddress, navigate, setIsLoading) => {
   if (window.keplr) {
+    setIsLoading(true);
     const key = await window.keplr?.getKey(OsmosisChainInfo.chainId);
     let res = "";
 
@@ -36,11 +38,21 @@ export const keplrUnjail = async (valoperAddress) => {
           }
         );
       }
-      return res;
+      if (res) {
+        setTimeout(() => {
+          toast.success("Transaction successful");
+          navigate("/dashboard");
+          setIsLoading(false);
+        }, 4000);
+      } else {
+        throw new Error("Transaction failed. Please try again.");
+      }
     } catch (e) {
+      toast.error(e.message);
       if (e instanceof Error) {
         console.log(e.message);
       }
+      setIsLoading(false);
     }
   }
 };
