@@ -85,13 +85,6 @@ const StakingStep = ({
 
   const handleNextValidate = () => {
     setLoader(true);
-    const res = handleNext(
-      secondaryValues,
-      activeStep,
-      setActiveStep,
-      userBalance,
-      FEE
-    );
     const data = {
       primaryValues,
       secondaryValues,

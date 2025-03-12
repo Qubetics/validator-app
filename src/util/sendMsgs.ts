@@ -97,9 +97,12 @@ export const fetchAccountInfo = async (
     const response = await api<AccountResponse>(uri);
     return response.account;
   } catch (e) {
+    console.log(e, "ERROR");
+    toast.error(e);
     console.error(
       "This may be a new account. Please send some tokens to this account first."
     );
+
     return undefined;
   }
 };
