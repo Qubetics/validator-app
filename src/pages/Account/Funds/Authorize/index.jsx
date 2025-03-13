@@ -112,7 +112,7 @@ const AuthorizeTransaction = () => {
               : ""}
           </span>
         </Typography>
-        <label>Wallet Address</label>
+        <label>Wallet Address.</label>
         <Address address={userAddress} />
         <div className="mnemonicsItems">
           <div>
