@@ -114,7 +114,7 @@ const AuthorizeTransaction = () => {
           window.qubetics.sendRequest("", data, (error, response) => {
             if (response?.type == "error") {
               setIsLoading(false);
-              toast.error(response?.data?.message || "Something went wrong");
+              toast.error(response?.data?.message || "Something went wrong.");
               return;
             } else {
               dispatch(isTxOccur(true));
