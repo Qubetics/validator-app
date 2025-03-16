@@ -283,6 +283,7 @@ import { getAddress } from "../../services/getAddress";
 import fetchValoperAddress from "../../services/fetchValoperAddress";
 import BackButton from "../../components/BackButton/BackButton";
 import BackIcon from "../../assets/Icons/BackIcon";
+import { convertToValoperAddress } from "../../services/convertToValoperAddress";
 const Login = () => {
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state) => state.auth);
@@ -312,11 +313,30 @@ const Login = () => {
         const offlineSigner = window.keplr.getOfflineSigner(chainId);
         const accounts = await offlineSigner.getAccounts();
         let evmAddress = await showEVMAddress(accounts[0].address);
-        if (accounts[0].address) {
-          dispatch(getEvmAddress(evmAddress));
+        let valoperAddress = await convertToValoperAddress(accounts[0].address);
 
-          dispatch(logInSuccess(accounts[0].address));
-          return toast.success("Logged In Successfully");
+        if (accounts[0].address) {
+          let block = await getLatestBlocks();
+          let block1 = await getBlockFromChain();
+
+          if (
+            block?.result?.block?.header?.height &&
+            block1?.data?.blocknumber
+          ) {
+            if (
+              block?.result?.block?.header?.height == block1?.data?.blocknumber
+            ) {
+              dispatch(getEvmAddress(evmAddress));
+              dispatch(getValoperAddressFromBlockChain(valoperAddress));
+              dispatch(getWalletType("keplr"));
+              dispatch(logInSuccess(accounts[0].address));
+              return toast.success("Logged In Successfully");
+            }
+          } else {
+            return toast.error(
+              `Either check your node connection or node is not synced, current syncing status: ${block?.result?.block?.header?.height} out of ${block1?.data?.blocknumber}`
+            );
+          }
         }
       } catch (error) {
         console.error("Error connecting Keplr:", error);

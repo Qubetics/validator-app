@@ -97,7 +97,7 @@ const LoginModal = ({ connectionOpen, connectionClose }) => {
         toast.error(err?.message || "Check your node");
       }
     }
-    if (walletType == "keplr") {
+    if (walletType === "keplr") {
       if (!window.keplr) {
         toast.error("Install Keplr Wallet extension");
         return;
@@ -107,24 +107,45 @@ const LoginModal = ({ connectionOpen, connectionClose }) => {
 
       try {
         await window.keplr.disable(chainId);
-
         await window.keplr.enable(chainId);
 
         const offlineSigner = window.keplr.getOfflineSigner(chainId);
         const accounts = await offlineSigner.getAccounts();
-        let evmAddress = await showEVMAddress(accounts[0].address);
-        let valoperAddress = await convertToValoperAddress(accounts[0].address);
-        console.log(valoperAddress, "VALOPER ADDRESRSESE");
-        if (accounts[0].address) {
-          dispatch(getWalletType("keplr"));
+
+        if (!accounts.length) {
+          toast.error("No accounts found in Keplr");
+          return;
+        }
+
+        const evmAddress = await showEVMAddress(accounts[0].address);
+        const valoperAddress = await convertToValoperAddress(
+          accounts[0].address
+        );
+
+        let block = await getLatestBlocks();
+        let block1 = await getBlockFromChain();
+
+        const latestBlockHeight = Number(block?.result?.block?.header?.height);
+        const nodeBlockNumber = Number(block1?.data?.blocknumber);
+
+        if (latestBlockHeight !== nodeBlockNumber) {
+          toast.error(
+            `Either check your node connection or node is not synced. Current syncing status: ${latestBlockHeight} out of ${nodeBlockNumber}`
+          );
+          return;
+        }
+
+        if (latestBlockHeight == nodeBlockNumber) {
           dispatch(getEvmAddress(evmAddress));
           dispatch(getValoperAddressFromBlockChain(valoperAddress));
-
+          dispatch(getWalletType("keplr"));
           dispatch(logInSuccess(accounts[0].address));
-          return toast.success("Logged In Successfully");
+
+          toast.success("Logged In Successfully");
         }
       } catch (error) {
         console.error("Error connecting Keplr:", error);
+        toast.error("Failed to connect Keplr. Please try again.");
       }
     }
   };
