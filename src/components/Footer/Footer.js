@@ -103,14 +103,14 @@ const Footer = () => {
                 Product & Services
               </Typography>
               <a
-                href="http://validator-testnet.qubetics.work/"
+                href="https://dev-validator.qubetics.work/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 Qubetics Validator App{" "}
               </a>
               <a
-                href="http://delegator-testnet.qubetics.work/"
+                href="https://dev-delegator.qubetics.work/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
