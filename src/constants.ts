@@ -91,13 +91,13 @@
 
 export const OsmosisChainInfo = {
   // Chain-id of the Osmosis chain.
-  chainId: "qubetics_9003-1",
+  chainId: "qubetics_9029-1",
   // The name of the chain to be displayed to the user.
   chainName: "Qubetics-Testnet",
   // RPC endpoint of the chain. In this case we are using blockapsis, as it's accepts connections from any host currently. No Cors limitations.
-  rpc: "https://alphatestnet-rpc.qubetics.work/",
+  rpc: "https://tendermint-testnet.qubetics.work/",
   // REST endpoint of the chain.
-  rest: "https://alphatestnet-swagger.qubetics.work",
+  rest: "https://swagger-testnet.qubetics.work",
   // Staking coin information
   stakeCurrency: {
     // Coin denomination to be displayed to the user.
