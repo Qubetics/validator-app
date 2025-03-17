@@ -2,7 +2,6 @@
 // versions:
 //   protoc-gen-ts_proto  v1.181.2
 //   protoc               v3.12.4
-// source: shido/erc20/v1/erc20.proto
 
 /* eslint-disable */
 import Long from "long";
@@ -128,7 +127,10 @@ function createBaseTokenPair(): TokenPair {
 }
 
 export const TokenPair = {
-  encode(message: TokenPair, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: TokenPair,
+    writer: _m0.Writer = _m0.Writer.create()
+  ): _m0.Writer {
     if (message.erc20Address !== "") {
       writer.uint32(10).string(message.erc20Address);
     }
@@ -145,7 +147,8 @@ export const TokenPair = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): TokenPair {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseTokenPair();
     while (reader.pos < end) {
@@ -190,10 +193,16 @@ export const TokenPair = {
 
   fromJSON(object: any): TokenPair {
     return {
-      erc20Address: isSet(object.erc20Address) ? globalThis.String(object.erc20Address) : "",
+      erc20Address: isSet(object.erc20Address)
+        ? globalThis.String(object.erc20Address)
+        : "",
       denom: isSet(object.denom) ? globalThis.String(object.denom) : "",
-      enabled: isSet(object.enabled) ? globalThis.Boolean(object.enabled) : false,
-      contractOwner: isSet(object.contractOwner) ? ownerFromJSON(object.contractOwner) : 0,
+      enabled: isSet(object.enabled)
+        ? globalThis.Boolean(object.enabled)
+        : false,
+      contractOwner: isSet(object.contractOwner)
+        ? ownerFromJSON(object.contractOwner)
+        : 0,
     };
   },
 
@@ -217,7 +226,9 @@ export const TokenPair = {
   create<I extends Exact<DeepPartial<TokenPair>, I>>(base?: I): TokenPair {
     return TokenPair.fromPartial(base ?? ({} as any));
   },
-  fromPartial<I extends Exact<DeepPartial<TokenPair>, I>>(object: I): TokenPair {
+  fromPartial<I extends Exact<DeepPartial<TokenPair>, I>>(
+    object: I
+  ): TokenPair {
     const message = createBaseTokenPair();
     message.erc20Address = object.erc20Address ?? "";
     message.denom = object.denom ?? "";
@@ -232,7 +243,10 @@ function createBaseRegisterCoinProposal(): RegisterCoinProposal {
 }
 
 export const RegisterCoinProposal = {
-  encode(message: RegisterCoinProposal, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: RegisterCoinProposal,
+    writer: _m0.Writer = _m0.Writer.create()
+  ): _m0.Writer {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
     }
@@ -245,8 +259,12 @@ export const RegisterCoinProposal = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): RegisterCoinProposal {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+  decode(
+    input: _m0.Reader | Uint8Array,
+    length?: number
+  ): RegisterCoinProposal {
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseRegisterCoinProposal();
     while (reader.pos < end) {
@@ -285,8 +303,12 @@ export const RegisterCoinProposal = {
   fromJSON(object: any): RegisterCoinProposal {
     return {
       title: isSet(object.title) ? globalThis.String(object.title) : "",
-      description: isSet(object.description) ? globalThis.String(object.description) : "",
-      metadata: globalThis.Array.isArray(object?.metadata) ? object.metadata.map((e: any) => Metadata.fromJSON(e)) : [],
+      description: isSet(object.description)
+        ? globalThis.String(object.description)
+        : "",
+      metadata: globalThis.Array.isArray(object?.metadata)
+        ? object.metadata.map((e: any) => Metadata.fromJSON(e))
+        : [],
     };
   },
 
@@ -304,14 +326,19 @@ export const RegisterCoinProposal = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<RegisterCoinProposal>, I>>(base?: I): RegisterCoinProposal {
+  create<I extends Exact<DeepPartial<RegisterCoinProposal>, I>>(
+    base?: I
+  ): RegisterCoinProposal {
     return RegisterCoinProposal.fromPartial(base ?? ({} as any));
   },
-  fromPartial<I extends Exact<DeepPartial<RegisterCoinProposal>, I>>(object: I): RegisterCoinProposal {
+  fromPartial<I extends Exact<DeepPartial<RegisterCoinProposal>, I>>(
+    object: I
+  ): RegisterCoinProposal {
     const message = createBaseRegisterCoinProposal();
     message.title = object.title ?? "";
     message.description = object.description ?? "";
-    message.metadata = object.metadata?.map((e) => Metadata.fromPartial(e)) || [];
+    message.metadata =
+      object.metadata?.map((e) => Metadata.fromPartial(e)) || [];
     return message;
   },
 };
@@ -321,7 +348,10 @@ function createBaseRegisterERC20Proposal(): RegisterERC20Proposal {
 }
 
 export const RegisterERC20Proposal = {
-  encode(message: RegisterERC20Proposal, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: RegisterERC20Proposal,
+    writer: _m0.Writer = _m0.Writer.create()
+  ): _m0.Writer {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
     }
@@ -334,8 +364,12 @@ export const RegisterERC20Proposal = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): RegisterERC20Proposal {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+  decode(
+    input: _m0.Reader | Uint8Array,
+    length?: number
+  ): RegisterERC20Proposal {
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseRegisterERC20Proposal();
     while (reader.pos < end) {
@@ -374,7 +408,9 @@ export const RegisterERC20Proposal = {
   fromJSON(object: any): RegisterERC20Proposal {
     return {
       title: isSet(object.title) ? globalThis.String(object.title) : "",
-      description: isSet(object.description) ? globalThis.String(object.description) : "",
+      description: isSet(object.description)
+        ? globalThis.String(object.description)
+        : "",
       erc20addresses: globalThis.Array.isArray(object?.erc20addresses)
         ? object.erc20addresses.map((e: any) => globalThis.String(e))
         : [],
@@ -395,10 +431,14 @@ export const RegisterERC20Proposal = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<RegisterERC20Proposal>, I>>(base?: I): RegisterERC20Proposal {
+  create<I extends Exact<DeepPartial<RegisterERC20Proposal>, I>>(
+    base?: I
+  ): RegisterERC20Proposal {
     return RegisterERC20Proposal.fromPartial(base ?? ({} as any));
   },
-  fromPartial<I extends Exact<DeepPartial<RegisterERC20Proposal>, I>>(object: I): RegisterERC20Proposal {
+  fromPartial<I extends Exact<DeepPartial<RegisterERC20Proposal>, I>>(
+    object: I
+  ): RegisterERC20Proposal {
     const message = createBaseRegisterERC20Proposal();
     message.title = object.title ?? "";
     message.description = object.description ?? "";
@@ -412,7 +452,10 @@ function createBaseToggleTokenConversionProposal(): ToggleTokenConversionProposa
 }
 
 export const ToggleTokenConversionProposal = {
-  encode(message: ToggleTokenConversionProposal, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: ToggleTokenConversionProposal,
+    writer: _m0.Writer = _m0.Writer.create()
+  ): _m0.Writer {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
     }
@@ -425,8 +468,12 @@ export const ToggleTokenConversionProposal = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): ToggleTokenConversionProposal {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+  decode(
+    input: _m0.Reader | Uint8Array,
+    length?: number
+  ): ToggleTokenConversionProposal {
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseToggleTokenConversionProposal();
     while (reader.pos < end) {
@@ -465,7 +512,9 @@ export const ToggleTokenConversionProposal = {
   fromJSON(object: any): ToggleTokenConversionProposal {
     return {
       title: isSet(object.title) ? globalThis.String(object.title) : "",
-      description: isSet(object.description) ? globalThis.String(object.description) : "",
+      description: isSet(object.description)
+        ? globalThis.String(object.description)
+        : "",
       token: isSet(object.token) ? globalThis.String(object.token) : "",
     };
   },
@@ -484,11 +533,13 @@ export const ToggleTokenConversionProposal = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ToggleTokenConversionProposal>, I>>(base?: I): ToggleTokenConversionProposal {
+  create<I extends Exact<DeepPartial<ToggleTokenConversionProposal>, I>>(
+    base?: I
+  ): ToggleTokenConversionProposal {
     return ToggleTokenConversionProposal.fromPartial(base ?? ({} as any));
   },
   fromPartial<I extends Exact<DeepPartial<ToggleTokenConversionProposal>, I>>(
-    object: I,
+    object: I
   ): ToggleTokenConversionProposal {
     const message = createBaseToggleTokenConversionProposal();
     message.title = object.title ?? "";
@@ -503,7 +554,10 @@ function createBaseProposalMetadata(): ProposalMetadata {
 }
 
 export const ProposalMetadata = {
-  encode(message: ProposalMetadata, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: ProposalMetadata,
+    writer: _m0.Writer = _m0.Writer.create()
+  ): _m0.Writer {
     for (const v of message.metadata) {
       Metadata.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -511,7 +565,8 @@ export const ProposalMetadata = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): ProposalMetadata {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseProposalMetadata();
     while (reader.pos < end) {
@@ -535,7 +590,9 @@ export const ProposalMetadata = {
 
   fromJSON(object: any): ProposalMetadata {
     return {
-      metadata: globalThis.Array.isArray(object?.metadata) ? object.metadata.map((e: any) => Metadata.fromJSON(e)) : [],
+      metadata: globalThis.Array.isArray(object?.metadata)
+        ? object.metadata.map((e: any) => Metadata.fromJSON(e))
+        : [],
     };
   },
 
@@ -547,27 +604,48 @@ export const ProposalMetadata = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ProposalMetadata>, I>>(base?: I): ProposalMetadata {
+  create<I extends Exact<DeepPartial<ProposalMetadata>, I>>(
+    base?: I
+  ): ProposalMetadata {
     return ProposalMetadata.fromPartial(base ?? ({} as any));
   },
-  fromPartial<I extends Exact<DeepPartial<ProposalMetadata>, I>>(object: I): ProposalMetadata {
+  fromPartial<I extends Exact<DeepPartial<ProposalMetadata>, I>>(
+    object: I
+  ): ProposalMetadata {
     const message = createBaseProposalMetadata();
-    message.metadata = object.metadata?.map((e) => Metadata.fromPartial(e)) || [];
+    message.metadata =
+      object.metadata?.map((e) => Metadata.fromPartial(e)) || [];
     return message;
   },
 };
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
+type Builtin =
+  | Date
+  | Function
+  | Uint8Array
+  | string
+  | number
+  | boolean
+  | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-  : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-  : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
+export type DeepPartial<T> = T extends Builtin
+  ? T
+  : T extends Long
+  ? string | number | Long
+  : T extends globalThis.Array<infer U>
+  ? globalThis.Array<DeepPartial<U>>
+  : T extends ReadonlyArray<infer U>
+  ? ReadonlyArray<DeepPartial<U>>
+  : T extends {}
+  ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
 
 type KeysOfUnion<T> = T extends T ? keyof T : never;
-export type Exact<P, I extends P> = P extends Builtin ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
+export type Exact<P, I extends P> = P extends Builtin
+  ? P
+  : P & { [K in keyof P]: Exact<P[K], I[K]> } & {
+      [K in Exclude<keyof I, KeysOfUnion<P>>]: never;
+    };
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

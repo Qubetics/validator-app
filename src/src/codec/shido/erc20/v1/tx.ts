@@ -2,7 +2,6 @@
 // versions:
 //   protoc-gen-ts_proto  v1.181.2
 //   protoc               v3.12.4
-// source: shido/erc20/v1/tx.proto
 
 /* eslint-disable */
 import Long from "long";
@@ -18,9 +17,7 @@ export interface MsgConvertCoin {
    * coin is a Cosmos coin whose denomination is registered in a token pair. The
    * coin amount defines the amount of coins to convert.
    */
-  coin?:
-    | Coin
-    | undefined;
+  coin?: Coin | undefined;
   /** receiver is the hex address to receive ERC20 token */
   receiver: string;
   /**
@@ -31,8 +28,7 @@ export interface MsgConvertCoin {
 }
 
 /** MsgConvertCoinResponse returns no fields */
-export interface MsgConvertCoinResponse {
-}
+export interface MsgConvertCoinResponse {}
 
 /**
  * MsgConvertERC20 defines a Msg to convert a ERC20 token to a native Cosmos
@@ -53,8 +49,7 @@ export interface MsgConvertERC20 {
 }
 
 /** MsgConvertERC20Response returns no fields */
-export interface MsgConvertERC20Response {
-}
+export interface MsgConvertERC20Response {}
 
 /**
  * MsgUpdateParams is the Msg/UpdateParams request type for Erc20 parameters.
@@ -75,15 +70,17 @@ export interface MsgUpdateParams {
  * MsgUpdateParams message.
  * Since: cosmos-sdk 0.47
  */
-export interface MsgUpdateParamsResponse {
-}
+export interface MsgUpdateParamsResponse {}
 
 function createBaseMsgConvertCoin(): MsgConvertCoin {
   return { coin: undefined, receiver: "", sender: "" };
 }
 
 export const MsgConvertCoin = {
-  encode(message: MsgConvertCoin, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: MsgConvertCoin,
+    writer: _m0.Writer = _m0.Writer.create()
+  ): _m0.Writer {
     if (message.coin !== undefined) {
       Coin.encode(message.coin, writer.uint32(10).fork()).ldelim();
     }
@@ -97,7 +94,8 @@ export const MsgConvertCoin = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): MsgConvertCoin {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgConvertCoin();
     while (reader.pos < end) {
@@ -136,7 +134,9 @@ export const MsgConvertCoin = {
   fromJSON(object: any): MsgConvertCoin {
     return {
       coin: isSet(object.coin) ? Coin.fromJSON(object.coin) : undefined,
-      receiver: isSet(object.receiver) ? globalThis.String(object.receiver) : "",
+      receiver: isSet(object.receiver)
+        ? globalThis.String(object.receiver)
+        : "",
       sender: isSet(object.sender) ? globalThis.String(object.sender) : "",
     };
   },
@@ -155,12 +155,19 @@ export const MsgConvertCoin = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgConvertCoin>, I>>(base?: I): MsgConvertCoin {
+  create<I extends Exact<DeepPartial<MsgConvertCoin>, I>>(
+    base?: I
+  ): MsgConvertCoin {
     return MsgConvertCoin.fromPartial(base ?? ({} as any));
   },
-  fromPartial<I extends Exact<DeepPartial<MsgConvertCoin>, I>>(object: I): MsgConvertCoin {
+  fromPartial<I extends Exact<DeepPartial<MsgConvertCoin>, I>>(
+    object: I
+  ): MsgConvertCoin {
     const message = createBaseMsgConvertCoin();
-    message.coin = (object.coin !== undefined && object.coin !== null) ? Coin.fromPartial(object.coin) : undefined;
+    message.coin =
+      object.coin !== undefined && object.coin !== null
+        ? Coin.fromPartial(object.coin)
+        : undefined;
     message.receiver = object.receiver ?? "";
     message.sender = object.sender ?? "";
     return message;
@@ -172,12 +179,19 @@ function createBaseMsgConvertCoinResponse(): MsgConvertCoinResponse {
 }
 
 export const MsgConvertCoinResponse = {
-  encode(_: MsgConvertCoinResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    _: MsgConvertCoinResponse,
+    writer: _m0.Writer = _m0.Writer.create()
+  ): _m0.Writer {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgConvertCoinResponse {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+  decode(
+    input: _m0.Reader | Uint8Array,
+    length?: number
+  ): MsgConvertCoinResponse {
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgConvertCoinResponse();
     while (reader.pos < end) {
@@ -201,10 +215,14 @@ export const MsgConvertCoinResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgConvertCoinResponse>, I>>(base?: I): MsgConvertCoinResponse {
+  create<I extends Exact<DeepPartial<MsgConvertCoinResponse>, I>>(
+    base?: I
+  ): MsgConvertCoinResponse {
     return MsgConvertCoinResponse.fromPartial(base ?? ({} as any));
   },
-  fromPartial<I extends Exact<DeepPartial<MsgConvertCoinResponse>, I>>(_: I): MsgConvertCoinResponse {
+  fromPartial<I extends Exact<DeepPartial<MsgConvertCoinResponse>, I>>(
+    _: I
+  ): MsgConvertCoinResponse {
     const message = createBaseMsgConvertCoinResponse();
     return message;
   },
@@ -215,7 +233,10 @@ function createBaseMsgConvertERC20(): MsgConvertERC20 {
 }
 
 export const MsgConvertERC20 = {
-  encode(message: MsgConvertERC20, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: MsgConvertERC20,
+    writer: _m0.Writer = _m0.Writer.create()
+  ): _m0.Writer {
     if (message.contractAddress !== "") {
       writer.uint32(10).string(message.contractAddress);
     }
@@ -232,7 +253,8 @@ export const MsgConvertERC20 = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): MsgConvertERC20 {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgConvertERC20();
     while (reader.pos < end) {
@@ -277,9 +299,13 @@ export const MsgConvertERC20 = {
 
   fromJSON(object: any): MsgConvertERC20 {
     return {
-      contractAddress: isSet(object.contractAddress) ? globalThis.String(object.contractAddress) : "",
+      contractAddress: isSet(object.contractAddress)
+        ? globalThis.String(object.contractAddress)
+        : "",
       amount: isSet(object.amount) ? globalThis.String(object.amount) : "",
-      receiver: isSet(object.receiver) ? globalThis.String(object.receiver) : "",
+      receiver: isSet(object.receiver)
+        ? globalThis.String(object.receiver)
+        : "",
       sender: isSet(object.sender) ? globalThis.String(object.sender) : "",
     };
   },
@@ -301,10 +327,14 @@ export const MsgConvertERC20 = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgConvertERC20>, I>>(base?: I): MsgConvertERC20 {
+  create<I extends Exact<DeepPartial<MsgConvertERC20>, I>>(
+    base?: I
+  ): MsgConvertERC20 {
     return MsgConvertERC20.fromPartial(base ?? ({} as any));
   },
-  fromPartial<I extends Exact<DeepPartial<MsgConvertERC20>, I>>(object: I): MsgConvertERC20 {
+  fromPartial<I extends Exact<DeepPartial<MsgConvertERC20>, I>>(
+    object: I
+  ): MsgConvertERC20 {
     const message = createBaseMsgConvertERC20();
     message.contractAddress = object.contractAddress ?? "";
     message.amount = object.amount ?? "";
@@ -319,12 +349,19 @@ function createBaseMsgConvertERC20Response(): MsgConvertERC20Response {
 }
 
 export const MsgConvertERC20Response = {
-  encode(_: MsgConvertERC20Response, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    _: MsgConvertERC20Response,
+    writer: _m0.Writer = _m0.Writer.create()
+  ): _m0.Writer {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgConvertERC20Response {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+  decode(
+    input: _m0.Reader | Uint8Array,
+    length?: number
+  ): MsgConvertERC20Response {
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgConvertERC20Response();
     while (reader.pos < end) {
@@ -348,10 +385,14 @@ export const MsgConvertERC20Response = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgConvertERC20Response>, I>>(base?: I): MsgConvertERC20Response {
+  create<I extends Exact<DeepPartial<MsgConvertERC20Response>, I>>(
+    base?: I
+  ): MsgConvertERC20Response {
     return MsgConvertERC20Response.fromPartial(base ?? ({} as any));
   },
-  fromPartial<I extends Exact<DeepPartial<MsgConvertERC20Response>, I>>(_: I): MsgConvertERC20Response {
+  fromPartial<I extends Exact<DeepPartial<MsgConvertERC20Response>, I>>(
+    _: I
+  ): MsgConvertERC20Response {
     const message = createBaseMsgConvertERC20Response();
     return message;
   },
@@ -362,7 +403,10 @@ function createBaseMsgUpdateParams(): MsgUpdateParams {
 }
 
 export const MsgUpdateParams = {
-  encode(message: MsgUpdateParams, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: MsgUpdateParams,
+    writer: _m0.Writer = _m0.Writer.create()
+  ): _m0.Writer {
     if (message.authority !== "") {
       writer.uint32(10).string(message.authority);
     }
@@ -373,7 +417,8 @@ export const MsgUpdateParams = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): MsgUpdateParams {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgUpdateParams();
     while (reader.pos < end) {
@@ -404,7 +449,9 @@ export const MsgUpdateParams = {
 
   fromJSON(object: any): MsgUpdateParams {
     return {
-      authority: isSet(object.authority) ? globalThis.String(object.authority) : "",
+      authority: isSet(object.authority)
+        ? globalThis.String(object.authority)
+        : "",
       params: isSet(object.params) ? Params.fromJSON(object.params) : undefined,
     };
   },
@@ -420,15 +467,20 @@ export const MsgUpdateParams = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgUpdateParams>, I>>(base?: I): MsgUpdateParams {
+  create<I extends Exact<DeepPartial<MsgUpdateParams>, I>>(
+    base?: I
+  ): MsgUpdateParams {
     return MsgUpdateParams.fromPartial(base ?? ({} as any));
   },
-  fromPartial<I extends Exact<DeepPartial<MsgUpdateParams>, I>>(object: I): MsgUpdateParams {
+  fromPartial<I extends Exact<DeepPartial<MsgUpdateParams>, I>>(
+    object: I
+  ): MsgUpdateParams {
     const message = createBaseMsgUpdateParams();
     message.authority = object.authority ?? "";
-    message.params = (object.params !== undefined && object.params !== null)
-      ? Params.fromPartial(object.params)
-      : undefined;
+    message.params =
+      object.params !== undefined && object.params !== null
+        ? Params.fromPartial(object.params)
+        : undefined;
     return message;
   },
 };
@@ -438,12 +490,19 @@ function createBaseMsgUpdateParamsResponse(): MsgUpdateParamsResponse {
 }
 
 export const MsgUpdateParamsResponse = {
-  encode(_: MsgUpdateParamsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    _: MsgUpdateParamsResponse,
+    writer: _m0.Writer = _m0.Writer.create()
+  ): _m0.Writer {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgUpdateParamsResponse {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+  decode(
+    input: _m0.Reader | Uint8Array,
+    length?: number
+  ): MsgUpdateParamsResponse {
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgUpdateParamsResponse();
     while (reader.pos < end) {
@@ -467,10 +526,14 @@ export const MsgUpdateParamsResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgUpdateParamsResponse>, I>>(base?: I): MsgUpdateParamsResponse {
+  create<I extends Exact<DeepPartial<MsgUpdateParamsResponse>, I>>(
+    base?: I
+  ): MsgUpdateParamsResponse {
     return MsgUpdateParamsResponse.fromPartial(base ?? ({} as any));
   },
-  fromPartial<I extends Exact<DeepPartial<MsgUpdateParamsResponse>, I>>(_: I): MsgUpdateParamsResponse {
+  fromPartial<I extends Exact<DeepPartial<MsgUpdateParamsResponse>, I>>(
+    _: I
+  ): MsgUpdateParamsResponse {
     const message = createBaseMsgUpdateParamsResponse();
     return message;
   },
@@ -510,37 +573,63 @@ export class MsgClientImpl implements Msg {
   ConvertCoin(request: MsgConvertCoin): Promise<MsgConvertCoinResponse> {
     const data = MsgConvertCoin.encode(request).finish();
     const promise = this.rpc.request(this.service, "ConvertCoin", data);
-    return promise.then((data) => MsgConvertCoinResponse.decode(_m0.Reader.create(data)));
+    return promise.then((data) =>
+      MsgConvertCoinResponse.decode(_m0.Reader.create(data))
+    );
   }
 
   ConvertERC20(request: MsgConvertERC20): Promise<MsgConvertERC20Response> {
     const data = MsgConvertERC20.encode(request).finish();
     const promise = this.rpc.request(this.service, "ConvertERC20", data);
-    return promise.then((data) => MsgConvertERC20Response.decode(_m0.Reader.create(data)));
+    return promise.then((data) =>
+      MsgConvertERC20Response.decode(_m0.Reader.create(data))
+    );
   }
 
   UpdateParams(request: MsgUpdateParams): Promise<MsgUpdateParamsResponse> {
     const data = MsgUpdateParams.encode(request).finish();
     const promise = this.rpc.request(this.service, "UpdateParams", data);
-    return promise.then((data) => MsgUpdateParamsResponse.decode(_m0.Reader.create(data)));
+    return promise.then((data) =>
+      MsgUpdateParamsResponse.decode(_m0.Reader.create(data))
+    );
   }
 }
 
 interface Rpc {
-  request(service: string, method: string, data: Uint8Array): Promise<Uint8Array>;
+  request(
+    service: string,
+    method: string,
+    data: Uint8Array
+  ): Promise<Uint8Array>;
 }
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
+type Builtin =
+  | Date
+  | Function
+  | Uint8Array
+  | string
+  | number
+  | boolean
+  | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-  : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-  : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
+export type DeepPartial<T> = T extends Builtin
+  ? T
+  : T extends Long
+  ? string | number | Long
+  : T extends globalThis.Array<infer U>
+  ? globalThis.Array<DeepPartial<U>>
+  : T extends ReadonlyArray<infer U>
+  ? ReadonlyArray<DeepPartial<U>>
+  : T extends {}
+  ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
 
 type KeysOfUnion<T> = T extends T ? keyof T : never;
-export type Exact<P, I extends P> = P extends Builtin ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
+export type Exact<P, I extends P> = P extends Builtin
+  ? P
+  : P & { [K in keyof P]: Exact<P[K], I[K]> } & {
+      [K in Exclude<keyof I, KeysOfUnion<P>>]: never;
+    };
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

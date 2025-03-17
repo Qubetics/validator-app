@@ -2,7 +2,6 @@
 // versions:
 //   protoc-gen-ts_proto  v1.181.2
 //   protoc               v3.12.4
-// source: shido/erc20/v1/genesis.proto
 
 /* eslint-disable */
 import Long from "long";
@@ -14,9 +13,7 @@ export const protobufPackage = "shido.erc20.v1";
 /** GenesisState defines the module's genesis state. */
 export interface GenesisState {
   /** params are the erc20 module parameters at genesis */
-  params?:
-    | Params
-    | undefined;
+  params?: Params | undefined;
   /** token_pairs is a slice of the registered token pairs at genesis */
   tokenPairs: TokenPair[];
 }
@@ -41,7 +38,10 @@ function createBaseGenesisState(): GenesisState {
 }
 
 export const GenesisState = {
-  encode(message: GenesisState, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: GenesisState,
+    writer: _m0.Writer = _m0.Writer.create()
+  ): _m0.Writer {
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(10).fork()).ldelim();
     }
@@ -52,7 +52,8 @@ export const GenesisState = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): GenesisState {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGenesisState();
     while (reader.pos < end) {
@@ -101,15 +102,21 @@ export const GenesisState = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<GenesisState>, I>>(base?: I): GenesisState {
+  create<I extends Exact<DeepPartial<GenesisState>, I>>(
+    base?: I
+  ): GenesisState {
     return GenesisState.fromPartial(base ?? ({} as any));
   },
-  fromPartial<I extends Exact<DeepPartial<GenesisState>, I>>(object: I): GenesisState {
+  fromPartial<I extends Exact<DeepPartial<GenesisState>, I>>(
+    object: I
+  ): GenesisState {
     const message = createBaseGenesisState();
-    message.params = (object.params !== undefined && object.params !== null)
-      ? Params.fromPartial(object.params)
-      : undefined;
-    message.tokenPairs = object.tokenPairs?.map((e) => TokenPair.fromPartial(e)) || [];
+    message.params =
+      object.params !== undefined && object.params !== null
+        ? Params.fromPartial(object.params)
+        : undefined;
+    message.tokenPairs =
+      object.tokenPairs?.map((e) => TokenPair.fromPartial(e)) || [];
     return message;
   },
 };
@@ -119,7 +126,10 @@ function createBaseParams(): Params {
 }
 
 export const Params = {
-  encode(message: Params, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: Params,
+    writer: _m0.Writer = _m0.Writer.create()
+  ): _m0.Writer {
     if (message.enableErc20 !== false) {
       writer.uint32(8).bool(message.enableErc20);
     }
@@ -130,7 +140,8 @@ export const Params = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): Params {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseParams();
     while (reader.pos < end) {
@@ -161,8 +172,12 @@ export const Params = {
 
   fromJSON(object: any): Params {
     return {
-      enableErc20: isSet(object.enableErc20) ? globalThis.Boolean(object.enableErc20) : false,
-      enableEvmHook: isSet(object.enableEvmHook) ? globalThis.Boolean(object.enableEvmHook) : false,
+      enableErc20: isSet(object.enableErc20)
+        ? globalThis.Boolean(object.enableErc20)
+        : false,
+      enableEvmHook: isSet(object.enableEvmHook)
+        ? globalThis.Boolean(object.enableEvmHook)
+        : false,
     };
   },
 
@@ -188,17 +203,33 @@ export const Params = {
   },
 };
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
+type Builtin =
+  | Date
+  | Function
+  | Uint8Array
+  | string
+  | number
+  | boolean
+  | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-  : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-  : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
+export type DeepPartial<T> = T extends Builtin
+  ? T
+  : T extends Long
+  ? string | number | Long
+  : T extends globalThis.Array<infer U>
+  ? globalThis.Array<DeepPartial<U>>
+  : T extends ReadonlyArray<infer U>
+  ? ReadonlyArray<DeepPartial<U>>
+  : T extends {}
+  ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
 
 type KeysOfUnion<T> = T extends T ? keyof T : never;
-export type Exact<P, I extends P> = P extends Builtin ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
+export type Exact<P, I extends P> = P extends Builtin
+  ? P
+  : P & { [K in keyof P]: Exact<P[K], I[K]> } & {
+      [K in Exclude<keyof I, KeysOfUnion<P>>]: never;
+    };
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

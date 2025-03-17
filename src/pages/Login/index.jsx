@@ -459,11 +459,12 @@ const Login = () => {
       }
       if (mnemonics?.length > 0) {
         dispatch(getWalletType("noWallet"));
-        // setIsLoading(true);
+        setIsLoading(true);
         let res = await getAddress(mnemonics);
         let evmAddress = await userEvmAddress(mnemonics);
 
         if (res?.message) {
+          setIsLoading(false);
           toast.error(`Invalid node, ${res?.message}`);
           return;
         }

@@ -121,16 +121,6 @@ const Bond = () => {
           setIsLoading,
           navigate
         );
-        // console.log(res, "res");
-        // setTimeout(() => {
-        //   if (res) {
-        //     setIsLoading(false);
-        //     navigate("/dashboard");
-        //     toast.success("Transaction successful");
-        //   } else if (res == "undefined") {
-        //     setIsLoading(false);
-        //   }
-        // }, 2000);
       }
       if (window?.qubetics && walletType == "qubetics") {
         window.qubetics.sendRequest(
