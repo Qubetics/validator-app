@@ -111,20 +111,29 @@ const AuthorizeTransaction = () => {
           nodeUrl,
         };
         if (window?.qubetics && walletType == "qubetics") {
-          window.qubetics.sendRequest("", data, (error, response) => {
-            if (response?.type == "error") {
-              setIsLoading(false);
-              toast.error(response?.data?.message || "Something went wrong.");
-              return;
-            } else {
-              dispatch(isTxOccur(true));
-              if (response) {
+          window.qubetics.sendRequest(
+            "unJailValidator",
+            data,
+            (error, response) => {
+              console.log(response, "RESPONSE-----------------------");
+              if (response?.type == "error") {
                 setIsLoading(false);
-                navigate("/dashboard");
-                toast.success("Transaction successful");
+                toast.error(response?.data?.message || "Something went wrong.");
+                return;
+              } else {
+                dispatch(isTxOccur(true));
+                if (response?.code == 0) {
+                  setIsLoading(false);
+                  navigate("/dashboard");
+                  toast.success("Transaction successful");
+                } else {
+                  setIsLoading(false);
+                  navigate("/dashboard");
+                  toast.error(response?.rawLog);
+                }
               }
             }
-          });
+          );
         }
         if (walletType == "keplr") {
           keplrUnjail(valoperAddress, navigate, setIsLoading);
