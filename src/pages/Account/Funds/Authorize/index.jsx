@@ -121,7 +121,7 @@ const AuthorizeTransaction = () => {
                 return;
               } else {
                 dispatch(isTxOccur(true));
-                if (response?.code == 0) {
+                if (response?.data == 0) {
                   setIsLoading(false);
                   navigate("/dashboard");
                   toast.success("Transaction successful");
