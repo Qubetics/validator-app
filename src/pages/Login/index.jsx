@@ -522,7 +522,7 @@ const Login = () => {
             <>
               {!isNodeAdded && (
                 <>
-                  <label>Node Information</label>
+                  <label>Node Information.</label>
                   <div
                     style={{
                       position: "relative",

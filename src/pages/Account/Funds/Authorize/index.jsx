@@ -115,7 +115,6 @@ const AuthorizeTransaction = () => {
             "unJailValidator",
             data,
             (error, response) => {
-              console.log(response, "RESPONSE-----------------------");
               if (response?.type == "error") {
                 setIsLoading(false);
                 toast.error(response?.data?.message || "Something went wrong.");
