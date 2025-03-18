@@ -22,6 +22,8 @@ const BlockchainInfos = () => {
   const [widgets, setWidgets] = useState({});
   const [loading, setLoading] = useState(true); // Loading state
 
+  console.log(widgets, "widgets");
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -45,7 +47,7 @@ const BlockchainInfos = () => {
       icon: <BlockIcon />,
       // tooltipContent:
       //   "Block number of the last block proposed by the validator.",
-      data: widgets?.lastBlockProposed ? widgets?.lastBlockProposed : "-",
+      data: widgets?.lastBlockProposed ? widgets?.lastBlockProposed : "0",
     },
     {
       title: "No. of Delegators",
@@ -85,8 +87,10 @@ const BlockchainInfos = () => {
     {
       title: "Self Stake",
       icon: <SelfStake />,
-      data: widgets?.totalBlockProposed
-        ? widgets?.totalBlockProposed + " " + "TICS"
+      data: widgets?.selfStake
+        ? noExponential(toFixed(widgets?.selfStake / 10 ** 18, 6)) +
+          " " +
+          "TICS"
         : "0",
     },
   ];

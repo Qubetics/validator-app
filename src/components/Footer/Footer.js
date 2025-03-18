@@ -117,7 +117,7 @@ const Footer = () => {
                 Qubetics Delegator App
               </a>
               <a
-                href="  https://qubetics-ide.qubetics.work/"
+                href="https://testnet-qubecode-ide.qubetics.work/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
