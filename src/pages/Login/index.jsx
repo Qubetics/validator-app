@@ -499,6 +499,58 @@ const Login = () => {
     setConnectionOpen(false);
   };
 
+  const connectKeplr = async () => {
+    if (!window.keplr) {
+      toast.error("Install Keplr Wallet extension");
+      return;
+    }
+    setIsLoading(true);
+
+    const chainId = OsmosisChainInfo?.chainId;
+
+    try {
+      await window.keplr.disable(chainId);
+      await window.keplr.enable(chainId);
+
+      const offlineSigner = window.keplr.getOfflineSigner(chainId);
+      const accounts = await offlineSigner.getAccounts();
+
+      if (!accounts.length) {
+        toast.error("No accounts found in Keplr");
+        return;
+      }
+
+      const evmAddress = await showEVMAddress(accounts[0].address);
+      const valoperAddress = await convertToValoperAddress(accounts[0].address);
+
+      let block = await getLatestBlocks();
+      let block1 = await getBlockFromChain();
+
+      const latestBlockHeight = Number(block?.result?.block?.header?.height);
+      const nodeBlockNumber = Number(block1?.data?.blocknumber);
+
+      if (latestBlockHeight !== nodeBlockNumber) {
+        toast.error(
+          `Either check your node connection or node is not synced. Current syncing status: ${latestBlockHeight} out of ${nodeBlockNumber}`
+        );
+        return;
+      }
+
+      if (latestBlockHeight == nodeBlockNumber) {
+        dispatch(getEvmAddress(evmAddress));
+        dispatch(getValoperAddressFromBlockChain(valoperAddress));
+        dispatch(getWalletType("keplr"));
+        dispatch(logInSuccess(accounts[0].address));
+
+        toast.success("Logged In Successfully");
+      }
+    } catch (error) {
+      setIsLoading(false);
+      console.error("Error connecting Keplr:", error);
+      toast.error("Failed to connect Keplr. Please try again.");
+    }
+  };
+
   return (
     <>
       <div className="auth-wrapper">
@@ -560,6 +612,8 @@ const Login = () => {
                     placeholder="Paste or enter your mnemonics"
                     onChange={changeHandler}
                     autoComplete="off"
+                    Connect
+                    Wallet
                     disabled={!isNodeAdded || isLoading}
                     type="password"
                     className="input-style"
@@ -590,20 +644,23 @@ const Login = () => {
                     variant="contained"
                     type="submit"
                     disabled={!isNodeAdded}
-                    onClick={() => setConnectionOpen(true)}
+                    // onClick={() => setConnectionOpen(true)}
+                    onClick={connectKeplr}
                   >
                     <span className="btn-icon">{/* <LoginIcon /> */}</span>
-                    Connect Wallet
+                    Connect With Keplr
                   </Button>
                 </div>
               )}
 
+              {/*
               {connectionOpen && (
                 <LoginModal
                   connectionOpen={true}
                   connectionClose={connectionClose}
                 />
               )}
+            */}
             </>
           </Box>
         </NodeBox>
