@@ -60,6 +60,7 @@ const Footer = () => {
               >
                 Validators
               </a>
+              {/*
               <a
                 href={`${BASE_URL.EXPLORER_NAVIGATION_URL}/dashboard`}
                 target="_blank"
@@ -67,6 +68,7 @@ const Footer = () => {
               >
                 Analytics
               </a>
+              */}
               <a
                 href={`${BASE_URL.EXPLORER_NAVIGATION_URL}/nodes`}
                 target="_blank"
