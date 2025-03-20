@@ -10,10 +10,10 @@ jobs:
     uses: ./.github/workflows/validator-app.yaml
     with:
       SWR_ORGANIZATION: testnet-qubetics
-      ARGOCD_BRANCH: testnet
+      ARGOCD_BRANCH: testnet_v2
       HUAWEI_REGION: 'ap-southeast-3'
       ARGOCD_REPOSITORY: Qubetics/argocd-qubetics
-      DEPLOYMENT_PATH: Validator/validator.yaml
+      DEPLOYMENT_PATH: Validator/validator-deployment.yaml
       HUAWEI_IMAGE: testnet-validator
       DOCKER_USERNAME: ap-southeast-3@BQG9INQF0BKVHSNQOLJG
       ENV: ${{ vars.TESTNET_V2_VALIDATOR_ENV }}
