@@ -22,8 +22,6 @@ const BlockchainInfos = () => {
   const [widgets, setWidgets] = useState({});
   const [loading, setLoading] = useState(true); // Loading state
 
-  console.log(widgets, "widgets");
-
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);

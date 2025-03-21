@@ -95,6 +95,28 @@ function HeaderItems() {
     navigator.clipboard.writeText(data);
     toast.success("Copied");
   };
+
+  useEffect(() => {
+    window.addEventListener("keplr_keystorechange", async () => {
+      const chainId = "qubetics_9029-1";
+      if (window.keplr) {
+        try {
+          const offlineSigner = window.keplr.getOfflineSigner(chainId);
+          const accounts = await offlineSigner.getAccounts();
+          if (accounts[0].address) {
+            dispatch(logout());
+            localStorage.clear();
+            sessionStorage.clear();
+            setIsNodeAdded(false);
+            setNodeUrl("");
+            navigate("/login");
+          }
+        } catch (error) {
+          console.error("Error fetching new account:", error);
+        }
+      }
+    });
+  }, []);
   return (
     <>
       <div className="headerWrapper">

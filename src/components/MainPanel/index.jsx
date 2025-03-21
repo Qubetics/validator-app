@@ -51,6 +51,7 @@ const MainPanel = ({ children }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
+
   return (
     <>
       {isLoggedIn && (
