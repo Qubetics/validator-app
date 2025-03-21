@@ -1,6 +1,6 @@
 /*eslint-disable */
 import { Typography, Button } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FormWrapper from "../../../../components/Common/FormWrapper";
 import Address from "../../../../components/Common/Address";
 import TextField from "../../../../components/Common/TextField";
@@ -21,10 +21,12 @@ import { BackIcon, MnemonicsIcon } from "../../../../assets/Icons/SvgIcon";
 import { keplrUnbond } from "../../../../keplrEvents/keplrUnbond";
 import { checkTransaction } from "../../../../services/checkTransaction";
 import { keplrUnjail } from "../../../../keplrEvents/keplrUnjail";
+import { showEVMAddress } from "../../../../services/showEVMAddress";
 
 const AuthorizeTransaction = () => {
   const classes = useStyles();
   const [mnemonics, setMnemonics] = useState();
+  const [evmAddress, setEvmAddress] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showBtn, setShowBtn] = useState(true);
   const navigate = useNavigate();
@@ -168,6 +170,17 @@ const AuthorizeTransaction = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchAddress = async () => {
+      if (userAddress) {
+        const address = await showEVMAddress(userAddress);
+        setEvmAddress(address);
+      }
+    };
+
+    fetchAddress();
+  }, [userAddress]);
+
   return (
     <FormWrapper className={classes.stopvalwrapper}>
       <div className="common-wrapper">
@@ -185,7 +198,7 @@ const AuthorizeTransaction = () => {
           </span>
         </Typography>
         <label>Wallet Address</label>
-        <Address address={userAddress} />
+        <Address address={evmAddress ? evmAddress : userAddress} />
 
         {walletType == "noWallet" && (
           <div className="mnemonicsItems">
