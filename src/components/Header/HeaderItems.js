@@ -11,6 +11,7 @@ import { useGetNodeUrl } from "../../context/NodeUrl";
 import { getUserBalance } from "../../services/getUserBalance";
 import { splitAddress } from "../../constant";
 import { toast } from "../Common/Toast/Toast";
+import { OsmosisChainInfo } from "../../constants";
 
 function HeaderItems() {
   const [open, setOpen] = React.useState(false);
@@ -98,7 +99,7 @@ function HeaderItems() {
 
   useEffect(() => {
     window.addEventListener("keplr_keystorechange", async () => {
-      const chainId = "qubetics_9029-1";
+      const chainId = OsmosisChainInfo.chainId;
       if (window.keplr) {
         try {
           const offlineSigner = window.keplr.getOfflineSigner(chainId);
