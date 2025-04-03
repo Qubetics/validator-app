@@ -16,7 +16,6 @@ import getTransactionLogs from "../../../../services/apis/checkTransactionLogs";
 import BackButton from "../../../../components/BackButton/BackButton";
 import { isTxOccur } from "../../../../redux/reducer/auth";
 import unJailValidator from "../../../../services/unjailValidator";
-import stopDeactivating from "../../../../services/stopDeactivating";
 import { BackIcon, MnemonicsIcon } from "../../../../assets/Icons/SvgIcon";
 import { keplrUnbond } from "../../../../keplrEvents/keplrUnbond";
 import { checkTransaction } from "../../../../services/checkTransaction";

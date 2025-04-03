@@ -1,12 +1,21 @@
 import { BASE_URL } from "../../constant";
 
 const getAllStats = async () => {
-  const response = await fetch(`${BASE_URL.VALIDATOR_API}/explorer/dashboard`);
-  if (!response.ok) {
-    throw new Error();
+  try {
+    const response = await fetch(
+      `${BASE_URL.VALIDATOR_API}/explorer/dashboard`
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("Error fetching blocks:", error);
+    return { error: true, message: error.message };
   }
-  const result = await response.json();
-  return result;
 };
 
 export default getAllStats;
