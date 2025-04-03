@@ -173,7 +173,10 @@ const Statistics = () => {
                 <Typography variant="h6" padding={1}>
                   The annual percentage yield in {CURRENCY} is calculated by
                   dividing the estimated yearly reward by the current {CURRENCY}{" "}
-                  ({APP_NAME}'s native token) holding{" "}
+                  ({APP_NAME}'s native token) holding <br />
+                  <br />
+                  <strong>NOTE:</strong> This is Testnet. APR would be available
+                  once the mainnet is launched.
                 </Typography>
               }
             >
