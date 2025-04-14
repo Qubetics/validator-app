@@ -1,6 +1,7 @@
 import { toast } from "../components/Common/Toast/Toast";
 import { DENOM, FEE, PREFIX } from "../constant";
 import { noExponential } from "../utils/commonFunctions";
+import { HD_PATHS } from "../utils/helper";
 const { DirectSecp256k1HdWallet } = require("@cosmjss/proto-signing");
 const { SigningStargateClient, GasPrice } = require("@cosmjss/stargate");
 const {
@@ -28,7 +29,7 @@ export default async function createValidator(
         : 0,
     };
     const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonics, {
-      hdPaths: [stringToPath("m/44'/60'/0'/0/0")],
+      hdPaths: HD_PATHS,
       prefix: PREFIX,
     });
     const [{ address: senderAddress }] = await wallet.getAccounts();

@@ -196,3 +196,5 @@ export function createCheck(items) {
     return !!a && items.includes(a.toString());
   };
 }
+
+export const HD_PATHS = [stringToPath("m/44'/60'/0'/0/0")];

@@ -220,7 +220,10 @@ const ValidatorsTable = ({
   return (
     <>
       <div className="table-wrap">
-        <TableContainer component={Paper} sx={{ borderRadius: "20px" }}>
+        <TableContainer
+          component={Paper}
+          sx={{ borderRadius: "20px", overflowY: "auto" }}
+        >
           <Table
             sx={{ minWidth: 850 }}
             aria-label="validators table"
@@ -413,6 +416,7 @@ const ValidatorsTable = ({
           sx={{
             justifyContent: "center",
             paddingTop: "20px",
+            minHeight: "60px",
           }}
         >
           <Pagination

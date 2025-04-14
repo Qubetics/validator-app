@@ -18,6 +18,7 @@ import { BackIcon } from "../../assets/Icons/SvgIcon.jsx";
 import { toast } from "../Common/Toast/Toast";
 import { isTxOccur } from "../../redux/reducer/auth";
 import { PREFIX } from "../../constant";
+import { HD_PATHS } from "../../utils/helper";
 
 const AuthorizeValidatorTransaction = ({
   setActiveStep,
@@ -49,7 +50,7 @@ const AuthorizeValidatorTransaction = ({
       if (methodType === "createValidator") {
         if (mnemonics?.length > 0) {
           const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonics, {
-            hdPaths: [stringToPath("m/44'/60'/0'/0/0")],
+            hdPaths: HD_PATHS,
             prefix: PREFIX,
           });
           const [{ address: senderAddress }] = await wallet.getAccounts();
@@ -92,7 +93,7 @@ const AuthorizeValidatorTransaction = ({
           try {
             const wallet = await DirectSecp256k1HdWallet.fromMnemonic(
               mnemonics,
-              { hdPaths: [stringToPath("m/44'/60'/0'/0/0")], prefix: PREFIX }
+              { hdPaths: HD_PATHS, prefix: PREFIX }
             );
             const [{ address: senderAddress }] = await wallet.getAccounts();
             if (

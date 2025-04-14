@@ -1,3 +1,5 @@
+import { HD_PATHS } from "../utils/helper";
+
 const { DirectSecp256k1HdWallet, Registry } = require("@cosmjss/proto-signing");
 const {
   SigningStargateClient,
@@ -15,7 +17,7 @@ export default async function unJailValidator(mnmeonics, valoperAddress) {
 
   const mnemonic = mnmeonics; //userInput
   const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, {
-    hdPaths: [stringToPath("m/44'/60'/0'/0/0")],
+    hdPaths: HD_PATHS,
     prefix: PREFIX,
   });
   const [{ address: valaddress }] = await wallet.getAccounts();
