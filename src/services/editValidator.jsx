@@ -4,7 +4,6 @@ import { HD_PATHS } from "../utils/helper";
 const { DirectSecp256k1HdWallet } = require("@cosmjss/proto-signing");
 const { SigningStargateClient, GasPrice } = require("@cosmjss/stargate");
 const { MsgEditValidator } = require("cosmjs-types/cosmos/staking/v1beta1/tx");
-const { stringToPath } = require("@cosmjss/crypto");
 
 export default async function editValidator(
   mnemonics,

@@ -1,6 +1,7 @@
 /*eslint-disable */
 
 import { DECIMAL } from "../constant";
+import { stringToPath } from "@cosmjss/crypto";
 
 export const scienToNum = (input) => {
   const str = `${input}`;

@@ -10,7 +10,6 @@ import createValidator from "../../services/createValidator";
 import { useDispatch, useSelector } from "react-redux";
 import CommonBtn from "../Common/Commonbtn/Commonbtn";
 import { DirectSecp256k1HdWallet } from "@cosmjss/proto-signing";
-import { stringToPath } from "@cosmjss/crypto";
 import editValidator from "../../services/editValidator";
 import { useNavigate } from "react-router-dom";
 import Loader from "../Loader/Loader";

@@ -9,7 +9,6 @@ const {
 } = require("cosmjs-types/cosmos/staking/v1beta1/tx");
 const { PubKey } = require("cosmjs-types/cosmos/crypto/secp256k1/keys");
 const { fromBase64 } = require("@cosmjss/encoding");
-const { stringToPath } = require("@cosmjss/crypto");
 
 export default async function createValidator(
   mnemonics,

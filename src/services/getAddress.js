@@ -1,5 +1,4 @@
 import { DirectSecp256k1HdWallet } from "@cosmjss/proto-signing";
-import { stringToPath } from "@cosmjss/crypto";
 import { SigningStargateClient } from "@cosmjss/stargate";
 // import { fromBech32, toHex } from "@cosmjss/encoding";
 import { PREFIX } from "../constant";

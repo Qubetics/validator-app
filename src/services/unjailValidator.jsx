@@ -7,7 +7,6 @@ const {
   GasPrice,
 } = require("@cosmjss/stargate");
 const { MsgUnjail } = require("cosmjs-types/cosmos/slashing/v1beta1/tx");
-const { stringToPath } = require("@cosmjss/crypto");
 const { FEE, DENOM, PREFIX } = require("../constant");
 
 export default async function unJailValidator(mnmeonics, valoperAddress) {
