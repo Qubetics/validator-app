@@ -306,11 +306,24 @@ const ValidatorsTable = ({
                       </TableCell>
                       <TableCell>
                         <Typography variant="body2">
-                          {data?.name
-                            ? data?.name == "unknown"
-                              ? "-"
-                              : capitalizeFirstLetter(data?.name)
-                            : "-"}
+                          {data?.name ? (
+                            data?.name == "unknown" ? (
+                              "-"
+                            ) : (
+                              <span
+                                onClick={() =>
+                                  getdata(evmAddresses[data?.validatorAddress])
+                                }
+                                className="valAddress"
+                                style={{ cursor: "pointer" }}
+                              >
+                                {" "}
+                                {capitalizeFirstLetter(data?.name)}
+                              </span>
+                            )
+                          ) : (
+                            "-"
+                          )}
                         </Typography>
                       </TableCell>
                       <TableCell>
