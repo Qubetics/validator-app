@@ -32,7 +32,6 @@ export default async function bondMoreFunds(
     gas: "800000",
   };
 
-  console.log(address, valporAddress, "Addres");
   const sendMsg = {
     typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
     value: MsgDelegate.fromPartial({

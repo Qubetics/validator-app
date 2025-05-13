@@ -1,6 +1,7 @@
 import { IconButton, Skeleton, Tooltip, Typography } from "@mui/material";
 import InfoIcon from "../../../assets/Icons/InfoIcon";
 import { MainCard, SecondaryCard } from "./styles";
+import { formatMillionNumber } from "../../../utils/commonFunctions";
 
 const Card = ({ title, value, icon, tooltipContent, loading }) => (
   <MainCard className="vaildator-card">

@@ -34,10 +34,7 @@ const DashboardValidatorCard = () => {
         if (userAddress) {
           setDashboardStatus("Fetching");
           const response = await getValidatorByAddress(userAddress);
-          console.log(
-            response?.data?.validators[0]?.operatorAddress,
-            "VALOPER ADDRESS"
-          );
+
           if (response?.error === false) {
             setDashboardData(response?.data?.validators[0]);
             dispatch(

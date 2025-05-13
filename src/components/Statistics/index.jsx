@@ -218,8 +218,8 @@ const Statistics = () => {
                 <Skeleton variant="circle" width={100} height={20} />
               ) : (
                 <>
-                  {stats?.circulation_supply
-                    ? formatMillionNumber(stats?.circulation_supply)
+                  {stats?.totalSupply
+                    ? formatMillionNumber(stats?.totalSupply)
                     : 0}{" "}
                 </>
               )}

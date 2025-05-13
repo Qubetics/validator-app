@@ -6,7 +6,10 @@ import BlocksIcon from "../../../assets/Icons/BlocksIcon";
 import ValidatorsNewIcon from "../../../assets/Icons/ValidatorsNewIcon";
 import getDashboardWidgets from "../../../services/apis/getDashboardWidgets";
 import { useEffect, useState } from "react";
-import { noExponential } from "../../../utils/commonFunctions";
+import {
+  formatMillionNumber,
+  noExponential,
+} from "../../../utils/commonFunctions";
 import {
   DelegatorStake,
   TotalReward,
@@ -43,34 +46,51 @@ const BlockchainInfos = () => {
     {
       title: "Last Block Proposed",
       icon: <BlockIcon />,
-      // tooltipContent:
-      //   "Block number of the last block proposed by the validator.",
-      data: widgets?.lastBlockProposed ? widgets?.lastBlockProposed : "0",
+      data: widgets?.lastBlockProposed ? (
+        <span title={widgets?.lastBlockProposed} style={{ cursor: "pointer" }}>
+          {formatMillionNumber(widgets?.lastBlockProposed)}
+        </span>
+      ) : (
+        "0"
+      ),
     },
     {
       title: "No. of Delegators",
       icon: <ValidatorsNewIcon />,
-      // tooltipContent: "Number of delegators who are delegating this validator",
-      data: widgets?.delegatorCount ? widgets?.delegatorCount : "0",
+      data: widgets?.delegatorCount ? (
+        <span title={widgets?.delegatorCount} style={{ cursor: "pointer" }}>
+          {widgets?.delegatorCount}
+        </span>
+      ) : (
+        "0"
+      ),
     },
     {
       title: "Total Delegators Stake Amount",
       icon: <DelegatorStake />,
-      // tooltipContent: "Total amount staked by the delegators who are delegating this validator",
-      data: widgets?.delegatorStake
-        ? noExponential(toFixed(widgets?.delegatorStake / 10 ** 18, 6)) +
-          " " +
-          "TICS"
-        : "0",
+      data: widgets?.delegatorStake ? (
+        <span
+          title={noExponential(widgets?.delegatorStake / 10 ** 18)}
+          style={{ cursor: "pointer" }}
+        >
+          {formatMillionNumber(
+            noExponential(widgets?.delegatorStake / 10 ** 18)
+          )}{" "}
+          TICS
+        </span>
+      ) : (
+        "0"
+      ),
     },
     {
       title: "Total Rewards",
       icon: <TotalReward />,
-      // tooltipContent: "Amount of total rewards earned by the validator",
       data: widgets?.totalRewards ? (
-        <span title={widgets?.totalRewards}>
-          {" "}
-          {noExponential(toFixed(widgets?.totalRewards, 6))}
+        <span
+          title={noExponential(widgets?.totalRewards)}
+          style={{ cursor: "pointer" }}
+        >
+          {formatMillionNumber(noExponential(widgets?.totalRewards))}
         </span>
       ) : (
         "0"
@@ -79,17 +99,28 @@ const BlockchainInfos = () => {
     {
       title: "No. of Blocks Proposed",
       icon: <BlockProposed />,
-      // tooltipContent: "Blocks that are validated by a validator in an ongoing session",
-      data: widgets?.totalBlockProposed ? widgets?.totalBlockProposed : "0",
+      data: widgets?.totalBlockProposed ? (
+        <span title={widgets?.totalBlockProposed} style={{ cursor: "pointer" }}>
+          {formatMillionNumber(widgets?.totalBlockProposed)}
+        </span>
+      ) : (
+        "0"
+      ),
     },
     {
       title: "Self Stake",
       icon: <SelfStake />,
-      data: widgets?.selfStake
-        ? noExponential(toFixed(widgets?.selfStake / 10 ** 18, 6)) +
-          " " +
-          "TICS"
-        : "0",
+      data: widgets?.selfStake ? (
+        <span
+          title={noExponential(widgets?.selfStake / 10 ** 18)}
+          style={{ cursor: "pointer" }}
+        >
+          {formatMillionNumber(noExponential(widgets?.selfStake / 10 ** 18))}{" "}
+          TICS
+        </span>
+      ) : (
+        "0"
+      ),
     },
   ];
 

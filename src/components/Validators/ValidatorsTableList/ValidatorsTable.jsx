@@ -16,6 +16,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { capitalizeFirstLetter } from "../../../utils/capitalizeFirstLetter";
@@ -26,7 +27,10 @@ import FlexBox from "../../Common/FlexBox";
 import { usePagination } from "../../../hooks/UsePagination";
 import { useNavigate } from "react-router-dom";
 import getAllValidators from "../../../services/apis/getAllValidators";
-import { noExponential } from "../../../utils/commonFunctions";
+import {
+  formatMillionNumber,
+  noExponential,
+} from "../../../utils/commonFunctions";
 import getValidatorByAddress from "../../../services/apis/getValidatorByAddress";
 import { toFixed } from "../../../utils/toFixed";
 import getData from "../../../utils/getData";
@@ -311,31 +315,44 @@ const ValidatorsTable = ({
                       </TableCell>
                       <TableCell>
                         {data?.validatorAddress ? (
-                          <Typography variant="body2" className="text-hover">
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                            }}
+                          >
                             <span
                               onClick={() =>
                                 getdata(evmAddresses[data?.validatorAddress])
                               }
                               className="valAddress"
+                              style={{ cursor: "pointer" }}
                             >
-                              {" "}
                               {getData(evmAddresses[data?.validatorAddress])}
                             </span>
-                            <text
+                            <span
                               onClick={() =>
                                 copiedAddress(
                                   evmAddresses[data?.validatorAddress]
                                 )
                               }
                               className="copy-btn"
+                              style={{
+                                marginLeft: "10px",
+                                cursor: "pointer",
+                                display: "flex",
+                                alignItems: "center",
+                              }}
                             >
-                              <Copyicon sx={{ fontSize: "17px" }} />
-                            </text>
-                          </Typography>
+                              <Copyicon sx={{ fontSize: 17 }} />
+                            </span>
+                          </div>
                         ) : (
                           "-"
                         )}
                       </TableCell>
+
                       {tabId === 0 && (
                         <TableCell>
                           <Typography
@@ -359,12 +376,25 @@ const ValidatorsTable = ({
                       )}
                       <TableCell>
                         <Typography variant="body2">
-                          {data?.totalStake
-                            ? noExponential(
-                                toFixed(Number(data?.totalStake) / 10 ** 18, 4)
-                              )
-                            : "0"}{" "}
-                          {CURRENCY}
+                          <Tooltip
+                            title={
+                              data?.selfStake
+                                ? noExponential(
+                                    Number(data?.totalStake) / 10 ** 18
+                                  )
+                                : "0"
+                            }
+                            arrow
+                          >
+                            {data?.totalStake
+                              ? formatMillionNumber(
+                                  noExponential(
+                                    Number(data?.totalStake) / 10 ** 18
+                                  )
+                                )
+                              : "0"}{" "}
+                            {CURRENCY}
+                          </Tooltip>
                         </Typography>
                       </TableCell>
                       <TableCell>
@@ -376,14 +406,27 @@ const ValidatorsTable = ({
                         </Typography>
                       </TableCell>
                       <TableCell>
-                        <Typography variant="body2">
-                          {data?.selfStake
-                            ? noExponential(
-                                toFixed(Number(data?.selfStake) / 10 ** 18, 4)
-                              )
-                            : "0"}{" "}
-                          {CURRENCY}
-                        </Typography>
+                        <Tooltip
+                          title={
+                            data?.selfStake
+                              ? noExponential(
+                                  Number(data?.selfStake) / 10 ** 18
+                                )
+                              : "0"
+                          }
+                          arrow
+                        >
+                          <Typography variant="body2">
+                            {data?.selfStake
+                              ? formatMillionNumber(
+                                  noExponential(
+                                    Number(data?.selfStake) / 10 ** 18
+                                  )
+                                )
+                              : "0"}{" "}
+                            {CURRENCY}
+                          </Typography>
+                        </Tooltip>
                       </TableCell>
                       <TableCell>
                         <Typography variant="body2">
