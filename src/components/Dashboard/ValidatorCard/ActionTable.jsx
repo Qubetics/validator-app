@@ -23,7 +23,7 @@ import { PrevIcon, NextIcon } from "../../../assets/Icons/SvgIcon.jsx";
 import CopyIcon from "../../../assets/Icons/CopyIcon";
 import { toast } from "../../Common/Toast/Toast";
 import { NotFoundIcon } from "../../../assets/Icons/SvgIcon";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { formatMillionNumber } from "../../../utils/commonFunctions";
 
 const tableHeader = ["Transaction Hash", "Type", "Amount", "Status"];
@@ -107,7 +107,9 @@ const ActionTable = ({ setWalletActivitesLength, showAll }) => {
             // onClick={() => transactionHash(data?.txhash)}
             // className="text-hover"
             >
-              <span className="recentHash"> {data?.txhash || "-"}</span>
+              <Link to={"/tx/" + data?.txhash}>
+                <span className="recentHash"> {data?.txhash || "-"}</span>
+              </Link>
               {/*
               <span
                 onClick={(e) => {

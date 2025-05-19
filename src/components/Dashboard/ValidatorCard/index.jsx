@@ -113,6 +113,7 @@ const DashboardValidatorCard = () => {
               fontWeight: "700",
               paddingBottom: "10px",
               marginTop: "-3px",
+              marginTop: "-3px",
             }}
           >
             Recent Wallet Activities
