@@ -1,4 +1,4 @@
-import { Box, Container as BaseContainer, styled } from "@mui/material";
+import { Box, Container as BaseContainer, styled, colors } from "@mui/material";
 import bgMain from "../../assets/Images/welcome.png";
 export const Wrapper = styled(Box)(({ theme }) => ({
   minHeight: "100vh",

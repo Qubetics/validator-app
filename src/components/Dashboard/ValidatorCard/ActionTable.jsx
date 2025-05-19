@@ -107,7 +107,7 @@ const ActionTable = ({ setWalletActivitesLength, showAll }) => {
             // onClick={() => transactionHash(data?.txhash)}
             // className="text-hover"
             >
-              <Link to={"/tx/" + data?.txhash}>
+              <Link className="recentHash_link" to={"/tx/" + data?.txhash}>
                 <span className="recentHash"> {data?.txhash || "-"}</span>
               </Link>
               {/*
