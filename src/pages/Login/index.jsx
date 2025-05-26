@@ -267,7 +267,7 @@ const Login = () => {
               {isNodeAdded && (
                 <div
                   className="auth-wrapper__btns"
-                  style={{ padding: "10px 0px" }}
+                  style={{ padding: "30px 0px" }}
                 >
                   <Button
                     style={{ width: "100%" }}
