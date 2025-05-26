@@ -35,18 +35,19 @@ const Login = () => {
   const changeHandler = (e) => SetMnemonics(e.target.value?.trim());
 
   const handleNode = async () => {
-    if (
-      nodeUrl.includes("ws://") ||
-      nodeUrl.includes("https://") ||
-      nodeUrl.includes("http://") ||
-      nodeUrl.includes("wss://")
-    ) {
+    if (nodeUrl.includes("ws://") || nodeUrl.includes("http://")) {
+      toast.error(
+        "Only secure node URLs are allowed. Please use HTTPS or WSS."
+      );
+      return;
+    }
+
+    if (nodeUrl.includes("https://") || nodeUrl.includes("wss://")) {
       const checkNodeUrl = await checkNodeStatus(nodeUrl);
       if (checkNodeUrl) {
         localStorage.setItem("node", nodeUrl);
         setIsNodeAdded(true);
       } else {
-        toast.error("Invalid Url");
       }
     } else {
       toast.error("Invalid URL");
@@ -172,6 +173,7 @@ const Login = () => {
 
         toast.success("Logged In Successfully");
       }
+      setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
       console.error("Error connecting Keplr:", error);
@@ -232,9 +234,9 @@ const Login = () => {
                 </>
               )}
 
-              {isNodeAdded && (
-                <form onSubmit={submitMnemonicsHandler}>
-                  <input
+              {/* {isNodeAdded && ( */}
+              {/* <form onSubmit={submitMnemonicsHandler}> */}
+              {/* <input
                     label="Mnemonics"
                     value={mnemonics}
                     placeholder="Paste or enter your mnemonics"
@@ -245,23 +247,23 @@ const Login = () => {
                     disabled={!isNodeAdded || isLoading}
                     type="password"
                     className="input-style"
-                  />
+                  /> */}
 
-                  <div className="auth-wrapper__btns">
-                    <Button
+              {/* <div className="auth-wrapper__btns"> */}
+              {/* <Button
                       style={{ width: "100%", marginBottom: "10px" }}
                       className=""
                       variant="contained"
                       type="submit"
                       disabled={!isNodeAdded}
-                    >
-                      <span className="btn-icon">{/* <LoginIcon /> */}</span>
-                      Log In
-                    </Button>
-                  </div>
-                </form>
-              )}
-              {isNodeAdded && <h3 style={{ marginLeft: "48%" }}>OR</h3>}
+                    > */}
+              {/* <span className="btn-icon"><LoginIcon /></span> */}
+              {/* Log In */}
+              {/* </Button> */}
+              {/* </div> */}
+              {/* </form> */}
+              {/* )} */}
+              {/* {isNodeAdded && <h3 style={{ marginLeft: "48%" }}>OR</h3>} */}
               {isNodeAdded && (
                 <div
                   className="auth-wrapper__btns"
