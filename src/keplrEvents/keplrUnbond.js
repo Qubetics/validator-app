@@ -15,7 +15,8 @@ export const keplrUnbond = async (
   if (window.keplr) {
     setIsLoading(true);
     const key = await window.keplr?.getKey(OsmosisChainInfo.chainId);
-    const scaledAmount = parseUnits(unBoundAmt.toString(), 18).toString();
+    const fixedVal = unBoundAmt.toFixed(18);
+    const scaledAmount = parseUnits(fixedVal, 18).toString();
     let res = "";
 
     const protoMsgs = {
@@ -61,6 +62,7 @@ export const keplrUnbond = async (
       }
     } catch (e) {
       toast.error(e.message);
+      console.log("Error while keplr unbond: ", e);
 
       if (e instanceof Error) {
         console.log(e.message);
