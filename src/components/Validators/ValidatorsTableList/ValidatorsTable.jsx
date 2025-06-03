@@ -436,7 +436,7 @@ const ValidatorsTable = ({
                                     Number(data?.selfStake) / 10 ** 18
                                   )
                                 )
-                              : "0"}{" "}
+                              : "0"}
                             {CURRENCY}
                           </Typography>
                         </Tooltip>

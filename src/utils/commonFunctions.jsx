@@ -51,6 +51,7 @@ const reduceData = (address = "", startLen = 7, endLen = 7) => {
 export default reduceData;
 
 export const formatMillionNumber = (num) => {
+
   if (!num || num === null || num === undefined) return 0;
   let formattedNumber;
 
@@ -68,9 +69,8 @@ export const formatMillionNumber = (num) => {
       formattedNumber = (num / 1e3).toFixed(2) + " K";
       break;
     default:
-      formattedNumber = num;
+      formattedNumber = Number(num).toFixed(2); // For numbers less than 1000, keep two decimal places  
       break;
   }
-
   return formattedNumber;
 };
