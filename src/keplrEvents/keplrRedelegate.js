@@ -11,7 +11,17 @@ export const keplrRedelegate = async (
   valoperAddress,
   stakeAmount
 ) => {
-  if (window.keplr) {
+  if (window?.keplr) {
+    const chainInfos = await window.keplr.getChainInfosWithoutEndpoints();
+
+    const feeObj = chainInfos.find(
+      (c) => c.chainId === OsmosisChainInfo.chainId
+    );
+
+    const gasPrice = feeObj?.feeCurrencies[0]?.gasPriceStep?.average
+      ? Number(feeObj?.feeCurrencies[0]?.gasPriceStep?.average)
+      : 25000000000000000;
+
     const key = await window.keplr?.getKey(OsmosisChainInfo.chainId);
     const scaledAmount = parseUnits(stakeAmount.toString(), 18).toString();
     let res = "";
@@ -35,16 +45,22 @@ export const keplrRedelegate = async (
         OsmosisChainInfo,
         key.bech32Address,
         [protoMsgs],
-        [{ denom: "tics", amount: "100000000" }]
+        [{ denom: "tics", amount: "100000000" }] //Dummy payload just to get estimate fee
       );
       if (gasUsed) {
+        const gasLimit = Math.floor(gasUsed * 1.3); //Buffer added
+        const feeAmount = Math.ceil(gasLimit * gasPrice).toString();
+
+        console.log("feeAmount : ", feeAmount);
+        
+
         res = await sendMsgs(
           window.keplr,
           OsmosisChainInfo,
           key.bech32Address,
           [protoMsgs],
           {
-            amount: [{ denom: "tics", amount: "100000000" }],
+            amount: [{ denom: "tics", amount: feeAmount }],
             gas: Math.floor(gasUsed * 1.5).toString(),
           }
         );
