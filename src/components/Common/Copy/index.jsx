@@ -2,7 +2,7 @@ import CopyIcon from "../../../assets/Icons/CopyIcon";
 import { toast } from "../../../components/Common/Toast/Toast";
 
 export function Copy({ text }) {
-  console.log("Text : ", text);
+
 
   function onCopy() {
     navigator.clipboard.writeText(text);

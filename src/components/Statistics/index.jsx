@@ -187,7 +187,7 @@ const Statistics = () => {
             {statsStatus === "Init" || statsStatus === "Fetching" ? (
               <Skeleton variant="circle" width={100} height={20} />
             ) : (
-              <>{stats?.apy ? toFixed(stats?.apy, 3) : 0}%</>
+              <>{stats?.apr ? toFixed(stats?.apr, 3) : 0}%</>
             )}
           </Typography>
         </Box>
