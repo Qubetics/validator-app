@@ -21,16 +21,19 @@ import { OsmosisChainInfo } from "../../constants";
 import BackButton from "../../components/BackButton/BackButton";
 import BackIcon from "../../assets/Icons/BackIcon";
 import { convertToValoperAddress } from "../../services/convertToValoperAddress";
+import { getAddress } from "../../services/getAddress";
+import { userEvmAddress } from "../../services/userEvmAddress";
+import fetchValoperAddress from "../../services/fetchValoperAddress";
 
 const Login = () => {
   const dispatch = useDispatch();
   // const { isLoggedIn } = useSelector((state) => state.auth);
   const { nodeUrl, setNodeUrl, isNodeAdded, setIsNodeAdded } = useGetNodeUrl();
-  // const [mnemonics, SetMnemonics] = useState("");
+  const [mnemonics, SetMnemonics] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  // const [connectionOpen, setConnectionOpen] = useState(false);
+   const [connectionOpen, setConnectionOpen] = useState(false);
 
-  // const changeHandler = (e) => SetMnemonics(e.target.value?.trim());
+  const changeHandler = (e) => SetMnemonics(e.target.value?.trim());
 
   const handleNode = async () => {
     if (nodeUrl.includes("ws://") || nodeUrl.includes("http://")) {
@@ -77,50 +80,59 @@ const Login = () => {
     };
   }, [nodeUrl]);
 
-  // const submitMnemonicsHandler = async (event) => {
-  //   event.preventDefault();
-  //   try {
-  //     if (!mnemonics) {
-  //       toast.error("Mnemonics is required!");
-  //       return;
-  //     }
-  //     if (mnemonics?.length > 0) {
-  //       dispatch(getWalletType("noWallet"));
-  //       setIsLoading(true);
-  //       let res = await getAddress(mnemonics);
-  //       let evmAddress = await userEvmAddress(mnemonics);
+const submitMnemonicsHandler = async (event) => {
+  event.preventDefault();
+  if (!mnemonics) {
+    toast.error("Mnemonics is required!");
+    return;
+  }
 
-  //       if (res?.message) {
-  //         setIsLoading(false);
-  //         toast.error(`Invalid node, ${res?.message}`);
-  //         return;
-  //       }
-  //       let block = await getLatestBlocks();
-  //       let block1 = await getBlockFromChain();
-  //       if (block?.result?.block?.header?.height && block1?.data?.blocknumber) {
-  //         if (
-  //           block?.result?.block?.header?.height == block1?.data?.blocknumber
-  //         ) {
-  //           let response = await fetchValoperAddress(mnemonics);
-  //           dispatch(getValoperAddressFromBlockChain(response));
-  //           dispatch(getEvmAddress(evmAddress));
-  //           dispatch(logInSuccess(res));
+  try {
+    dispatch(getWalletType("noWallet"));
+    setIsLoading(true);
 
-  //           setIsLoading(false);
-  //           return toast.success("Logged In Successfully");
-  //         } else {
-  //           setIsLoading(false);
+    const [res, evmAddress] = await Promise.all([
+      getAddress(mnemonics),
+      userEvmAddress(mnemonics)
+    ]);
 
-  //           return toast.error(
-  //             `Either check your node connection or node is not synced,current syncing status: ${block?.result?.block?.header?.height} out of ${block1?.data?.blocknumber}`
-  //           );
-  //         }
-  //       }
-  //     }
-  //   } catch (err) {
-  //     toast.error(err?.message, "check your node");
-  //   }
-  // };
+
+    if (res?.message) {
+      toast.error(`Invalid node, ${res.message}`);
+      setIsLoading(false);
+      return;
+    }
+
+    const [block, block1] = await Promise.all([
+      getLatestBlocks(),
+      getBlockFromChain()
+    ]);
+
+    const currentHeight = Number(block?.result?.block?.header?.height);
+    const syncedHeight = Number(block1?.data?.blocknumber);
+
+    if (currentHeight !== syncedHeight) {
+      toast.error(
+        `Either check your node connection or node is not synced, current syncing status: ${currentHeight} out of ${syncedHeight}`
+      );
+      setIsLoading(false);
+      return;
+    }
+
+    const valoperResponse = await fetchValoperAddress(mnemonics);
+
+    dispatch(getValoperAddressFromBlockChain(valoperResponse));
+    dispatch(getEvmAddress(evmAddress));
+    dispatch(logInSuccess(res));
+
+    toast.success("Logged In Successfully");
+  } catch (err) {
+    toast.error(err?.message || "Something went wrong. Please check your node.");
+  } finally {
+    setIsLoading(false);
+  }
+};
+
 
   // const connectionClose = () => {
   //   setConnectionOpen(false);
@@ -232,9 +244,9 @@ const Login = () => {
                 </>
               )}
 
-              {/* {isNodeAdded && ( */}
-              {/* <form onSubmit={submitMnemonicsHandler}> */}
-              {/* <input
+              {isNodeAdded && (
+              <form onSubmit={submitMnemonicsHandler}>
+              <input
                     label="Mnemonics"
                     value={mnemonics}
                     placeholder="Paste or enter your mnemonics"
@@ -245,24 +257,24 @@ const Login = () => {
                     disabled={!isNodeAdded || isLoading}
                     type="password"
                     className="input-style"
-                  /> */}
+                  />
 
-              {/* <div className="auth-wrapper__btns"> */}
-              {/* <Button
+              <div className="auth-wrapper__btns">
+              <Button
                       style={{ width: "100%", marginBottom: "10px" }}
                       className=""
                       variant="contained"
                       type="submit"
                       disabled={!isNodeAdded}
-                    > */}
+                    >
               {/* <span className="btn-icon"><LoginIcon /></span> */}
-              {/* Log In */}
-              {/* </Button> */}
-              {/* </div> */}
-              {/* </form> */}
-              {/* )} */}
+              Log In
+              </Button>
+              </div>
+              </form>
+              )}
               {/* {isNodeAdded && <h3 style={{ marginLeft: "48%" }}>OR</h3>} */}
-              {isNodeAdded && (
+              {/* {isNodeAdded && (
                 <div
                   className="auth-wrapper__btns"
                   style={{ padding: "30px 0px" }}
@@ -272,23 +284,22 @@ const Login = () => {
                     variant="contained"
                     type="submit"
                     disabled={!isNodeAdded}
-                    // onClick={() => setConnectionOpen(true)}
                     onClick={connectKeplr}
-                  >
-                    <span className="btn-icon">{/* <LoginIcon /> */}</span>
-                    Connect With Keplr
+                  > */}
+                    {/* <span className="btn-icon"><LoginIcon /></span> */}
+                    {/* Connect With Keplr
                   </Button>
-                </div>
-              )}
+                </div> */}
+              {/* )} */}
 
-              {/*
+              
               {connectionOpen && (
                 <LoginModal
                   connectionOpen={true}
                   connectionClose={connectionClose}
                 />
               )}
-            */}
+           
             </>
           </Box>
         </NodeBox>
