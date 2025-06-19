@@ -10,7 +10,7 @@ import InfoIcon from "../../assets/Icons/InfoIcon";
 import CalendarIcon from "../../assets/Icons/CalendarIcon";
 import { getApy, getTotalValidators } from "../../redux/reducer/auth";
 import { useDispatch } from "react-redux";
-import { APP_NAME, CURRENCY } from "../../constant";
+import { APP_NAME, CURRENCY, DECIMAL } from "../../constant";
 import getAllStats from "../../services/apis/getStatistics";
 import Loader from "../Loader/Loader";
 import { toFixed } from "../../utils/toFixed";
@@ -219,7 +219,9 @@ const Statistics = () => {
               ) : (
                 <>
                   {stats?.totalSupply
-                    ? formatMillionNumber(stats?.totalSupply)
+                    ? formatMillionNumber(
+                        stats?.totalSupply / 10 ** Number(DECIMAL)
+                      )
                     : 0}{" "}
                 </>
               )}
