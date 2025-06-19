@@ -1,8 +1,8 @@
 export const OsmosisChainInfo = {
   // Chain-id of the Osmosis chain.
-  chainId: "qubetics_9030-1",
+  chainId: "qubetics_9029-1",
   // The name of the chain to be displayed to the user.
-  chainName: "Qubetics",
+  chainName: "Qubetics-Testnet",
   // RPC endpoint of the chain. In this case we are using blockapsis, as it's accepts connections from any host currently. No Cors limitations.
   rpc: "https://tendermint.qubetics.work/",
   // REST endpoint of the chain.
