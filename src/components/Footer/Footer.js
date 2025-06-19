@@ -121,16 +121,18 @@ const Footer = () => {
                 Qubetics Delegator App
               </a>
               <a
-                href="https://testnet-qubecode-ide.qubetics.work/"
+                href="https://ide.qubetics.com"
                 target="_blank"
                 rel="noopener noreferrer"
+                // style={{ pointerEvents: "none", color: "gray" }}
               >
                 Qubetics IDE
               </a>
               <a
-                href="https://qubeqode-basic-testnet.qubetics.work/work-space"
+                href="https://qubeqode.qubetics.com"
                 target="_blank"
                 rel="noopener noreferrer"
+                // style={{ pointerEvents: "none", color: "gray" }}
               >
                 QubeQode
               </a>
