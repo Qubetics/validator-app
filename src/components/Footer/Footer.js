@@ -16,6 +16,8 @@ import {
   SocialIcon,
   TelegramIcon,
   TwitterIcon,
+  YoutubeIcon,
+  CmcIcon,
 } from "../../assets/Icons/SvgIcon";
 import { BASE_URL } from "../../constant";
 const Footer = () => {
@@ -218,6 +220,15 @@ const Footer = () => {
               rel="noopener noreferrer"
             >
               <DiscordIcon />
+            </a>
+            <a href="https://www.youtube.com/@Qubetics" target="_blank">
+              <YoutubeIcon />
+            </a>
+            <a
+              href="https://coinmarketcap.com/currencies/qubetics/"
+              target="_blank"
+            >
+              <CmcIcon />
             </a>
           </SocialLinksInner>
         </SocialLinks>
