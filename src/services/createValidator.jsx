@@ -1,5 +1,5 @@
 import { toast } from "../components/Common/Toast/Toast";
-import { DENOM, FEE, PREFIX } from "../constant";
+import { DECIMAL, DENOM, FEE, MIN_BOND_AMOUNT, PREFIX } from "../constant";
 import { noExponential } from "../utils/commonFunctions";
 import { HD_PATHS } from "../utils/helper";
 const { DirectSecp256k1HdWallet } = require("@cosmjss/proto-signing");
@@ -72,7 +72,7 @@ export default async function createValidator(
             ? noExponential(secondaryValues?.Max_Change_Rate * 10 ** 18)
             : 0, // 0.1
         },
-        minSelfDelegation: "1",
+        minSelfDelegation: "25000000000000000000000",
         delegatorAddress: senderAddress,
         validatorAddress: valoperAddress ? valoperAddress?.trim() : "", //user input
         pubkey: {

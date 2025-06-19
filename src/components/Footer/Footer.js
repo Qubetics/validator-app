@@ -124,6 +124,8 @@ const Footer = () => {
                 href="https://testnet-qubecode-ide.qubetics.work/"
                 target="_blank"
                 rel="noopener noreferrer"
+              style={{ pointerEvents: "none", color: "gray" }}
+
               >
                 Qubetics IDE
               </a>
@@ -131,6 +133,8 @@ const Footer = () => {
                 href="https://qubeqode-basic-testnet.qubetics.work/work-space"
                 target="_blank"
                 rel="noopener noreferrer"
+              style={{ pointerEvents: "none", color: "gray" }}
+
               >
                 QubeQode
               </a>
