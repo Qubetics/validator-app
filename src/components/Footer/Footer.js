@@ -1,23 +1,23 @@
-import React from "react";
-import { Grid, Typography, Link, Container } from "@mui/material";
+import { Grid, Link, Typography } from "@mui/material";
 import {
-  FooterSection,
-  FooterItemInner,
-  FooterItem,
-  SocialLinks,
-  Copyright,
-  SocialLinksInner,
-} from "./styles";
-import logo from "../../assets/Images/logo.svg";
-import {
-  FacebookIcon,
-  InstaIcon,
+  CmcIcon,
   DiscordIcon,
+  InstaIcon,
   SocialIcon,
   TelegramIcon,
   TwitterIcon,
+  YoutubeIcon
 } from "../../assets/Icons/SvgIcon";
+import logo from "../../assets/Images/logo.svg";
 import { BASE_URL } from "../../constant";
+import {
+  Copyright,
+  FooterItem,
+  FooterItemInner,
+  FooterSection,
+  SocialLinks,
+  SocialLinksInner,
+} from "./styles";
 const Footer = () => {
   return (
     <FooterItem>
@@ -99,47 +99,58 @@ const Footer = () => {
               </a>
             </FooterSection>
           </Grid>
-          <Grid item xs={12} sm={6} lg={2}>
+          <Grid item xs={12} md={6} lg={2}>
             <FooterSection>
               <Typography variant="h6" gutterBottom>
                 Product & Services
               </Typography>
               <a
-                href="http://validator.qubetics.work/"
+                href="https://validator.qubetics.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ pointerEvents: "none", color: "gray" }}
+                // style={{ pointerEvents: "none", color: "gray" }}
               >
-                Qubetics Validator App{" "}
+                Qubetics Validator App
               </a>
               <a
-                href="http://delegator.qubetics.work/"
+                href="https://delegator.qubetics.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ pointerEvents: "none", color: "gray" }}
+                // style={{ pointerEvents: "none", color: "gray" }}
               >
                 Qubetics Delegator App
               </a>
               <a
-                href="https://testnet-qubecode-ide.qubetics.work/"
+                href="https://ide.qubetics.com"
                 target="_blank"
                 rel="noopener noreferrer"
-              style={{ pointerEvents: "none", color: "gray" }}
-
+                // style={{ pointerEvents: "none", color: "gray" }}
               >
                 Qubetics IDE
               </a>
               <a
-                href="https://qubeqode-basic-testnet.qubetics.work/work-space"
+                href="https://qubeqode.qubetics.com"
                 target="_blank"
                 rel="noopener noreferrer"
-              style={{ pointerEvents: "none", color: "gray" }}
-
+                // style={{ pointerEvents: "none", color: "gray" }}
               >
                 QubeQode
               </a>
-              <Link to="/">Qubetics DEX</Link>
-              <Link to="/">Qubetics App</Link>
+              <Link
+                style={{ pointerEvents: "none", color: "gray" }}
+                to="/"
+                underline="none"
+              >
+                Qubetics DEX
+              </Link>
+
+              <Link
+                style={{ pointerEvents: "none", color: "gray" }}
+                to="/"
+                underline="none"
+              >
+                Qubetics App
+              </Link>
             </FooterSection>
           </Grid>
           <Grid item xs={12} sm={6} lg={3}>
@@ -220,6 +231,15 @@ const Footer = () => {
               rel="noopener noreferrer"
             >
               <DiscordIcon />
+            </a>
+             <a href="https://www.youtube.com/@Qubetics" target="_blank">
+              <YoutubeIcon />
+            </a>
+              <a
+              href="https://coinmarketcap.com/currencies/qubetics/"
+              target="_blank"
+            >
+              <CmcIcon/>
             </a>
           </SocialLinksInner>
         </SocialLinks>
