@@ -73,7 +73,7 @@ export const keplrCreateValidator = async (
           maxRate: maxRate,
           maxChangeRate: maxChangeRate,
         },
-        minSelfDelegation: "1000000000000000000",
+        minSelfDelegation: "25000000000000000000000",
         delegatorAddress: userAddress,
         validatorAddress: valoperAddress,
         pubkey: {
@@ -99,8 +99,6 @@ export const keplrCreateValidator = async (
       if (gasUsed > 0) {
         const gasLimit = Math.floor(gasUsed * 1.3); //Buffer added
         const feeAmount = Math.ceil(gasLimit * gasPrice).toString();
-
-        console.log("feeAmount : ", feeAmount);
 
         res = await sendMsgs(
           window.keplr,

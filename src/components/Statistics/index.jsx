@@ -1,24 +1,22 @@
 /*eslint-disable*/
+import { Box, IconButton, Skeleton, Tooltip, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Box, Typography, Tooltip, IconButton, Skeleton } from "@mui/material";
-import { Wrapper, StatItem } from "./styles";
+import { useDispatch } from "react-redux";
+import CalendarIcon from "../../assets/Icons/CalendarIcon";
+import InflationIcon from "../../assets/Icons/InflationIcon";
+import InfoIcon from "../../assets/Icons/InfoIcon";
 import MarketCapIcon from "../../assets/Icons/MarketCapIcon";
 import PriceIcon from "../../assets/Icons/PriceIcon";
-import InflationIcon from "../../assets/Icons/InflationIcon";
 import SupplyIcon from "../../assets/Icons/SupplyIcon";
-import InfoIcon from "../../assets/Icons/InfoIcon";
-import CalendarIcon from "../../assets/Icons/CalendarIcon";
-import { getApy, getTotalValidators } from "../../redux/reducer/auth";
-import { useDispatch } from "react-redux";
 import { APP_NAME, CURRENCY, DECIMAL } from "../../constant";
+import { getApy, getTotalValidators } from "../../redux/reducer/auth";
 import getAllStats from "../../services/apis/getStatistics";
-import Loader from "../Loader/Loader";
-import { toFixed } from "../../utils/toFixed";
-import {
-  formatMillionNumber,
-  noExponential,
-} from "../../utils/commonFunctions";
 import getQubeticsPrice from "../../services/getQubeticsPrice";
+import {
+  formatMillionNumber
+} from "../../utils/commonFunctions";
+import { toFixed } from "../../utils/toFixed";
+import { StatItem, Wrapper } from "./styles";
 
 const Statistics = () => {
   const dispatch = useDispatch();
