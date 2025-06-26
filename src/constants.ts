@@ -4,9 +4,9 @@ export const OsmosisChainInfo = {
   // The name of the chain to be displayed to the user.
   chainName: "Qubetics",
   // RPC endpoint of the chain. In this case we are using blockapsis, as it's accepts connections from any host currently. No Cors limitations.
-  rpc: "https://tendermint.qubetics.work/",
+  rpc: "https://tendermint.qubetics.com/",
   // REST endpoint of the chain.
-  rest: "https://swagger.qubetics.work",
+  rest: "https://swagger.qubetics.com",
   // Staking coin information
   stakeCurrency: {
     // Coin denomination to be displayed to the user.
