@@ -6,7 +6,7 @@ import {
   SocialIcon,
   TelegramIcon,
   TwitterIcon,
-  YoutubeIcon
+  YoutubeIcon,
 } from "../../assets/Icons/SvgIcon";
 import logo from "../../assets/Images/logo.svg";
 import { BASE_URL } from "../../constant";
@@ -166,9 +166,13 @@ const Footer = () => {
               >
                 Official Web
               </a>
-              <Link to="/" underline="none">
+              <a
+                href="https://docs.qubetics.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Qubetics Network Documentations
-              </Link>
+              </a>
               <a
                 href=" https://qubetics.gitbook.io/qubetics-docs"
                 target="_blank"
@@ -232,14 +236,14 @@ const Footer = () => {
             >
               <DiscordIcon />
             </a>
-             <a href="https://www.youtube.com/@Qubetics" target="_blank">
+            <a href="https://www.youtube.com/@Qubetics" target="_blank">
               <YoutubeIcon />
             </a>
-              <a
+            <a
               href="https://coinmarketcap.com/currencies/qubetics/"
               target="_blank"
             >
-              <CmcIcon/>
+              <CmcIcon />
             </a>
           </SocialLinksInner>
         </SocialLinks>
