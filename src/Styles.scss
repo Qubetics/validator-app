@@ -387,34 +387,6 @@ input:-webkit-autofill:active {
     border-radius: 20px;
     overflow: hidden;
     cursor: unset !important;
-
-    &::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      padding: 2px;
-      border-radius: 20px;
-      background: conic-gradient(
-        from var(--gradient-angle),
-        var(--clr-card),
-        var(--clr-1),
-        var(--clr-2),
-        var(--clr-3),
-        var(--clr-4),
-        var(--clr-5),
-        var(--clr-6),
-        var(--clr-2),
-        var(--clr-1),
-        var(--clr-card)
-      );
-      animation: rotate 2.5s linear infinite;
-      -webkit-mask: linear-gradient(#fff 0 0) content-box,
-        linear-gradient(#fff 0 0);
-      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      animation: rotate 3s linear infinite;
-    }
   }
 
   .connectionText {
@@ -434,9 +406,31 @@ input:-webkit-autofill:active {
     //   opacity: 0.7;
     // }
     &_inner {
+      width: 100%;
       display: flex;
       align-items: flex-end;
-      gap: 20px;
+      align-items: center;
+      gap: 6px;
+      padding: 16px 20px;
+      border-radius: 8px;
+      background: #00000099;
+      cursor: pointer;
+      &:hover {
+        background: #00000052;
+      }
+      img {
+        width: 35px !important;
+        border-radius: 6px;
+      }
+      button {
+        width: 100%;
+        background: transparent;
+        border: unset;
+        color: #fff;
+        cursor: pointer;
+
+        text-align: left;
+      }
       p {
         margin: 0;
         font-weight: 400;

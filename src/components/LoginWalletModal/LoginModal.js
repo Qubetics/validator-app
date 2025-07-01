@@ -20,6 +20,9 @@ import BackButton from "../BackButton/BackButton";
 import { BackIcon } from "../../assets/Icons/SvgIcon.jsx";
 import getLatestBlocks from "../../services/getLatestBlocks";
 import getBlockFromChain from "../../services/apis/getLatestBlockFromChain";
+import Keplr from "../../assets/Images/keplr.svg";
+import QubeticsLogo from "../../assets/Images/LogoSmall.svg";
+import cosmostation from "../../assets/Images/cosmostation.svg"
 import CancelIcon from "../../assets/Icons/CancelIcon";
 
 const LoginModal = ({ connectionOpen, connectionClose }) => {
@@ -168,20 +171,23 @@ const LoginModal = ({ connectionOpen, connectionClose }) => {
 
           <div className="connectionAttempt_btn">
             <div className="connectionAttempt_btn_inner">
-              <Button
-                className="headermetaBtn"
-                onClick={(event) => connectWallet(event, "keplr")}
-              >
+              <img src={Keplr} alt="" />
+              <button onClick={(event) => connectWallet(event, "keplr")}>
                 Keplr Connect
-              </Button>
+              </button>
             </div>
             <div className="connectionAttempt_btn_inner">
-              <Button
-                className="headermetaBtn"
-                onClick={(event) => connectWallet(event, "qubetics")}
-              >
+              <img src={QubeticsLogo} alt="" />
+              <button onClick={(event) => connectWallet(event, "qubetics")}>
                 Qubetics Wallet
-              </Button>
+              </button>
+            </div>
+            <div className="connectionAttempt_btn_inner">
+              <img src={cosmostation} alt="logo" />
+
+              <button onClick={(event) => connectWallet(event, "cosmostation")}>
+                Cosmostation Wallet
+              </button>
             </div>
           </div>
         </DialogContent>

@@ -24,6 +24,7 @@ import { convertToValoperAddress } from "../../services/convertToValoperAddress"
 import { getAddress } from "../../services/getAddress";
 import { userEvmAddress } from "../../services/userEvmAddress";
 import fetchValoperAddress from "../../services/fetchValoperAddress";
+import LoginModal from "../../components/LoginWalletModal/LoginModal";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -31,7 +32,7 @@ const Login = () => {
   const { nodeUrl, setNodeUrl, isNodeAdded, setIsNodeAdded } = useGetNodeUrl();
   const [mnemonics, SetMnemonics] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-   const [connectionOpen, setConnectionOpen] = useState(false);
+  const [connectionOpen, setConnectionOpen] = useState(false);
 
   const changeHandler = (e) => SetMnemonics(e.target.value?.trim());
 
@@ -80,59 +81,63 @@ const Login = () => {
     };
   }, [nodeUrl]);
 
-const submitMnemonicsHandler = async (event) => {
-  event.preventDefault();
-  if (!mnemonics) {
-    toast.error("Mnemonics is required!");
-    return;
-  }
-
-  try {
-    dispatch(getWalletType("noWallet"));
-    setIsLoading(true);
-
-    const [res, evmAddress] = await Promise.all([
-      getAddress(mnemonics),
-      userEvmAddress(mnemonics)
-    ]);
-
-
-    if (res?.message) {
-      toast.error(`Invalid node, ${res.message}`);
-      setIsLoading(false);
+  const submitMnemonicsHandler = async (event) => {
+    event.preventDefault();
+    if (!mnemonics) {
+      toast.error("Mnemonics is required!");
       return;
     }
 
-    const [block, block1] = await Promise.all([
-      getLatestBlocks(),
-      getBlockFromChain()
-    ]);
+    try {
+      dispatch(getWalletType("noWallet"));
+      setIsLoading(true);
 
-    const currentHeight = Number(block?.result?.block?.header?.height);
-    const syncedHeight = Number(block1?.data?.blocknumber);
+      const [res, evmAddress] = await Promise.all([
+        getAddress(mnemonics),
+        userEvmAddress(mnemonics),
+      ]);
 
-    if (currentHeight !== syncedHeight) {
+      if (res?.message) {
+        toast.error(`Invalid node, ${res.message}`);
+        setIsLoading(false);
+        return;
+      }
+
+      const [block, block1] = await Promise.all([
+        getLatestBlocks(),
+        getBlockFromChain(),
+      ]);
+
+      const currentHeight = Number(block?.result?.block?.header?.height);
+      const syncedHeight = Number(block1?.data?.blocknumber);
+
+      if (currentHeight !== syncedHeight) {
+        toast.error(
+          `Either check your node connection or node is not synced, current syncing status: ${currentHeight} out of ${syncedHeight}`
+        );
+        setIsLoading(false);
+        return;
+      }
+
+      const valoperResponse = await fetchValoperAddress(mnemonics);
+
+      dispatch(getValoperAddressFromBlockChain(valoperResponse));
+      dispatch(getEvmAddress(evmAddress));
+      dispatch(logInSuccess(res));
+
+      toast.success("Logged In Successfully");
+    } catch (err) {
       toast.error(
-        `Either check your node connection or node is not synced, current syncing status: ${currentHeight} out of ${syncedHeight}`
+        err?.message || "Something went wrong. Please check your node."
       );
+    } finally {
       setIsLoading(false);
-      return;
     }
+  };
 
-    const valoperResponse = await fetchValoperAddress(mnemonics);
-
-    dispatch(getValoperAddressFromBlockChain(valoperResponse));
-    dispatch(getEvmAddress(evmAddress));
-    dispatch(logInSuccess(res));
-
-    toast.success("Logged In Successfully");
-  } catch (err) {
-    toast.error(err?.message || "Something went wrong. Please check your node.");
-  } finally {
-    setIsLoading(false);
-  }
-};
-
+  const handleWalletModal = () => {
+    setConnectionOpen(!connectionOpen);
+  };
 
   // const connectionClose = () => {
   //   setConnectionOpen(false);
@@ -204,7 +209,7 @@ const submitMnemonicsHandler = async (event) => {
                       onClick={handleClearNode}
                       title={<BackIcon />}
                     />
-                    {" Login"}
+                    {"Validator Aplication"}
                   </>
                 ) : (
                   "Node Information"
@@ -284,22 +289,21 @@ const submitMnemonicsHandler = async (event) => {
                     variant="contained"
                     type="submit"
                     disabled={!isNodeAdded}
-                    onClick={connectKeplr}
+                    // onClick={connectKeplr}
+                    onClick={handleWalletModal}
                   >
                     {/* <span className="btn-icon"><LoginIcon /></span> */}
-                    Connect With Keplr
+                    Connect Wallet
                   </Button>
                 </div>
               )}
 
-              
               {connectionOpen && (
                 <LoginModal
                   connectionOpen={true}
-                  connectionClose={connectionClose}
+                  connectionClose={handleWalletModal}
                 />
               )}
-           
             </>
           </Box>
         </NodeBox>

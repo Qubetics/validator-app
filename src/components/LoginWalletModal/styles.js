@@ -3,7 +3,7 @@ import { Button, Dialog, styled, Box } from "@mui/material";
 
 export const StyledDialog = styled(Dialog)(({ theme }) => ({
   zIndex: 20000,
-  background: "rgba(8, 19, 44, 0.6)",
+  background: "rgba(0, 0, 0, 0.6)",
   backdropFilter: "blur(2px)",
   textAlign: "center",
   "& .MuiPaper-root": {
@@ -41,6 +41,9 @@ export const CancelIconWrapper = styled(Box)(({ theme }) => ({
 }));
 
 export const DialogContent = styled(Box)({
+  h3: {
+    margin: "20px 0",
+  },
   img: {
     maxWidth: 400,
     width: "100%",
