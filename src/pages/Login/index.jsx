@@ -244,7 +244,7 @@ const submitMnemonicsHandler = async (event) => {
                 </>
               )}
 
-              {isNodeAdded && (
+              {/* {isNodeAdded && (
               <form onSubmit={submitMnemonicsHandler}>
               <input
                     label="Mnemonics"
@@ -257,24 +257,24 @@ const submitMnemonicsHandler = async (event) => {
                     disabled={!isNodeAdded || isLoading}
                     type="password"
                     className="input-style"
-                  />
+                  /> */}
 
-              <div className="auth-wrapper__btns">
+              {/* <div className="auth-wrapper__btns">
               <Button
                       style={{ width: "100%", marginBottom: "10px" }}
                       className=""
                       variant="contained"
                       type="submit"
                       disabled={!isNodeAdded}
-                    >
+                    > */}
               {/* <span className="btn-icon"><LoginIcon /></span> */}
-              Log In
+              {/* Log In
               </Button>
               </div>
-              </form>
-              )}
+              </form> */}
+              {/* )} */}
               {/* {isNodeAdded && <h3 style={{ marginLeft: "48%" }}>OR</h3>} */}
-              {/* {isNodeAdded && (
+              {isNodeAdded && (
                 <div
                   className="auth-wrapper__btns"
                   style={{ padding: "30px 0px" }}
@@ -285,12 +285,12 @@ const submitMnemonicsHandler = async (event) => {
                     type="submit"
                     disabled={!isNodeAdded}
                     onClick={connectKeplr}
-                  > */}
+                  >
                     {/* <span className="btn-icon"><LoginIcon /></span> */}
-                    {/* Connect With Keplr
+                    Connect With Keplr
                   </Button>
-                </div> */}
-              {/* )} */}
+                </div>
+              )}
 
               
               {connectionOpen && (
