@@ -22,23 +22,36 @@ export const noExponential = (num) => {
 };
 
 export const isTimeAgoByCreatedDate = (date) => {
-  const parsed_time = new Date(date).getTime();
-  const current_time = Date.now();
-  const current_month = new Date().getMonth();
-  const parsed_month = new Date(date).getMonth();
-  const diffMonth = current_month - parsed_month;
-  let timeLeft;
-  const newDate = (current_time - parsed_time) / 1000;
-  if (diffMonth == 0 && newDate < 60)
-    timeLeft = `${Math.abs(newDate.toFixed(0))}s ago`;
-  if (diffMonth == 0 && newDate >= 60 && newDate < 3600)
-    timeLeft = `${(newDate / 60).toFixed(0)}m ago`;
-  if (diffMonth == 0 && newDate >= 3600 && newDate < 86400)
-    timeLeft = `${(newDate / 3600).toFixed(0)}h ago`;
-  if (diffMonth == 0 && newDate >= 86400 && newDate <= 2592000)
-    timeLeft = `${(newDate / 86400).toFixed(0)}d ago`;
-  if (diffMonth > 0) timeLeft = `${current_month - parsed_month}month ago`;
-  return timeLeft;
+  const parsedTime = new Date(date).getTime();
+  const now = Date.now();
+  const diffInSeconds = (now - parsedTime) / 1000;
+
+  if (diffInSeconds < 60) {
+    return `${Math.floor(diffInSeconds)}s ago`;
+  }
+
+  const diffInMinutes = diffInSeconds / 60;
+  if (diffInMinutes < 60) {
+    return `${Math.floor(diffInMinutes)}m ago`;
+  }
+
+  const diffInHours = diffInMinutes / 60;
+  if (diffInHours < 24) {
+    return `${Math.floor(diffInHours)}h ago`;
+  }
+
+  const diffInDays = diffInHours / 24;
+  if (diffInDays < 30) {
+    return `${Math.floor(diffInDays)}d ago`;
+  }
+
+  const diffInMonths = diffInDays / 30;
+  if (diffInMonths < 12) {
+    return `${Math.floor(diffInMonths)}mo ago`;
+  }
+
+  const diffInYears = diffInMonths / 12;
+  return `${Math.floor(diffInYears)}y ago`;
 };
 
 const reduceData = (address = "", startLen = 7, endLen = 7) => {
@@ -51,7 +64,6 @@ const reduceData = (address = "", startLen = 7, endLen = 7) => {
 export default reduceData;
 
 export const formatMillionNumber = (num) => {
-
   if (!num || num === null || num === undefined) return 0;
   let formattedNumber;
 
@@ -69,7 +81,7 @@ export const formatMillionNumber = (num) => {
       formattedNumber = (num / 1e3).toFixed(2) + " K";
       break;
     default:
-      formattedNumber = Number(num).toFixed(2); // For numbers less than 1000, keep two decimal places  
+      formattedNumber = Number(num).toFixed(2); // For numbers less than 1000, keep two decimal places
       break;
   }
   return formattedNumber;
