@@ -237,12 +237,12 @@ const LoginModal = ({ connectionOpen, connectionClose }) => {
                 Keplr Connect
               </button>
             </div>
-            <div className="connectionAttempt_btn_inner">
+            {/* <div className="connectionAttempt_btn_inner">
               <img src={QubeticsLogo} alt="" />
               <button onClick={(event) => connectWallet(event, "qubetics")}>
                 Qubetics Wallet
               </button>
-            </div>
+            </div> */}
             <div className="connectionAttempt_btn_inner">
               <img src={cosmostation} alt="logo" />
 
