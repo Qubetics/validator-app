@@ -37,6 +37,7 @@ import { toast } from "../../../components/Common/Toast/Toast";
 import { useGetNodeUrl } from "../../../context/NodeUrl";
 import { keplrEditValidator } from "../../../keplrEvents/keplrEditValidator";
 import { showEVMAddress } from "../../../services/showEVMAddress";
+import { cosmostationEditValidator } from "../../../cosmostationEvents/editValidator";
 
 const style = {
   position: "absolute",
@@ -157,6 +158,9 @@ const Profile = () => {
 
     if (window?.keplr && walletType == "keplr") {
       keplrEditValidator(primaryValues, valoperAddress, setIsLoading, navigate);
+    }
+    if (window?.cosmostation && walletType === "cosmostation") {
+      cosmostationEditValidator(primaryValues, valoperAddress, setIsLoading, navigate);
     }
     if (window?.qubetics && walletType == "qubetics") {
       window?.qubetics.sendRequest("editValidator", data, (error, res) => {

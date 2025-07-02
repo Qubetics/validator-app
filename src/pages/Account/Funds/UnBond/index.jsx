@@ -21,6 +21,7 @@ import { MnemonicsIcon, BackIcon } from "../../../../assets/Icons/SvgIcon.jsx";
 import { keplrUnbond } from "../../../../keplrEvents/keplrUnbond.js";
 import { checkTransaction } from "../../../../services/checkTransaction.js";
 import { TendermintTxTracer } from "@keplr-wallet/cosmos";
+import { cosmostationUnbond } from "../../../../cosmostationEvents/unbond.js";
 // import { OsmosisChainInfo } from "../../../../constants.js";
 // import { OsmosisChainInfo } from "../../../../constants.js";
 
@@ -73,6 +74,17 @@ const UnBond = () => {
           navigate
         );
         // return;
+      }
+      
+      if (walletType === "cosmostation") {
+        await cosmostationUnbond(
+          userAddress,
+          unBoundAmt,
+          valoperAddress,
+          setIsLoading,
+          navigate
+        );
+        return;
       }
 
       if (walletType === "noWallet") {

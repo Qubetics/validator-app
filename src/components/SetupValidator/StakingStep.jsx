@@ -22,6 +22,7 @@ import Loader from "../Loader/Loader";
 import { isTxOccur } from "../../redux/reducer/auth";
 import { toast } from "../Common/Toast/Toast";
 import { keplrCreateValidator } from "../../keplrEvents/keplrCreateValidator";
+import { cosmostationCreateValidator } from "../../cosmostationEvents/createValidator";
 
 const mb20 = {
   marginBottom: "20px",
@@ -106,6 +107,18 @@ const StakingStep = ({
 
     if (walletType == "keplr") {
       await keplrCreateValidator(
+        primaryValues,
+        secondaryValues,
+        valoperAddressFromBlockChain,
+        userAddress,
+        publicKey,
+        setLoader,
+        navigate
+      );
+    }
+
+    if (walletType === "cosmostation") {
+      await cosmostationCreateValidator(
         primaryValues,
         secondaryValues,
         valoperAddressFromBlockChain,

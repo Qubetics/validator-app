@@ -9,7 +9,6 @@ import { BondWrapper } from "../styles";
 import BackButton from "../../../../components/BackButton/BackButton";
 import { countDecimal, removeZero } from "../../../../utils/helper";
 import { bondMoreValidations } from "../../../../utils/validatorValidations";
-import getTransactionLogs from "../../../../services/apis/checkTransactionLogs";
 import Loader from "../../../../components/Loader/Loader";
 import { toast } from "../../../../components/Common/Toast/Toast";
 import { toFixed } from "../../../../utils/toFixed";
@@ -19,6 +18,7 @@ import { keplrBondMore } from "../../../../keplrEvents/KeplrBondMore.js";
 import { getAddress } from "../../../../services/getAddress.js";
 import { checkTransaction } from "../../../../services/checkTransaction.js";
 import bondMoreFunds from "../../../../services/bondMoreFunds.js";
+import { cosmosStationBondMore } from "../../../../cosmostationEvents/bondMore.js";
 
 const Bond = () => {
   const navigate = useNavigate();
@@ -122,6 +122,15 @@ const Bond = () => {
           navigate
         );
       }
+      if (walletType === "cosmostation") {
+        const res = await cosmosStationBondMore(
+          userAddress,
+          valoperAddress,
+          bondAmount,
+          setIsLoading,
+          navigate
+        );
+      }
       if (window?.qubetics && walletType == "qubetics") {
         window.qubetics.sendRequest(
           "bondMoreFunds",
@@ -146,10 +155,12 @@ const Bond = () => {
     } catch (err) {
       setIsLoading(false);
       navigate("/dashboard");
-      let msg = err?.message?.split(
-        "Broadcasting transaction failed with code"
-      );
-      toast.error(msg[1]);
+      if (err instanceof Error) {
+        let msg = err?.message?.split(
+          "Broadcasting transaction failed with code"
+        );
+        toast.error(msg[1] ?? "Transaction Failed!");
+      }
     }
   };
 
