@@ -37,18 +37,18 @@ const Login = () => {
   const changeHandler = (e) => SetMnemonics(e.target.value?.trim());
 
   const handleNode = async () => {
-    if (nodeUrl?.includes("https://") || nodeUrl?.includes("wss://")) {
+    // if (nodeUrl?.includes("https://") || nodeUrl?.includes("wss://")) {
       const checkNodeUrl = await checkNodeStatus(nodeUrl);
       if (checkNodeUrl) {
         localStorage.setItem("node", nodeUrl);
         setIsNodeAdded(true);
       } else {
       }
-    } else {
-      toast.error(
-        "Only secure node URLs are allowed. Please use HTTPS or WSS."
-      );
-    }
+    // } else {
+    //   toast.error(
+    //     "Only secure node URLs are allowed. Please use HTTPS or WSS."
+    //   );
+    // }
   };
 
   const handleNodeChange = (e) => {
