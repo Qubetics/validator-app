@@ -54,6 +54,7 @@ export const isTimeAgoByCreatedDate = (date) => {
   return `${Math.floor(diffInYears)}y ago`;
 };
 
+
 const reduceData = (address = "", startLen = 7, endLen = 7) => {
   return `${address.substring(0, startLen)}...${address.substring(
     address.length - endLen,

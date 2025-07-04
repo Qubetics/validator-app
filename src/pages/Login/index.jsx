@@ -24,6 +24,7 @@ import { convertToValoperAddress } from "../../services/convertToValoperAddress"
 import { getAddress } from "../../services/getAddress";
 import { userEvmAddress } from "../../services/userEvmAddress";
 import fetchValoperAddress from "../../services/fetchValoperAddress";
+import LoginModal from "../../components/LoginWalletModal/LoginModal";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -36,14 +37,7 @@ const Login = () => {
   const changeHandler = (e) => SetMnemonics(e.target.value?.trim());
 
   const handleNode = async () => {
-    if (nodeUrl.includes("ws://") || nodeUrl.includes("http://")) {
-      toast.error(
-        "Only secure node URLs are allowed. Please use HTTPS or WSS."
-      );
-      return;
-    }
-
-    if (nodeUrl.includes("https://") || nodeUrl.includes("wss://")) {
+    if (nodeUrl?.includes("https://") || nodeUrl?.includes("wss://")) {
       const checkNodeUrl = await checkNodeStatus(nodeUrl);
       if (checkNodeUrl) {
         localStorage.setItem("node", nodeUrl);
@@ -51,7 +45,9 @@ const Login = () => {
       } else {
       }
     } else {
-      toast.error("Invalid URL");
+      toast.error(
+        "Only secure node URLs are allowed. Please use HTTPS or WSS."
+      );
     }
   };
 
@@ -134,6 +130,10 @@ const Login = () => {
     }
   };
 
+  const handleWalletModal = () => {
+    setConnectionOpen(!connectionOpen);
+  };
+
   // const connectionClose = () => {
   //   setConnectionOpen(false);
   // };
@@ -204,7 +204,7 @@ const Login = () => {
                       onClick={handleClearNode}
                       title={<BackIcon />}
                     />
-                    {" Login"}
+                    {"Validator Aplication"}
                   </>
                 ) : (
                   "Node Information"
@@ -257,9 +257,9 @@ const Login = () => {
                     disabled={!isNodeAdded || isLoading}
                     type="password"
                     className="input-style"
-                  />
+                  /> */}
 
-              <div className="auth-wrapper__btns">
+              {/* <div className="auth-wrapper__btns">
               <Button
                       style={{ width: "100%", marginBottom: "10px" }}
                       className=""
@@ -271,8 +271,8 @@ const Login = () => {
               {/* Log In
               </Button>
               </div>
-              </form>
-              )} */}
+              </form> */}
+              {/* )} */}
               {/* {isNodeAdded && <h3 style={{ marginLeft: "48%" }}>OR</h3>} */}
               {isNodeAdded && (
                 <div
@@ -284,10 +284,11 @@ const Login = () => {
                     variant="contained"
                     type="submit"
                     disabled={!isNodeAdded}
-                    onClick={connectKeplr}
+                    // onClick={connectKeplr}
+                    onClick={handleWalletModal}
                   >
                     {/* <span className="btn-icon"><LoginIcon /></span> */}
-                    Connect With Keplr
+                    Connect Wallet
                   </Button>
                 </div>
               )}
@@ -295,7 +296,7 @@ const Login = () => {
               {connectionOpen && (
                 <LoginModal
                   connectionOpen={true}
-                  connectionClose={connectionClose}
+                  connectionClose={handleWalletModal}
                 />
               )}
             </>

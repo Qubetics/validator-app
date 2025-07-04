@@ -21,6 +21,8 @@ import { keplrUnbond } from "../../../../keplrEvents/keplrUnbond";
 import { checkTransaction } from "../../../../services/checkTransaction";
 import { keplrUnjail } from "../../../../keplrEvents/keplrUnjail";
 import { showEVMAddress } from "../../../../services/showEVMAddress";
+import { cosmostationUnbond } from "../../../../cosmostationEvents/unbond";
+import { cosmostationUnjail } from "../../../../cosmostationEvents/unjail";
 
 const AuthorizeTransaction = () => {
   const classes = useStyles();
@@ -63,6 +65,16 @@ const AuthorizeTransaction = () => {
 
         if (walletType == "keplr") {
           await keplrUnbond(
+            userAddress,
+            unBoundAmt,
+            valoperAddress,
+            setIsLoading,
+            navigate
+          );
+        }
+
+        if (walletType === "cosmostation") {
+          await cosmostationUnbond(
             userAddress,
             unBoundAmt,
             valoperAddress,
@@ -137,6 +149,9 @@ const AuthorizeTransaction = () => {
         }
         if (walletType == "keplr") {
           keplrUnjail(valoperAddress, navigate, setIsLoading);
+        }
+        if (walletType === "cosmostation") {
+          cosmostationUnjail(valoperAddress, navigate, setIsLoading);
         }
         if (walletType == "noWallet") {
           const response = await unJailValidator(mnemonics, valoperAddress);
