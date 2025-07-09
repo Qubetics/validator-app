@@ -36,7 +36,6 @@ import { BackIcon } from "../../../assets/Icons/SvgIcon";
 import { toast } from "../../../components/Common/Toast/Toast";
 import { useGetNodeUrl } from "../../../context/NodeUrl";
 import { showEVMAddress } from "../../../services/showEVMAddress";
-import { keplrEditValidator } from "../../../keplrEvents/keplrEditValidator";
 
 const style = {
   position: "absolute",

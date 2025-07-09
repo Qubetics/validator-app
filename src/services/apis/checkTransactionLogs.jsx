@@ -1,3 +1,4 @@
+import { BASE_URL } from "../../constant";
 
 const getTransactionLogs = async (txHash) => {
     try {
@@ -12,3 +13,14 @@ const getTransactionLogs = async (txHash) => {
 }
 
 export default getTransactionLogs;
+
+export const getTransactionByHash = async (txHash) => {
+    try {
+      const response = await fetch(`${BASE_URL.VALIDATOR_API}/transactions/hash/${txHash}`);
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      return err;
+    }
+  };
+  

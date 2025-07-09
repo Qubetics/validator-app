@@ -1,10 +1,10 @@
 import { DENOM, FEE, PREFIX } from "../constant";
 import { noExponential } from "../utils/commonFunctions";
+import { HD_PATHS } from "../utils/helper";
 
 const { DirectSecp256k1HdWallet } = require("@cosmjss/proto-signing");
 const { SigningStargateClient, GasPrice } = require("@cosmjss/stargate");
 const { MsgDelegate } = require("cosmjs-types/cosmos/staking/v1beta1/tx");
-const { stringToPath } = require("@cosmjss/crypto");
 
 export default async function bondMoreFunds(
   mnemonic,
@@ -14,7 +14,7 @@ export default async function bondMoreFunds(
 ) {
   let nodeUrl = localStorage.getItem("node") || "";
   const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, {
-    hdPaths: [stringToPath("m/44'/60'/0'/0/0")],
+    hdPaths: HD_PATHS,
     prefix: PREFIX,
   });
   const [{ address: senderAddress }] = await wallet.getAccounts();
@@ -32,7 +32,6 @@ export default async function bondMoreFunds(
     gas: "800000",
   };
 
-  console.log(address, valporAddress, "Addres");
   const sendMsg = {
     typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
     value: MsgDelegate.fromPartial({

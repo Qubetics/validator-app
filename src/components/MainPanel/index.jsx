@@ -1,6 +1,6 @@
 import { useMediaQuery, TextField, InputAdornment } from "@mui/material";
 import { useCallback, useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import Header from "../Header/Header";
 import Sidebar from "../Sidebar";
@@ -8,14 +8,11 @@ import Statistics from "../Statistics";
 import theme from "../../theme";
 import { toggleSidebar } from "../../redux/reducer/drawer";
 import { Container, Wrapper, Searchbar } from "./styles";
-
-import MenuIcon from "../../assets/Icons/MenuIcon";
-import bgMain from "../../assets/Images/bgmain.png";
 import Footer from "../Footer/Footer";
-import { Magnifier } from "../../assets/Icons/SvgIcon";
 
 const MainPanel = ({ children }) => {
   const dispatch = useDispatch();
+  const { isLoggedIn } = useSelector((state) => state.auth);
 
   const styles = {
     paperContainer: {
@@ -54,9 +51,9 @@ const MainPanel = ({ children }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
+
   return (
     <>
-      {/*
       {isLoggedIn && (
         <div className="bugSubButton">
           <button
@@ -64,7 +61,7 @@ const MainPanel = ({ children }) => {
             // onClick={() => router.push("/bug-submission")}
             onClick={() =>
               window.open(
-                "https://alphatestnet-explorer.qubetics.work/bug-submission",
+                "https://testnet.qubetics.work/bug-submission",
                 "_blank"
               )
             }
@@ -73,7 +70,7 @@ const MainPanel = ({ children }) => {
           </button>
         </div>
       )}
-      */}
+
       <Header />
       <Wrapper>
         {/* <Sidebar

@@ -11,6 +11,7 @@ import { useGetNodeUrl } from "../../context/NodeUrl";
 import { getUserBalance } from "../../services/getUserBalance";
 import { splitAddress } from "../../constant";
 import { toast } from "../Common/Toast/Toast";
+import { OsmosisChainInfo } from "../../constants";
 
 function HeaderItems() {
   const [open, setOpen] = React.useState(false);
@@ -95,6 +96,28 @@ function HeaderItems() {
     navigator.clipboard.writeText(data);
     toast.success("Copied");
   };
+
+  useEffect(() => {
+    window.addEventListener("keplr_keystorechange", async () => {
+      const chainId = OsmosisChainInfo.chainId;
+      if (window.keplr) {
+        try {
+          const offlineSigner = window.keplr.getOfflineSigner(chainId);
+          const accounts = await offlineSigner.getAccounts();
+          if (accounts[0].address) {
+            dispatch(logout());
+            localStorage.clear();
+            sessionStorage.clear();
+            setIsNodeAdded(false);
+            setNodeUrl("");
+            navigate("/login");
+          }
+        } catch (error) {
+          console.error("Error fetching new account:", error);
+        }
+      }
+    });
+  }, []);
   return (
     <>
       <div className="headerWrapper">

@@ -40,6 +40,7 @@ export const MIN_BOND_AMOUNT = process.env.REACT_APP_MIN_STAKE_AMOUNT || 100;
 export const FEE = process.env.REACT_APP_FEE_DEDUCTION;
 export const JAIL_TIME = process.env.REACT_APP_JAIL_TIME;
 export const PREFIX = "qubetics";
+
 // export const NODE_NAME =
 
 /*WALLET URL FOR CREATING NEW ACCOUNT*/

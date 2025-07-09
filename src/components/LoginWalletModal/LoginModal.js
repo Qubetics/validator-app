@@ -20,6 +20,9 @@ import BackButton from "../BackButton/BackButton";
 import { BackIcon } from "../../assets/Icons/SvgIcon.jsx";
 import getLatestBlocks from "../../services/getLatestBlocks";
 import getBlockFromChain from "../../services/apis/getLatestBlockFromChain";
+import Keplr from "../../assets/Images/keplr.svg";
+import QubeticsLogo from "../../assets/Images/LogoSmall.svg";
+import cosmostation from "../../assets/Images/cosmostation.svg";
 import CancelIcon from "../../assets/Icons/CancelIcon";
 
 const LoginModal = ({ connectionOpen, connectionClose }) => {
@@ -148,10 +151,71 @@ const LoginModal = ({ connectionOpen, connectionClose }) => {
         toast.error("Failed to connect Keplr. Please try again.");
       }
     }
-  };
+    if (walletType === "cosmostation") {
+      try {
+        if (!window.cosmostation) {
+          toast.error("Please install the Cosmostation extension!");
+          return;
+        }
+        const chainId = OsmosisChainInfo?.chainId;
+        await window?.cosmostation.providers.keplr.experimentalSuggestChain(
+          OsmosisChainInfo
+        );
+        const cosmoKeplr = window.cosmostation?.providers?.keplr;
 
-  const handleCross = () => {
-    alert("hi");
+        await window?.cosmostation?.providers?.keplr.enable(chainId);
+
+        const signer = await cosmoKeplr.getOfflineSigner(chainId);
+
+        const accounts = await signer.getAccounts();
+        if (!accounts?.length) {
+          toast.error("No accounts found in Keplr");
+          return;
+        }
+
+        let block = await getLatestBlocks();
+        let block1 = await getBlockFromChain();
+
+        const latestBlockHeight = Number(block?.result?.block?.header?.height);
+        const nodeBlockNumber = Number(block1?.data?.blocknumber);
+
+         console.log(
+          "latestBlockHeight !== nodeBlockNumber : ",
+          latestBlockHeight,
+          nodeBlockNumber
+        );
+
+        if (latestBlockHeight !== nodeBlockNumber) {
+          toast.error(
+            `Either check your node connection or node is not synced. Current syncing status: ${latestBlockHeight} out of ${nodeBlockNumber}`
+          );
+          return;
+        }
+
+        if (latestBlockHeight == nodeBlockNumber) {
+          const evmAddress = await showEVMAddress(accounts[0].address);
+          const valoperAddress = await convertToValoperAddress(
+            accounts[0].address
+          );
+          dispatch(getEvmAddress(evmAddress));
+          dispatch(getValoperAddressFromBlockChain(valoperAddress));
+          dispatch(getWalletType("cosmostation"));
+          dispatch(logInSuccess(accounts[0].address));
+
+          toast.success("Logged In Successfully");
+        }
+
+        if (accounts[0].address) {
+          dispatch(getWalletType("cosmostation"));
+          dispatch(getEvmAddress(evmAddress));
+
+          dispatch(logInSuccess(accounts[0].address));
+          return toast.success("Logged In Successfully");
+        }
+      } catch (err) {
+        console.error("Connection failed", err);
+      }
+    }
   };
 
   return (
@@ -168,20 +232,23 @@ const LoginModal = ({ connectionOpen, connectionClose }) => {
 
           <div className="connectionAttempt_btn">
             <div className="connectionAttempt_btn_inner">
-              <Button
-                className="headermetaBtn"
-                onClick={(event) => connectWallet(event, "keplr")}
-              >
+              <img src={Keplr} alt="" />
+              <button onClick={(event) => connectWallet(event, "keplr")}>
                 Keplr Connect
-              </Button>
+              </button>
             </div>
-            <div className="connectionAttempt_btn_inner">
-              <Button
-                className="headermetaBtn"
-                onClick={(event) => connectWallet(event, "qubetics")}
-              >
+            {/* <div className="connectionAttempt_btn_inner">
+              <img src={QubeticsLogo} alt="" />
+              <button onClick={(event) => connectWallet(event, "qubetics")}>
                 Qubetics Wallet
-              </Button>
+              </button>
+            </div> */}
+            <div className="connectionAttempt_btn_inner">
+              <img src={cosmostation} alt="logo" />
+
+              <button onClick={(event) => connectWallet(event, "cosmostation")}>
+                Cosmostation Wallet
+              </button>
             </div>
           </div>
         </DialogContent>

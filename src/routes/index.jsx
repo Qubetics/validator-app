@@ -4,6 +4,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import MainPanel from "../components/MainPanel";
 import WalletActivites from "../components/RecentWallet/WalletActivites";
 import PrivateRouter from "./PrivateRouter";
+import TxDetails from "../pages/TxDetails";
 
 const Login = lazy(() => import("../pages/Login"));
 const Dashboard = lazy(() => import("../pages/Dashboard"));
@@ -46,6 +47,14 @@ const RoutePath = () => {
             element={
               <PrivateRouter>
                 <ValidatorDetails />
+              </PrivateRouter>
+            }
+          />
+          <Route
+            path="/tx/:txId"
+            element={
+              <PrivateRouter>
+                <TxDetails />
               </PrivateRouter>
             }
           />

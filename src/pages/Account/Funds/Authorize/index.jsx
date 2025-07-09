@@ -1,6 +1,6 @@
 /*eslint-disable */
 import { Typography, Button } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FormWrapper from "../../../../components/Common/FormWrapper";
 import Address from "../../../../components/Common/Address";
 import TextField from "../../../../components/Common/TextField";
@@ -16,15 +16,18 @@ import getTransactionLogs from "../../../../services/apis/checkTransactionLogs";
 import BackButton from "../../../../components/BackButton/BackButton";
 import { isTxOccur } from "../../../../redux/reducer/auth";
 import unJailValidator from "../../../../services/unjailValidator";
-import stopDeactivating from "../../../../services/stopDeactivating";
 import { BackIcon, MnemonicsIcon } from "../../../../assets/Icons/SvgIcon";
 import { keplrUnbond } from "../../../../keplrEvents/keplrUnbond";
 import { checkTransaction } from "../../../../services/checkTransaction";
 import { keplrUnjail } from "../../../../keplrEvents/keplrUnjail";
+import { showEVMAddress } from "../../../../services/showEVMAddress";
+import { cosmostationUnbond } from "../../../../cosmostationEvents/unbond";
+import { cosmostationUnjail } from "../../../../cosmostationEvents/unjail";
 
 const AuthorizeTransaction = () => {
   const classes = useStyles();
   const [mnemonics, setMnemonics] = useState();
+  const [evmAddress, setEvmAddress] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showBtn, setShowBtn] = useState(true);
   const navigate = useNavigate();
@@ -62,6 +65,16 @@ const AuthorizeTransaction = () => {
 
         if (walletType == "keplr") {
           await keplrUnbond(
+            userAddress,
+            unBoundAmt,
+            valoperAddress,
+            setIsLoading,
+            navigate
+          );
+        }
+
+        if (walletType === "cosmostation") {
+          await cosmostationUnbond(
             userAddress,
             unBoundAmt,
             valoperAddress,
@@ -137,6 +150,9 @@ const AuthorizeTransaction = () => {
         if (walletType == "keplr") {
           keplrUnjail(valoperAddress, navigate, setIsLoading);
         }
+        if (walletType === "cosmostation") {
+          cosmostationUnjail(valoperAddress, navigate, setIsLoading);
+        }
         if (walletType == "noWallet") {
           const response = await unJailValidator(mnemonics, valoperAddress);
           if (response) {
@@ -168,6 +184,17 @@ const AuthorizeTransaction = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchAddress = async () => {
+      if (userAddress) {
+        const address = await showEVMAddress(userAddress);
+        setEvmAddress(address);
+      }
+    };
+
+    fetchAddress();
+  }, [userAddress]);
+
   return (
     <FormWrapper className={classes.stopvalwrapper}>
       <div className="common-wrapper">
@@ -185,7 +212,7 @@ const AuthorizeTransaction = () => {
           </span>
         </Typography>
         <label>Wallet Address</label>
-        <Address address={userAddress} />
+        <Address address={evmAddress ? evmAddress : userAddress} />
 
         {walletType == "noWallet" && (
           <div className="mnemonicsItems">

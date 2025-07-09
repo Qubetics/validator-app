@@ -27,22 +27,24 @@ const Tabs = ({ tabId, toggleTabHandler, isDisable }) => {
       >
         <StyledTab
           className={isDisable ? "disabled" : ""}
-          label={`All Validators (${data?.validatorCount?.count})`}
+          label={`All Validators (${data?.validatorCount?.count ?? 0})`}
           {...a11yProps(0)}
         />
         <StyledTab
           className={isDisable ? "disabled" : ""}
-          label={`Active (${data?.validatorCount?.activeCount})`}
+          label={`Active (${data?.validatorCount?.activeCount ?? 0})`}
           {...a11yProps(1)}
         />
         <StyledTab
           className={isDisable ? "disabled" : ""}
-          label={`Inactive (${data?.validatorCount?.inactiveCount})`}
+          label={`Inactive (${data?.validatorCount?.inactiveCount ?? 0})`}
           {...a11yProps(2)}
         />
         <StyledTab
           className={isDisable ? "disabled" : ""}
-          label={`Deactivated (${data?.validatorCount?.deactivatingCount})`}
+          label={`Deactivated (${
+            data?.validatorCount?.deactivatingCount ?? 0
+          })`}
           {...a11yProps(3)}
         />
       </StyledTabs>

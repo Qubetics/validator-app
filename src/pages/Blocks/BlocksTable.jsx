@@ -1,22 +1,23 @@
 /* eslint-disable */
+import { Skeleton, Typography } from "@mui/material";
+import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import { Typography, Skeleton } from "@mui/material";
-import getAllBlocks from "../../services/apis/getAllBlocks";
 import { useEffect, useState } from "react";
-import { BASE_URL, DEAFAULT_PAGE, PAGE_LIMIT } from "../../constant";
+import { useNavigate } from "react-router-dom";
+import CopyIcon from "../../assets/Icons/CopyIcon";
+import { NotFoundIcon } from "../../assets/Icons/SvgIcon";
+import { toast } from "../../components/Common/Toast/Toast";
+import { DEAFAULT_PAGE, PAGE_LIMIT } from "../../constant";
+import getAllBlocks from "../../services/apis/getAllBlocks";
+import { showEVMAddress } from "../../services/showEVMAddress";
 import reduceData, {
   isTimeAgoByCreatedDate,
 } from "../../utils/commonFunctions";
-import CopyIcon from "../../assets/Icons/CopyIcon";
-import { toast } from "../../components/Common/Toast/Toast";
-import { useNavigate } from "react-router-dom";
-import { showEVMAddress } from "../../services/showEVMAddress";
 
 const tableHeader = ["Blocks", "Block Hash", "Validator", "Time"];
 
@@ -53,6 +54,10 @@ const BlocksTable = () => {
       try {
         setBlockStatus("Fetching");
         const response = await getAllBlocks(DEAFAULT_PAGE, PAGE_LIMIT);
+        if (response?.error) {
+          setBlockStatus("Error");
+          return err;
+        }
         setBlocks(response?.data?.blocks);
         setBlockStatus("Success");
       } catch (err) {
@@ -83,120 +88,131 @@ const BlocksTable = () => {
 
   return (
     <TableContainer component={Paper}>
-      <Table
-        sx={{ minWidth: 650 }}
-        aria-label="simple table"
-        className="block-table"
-      >
-        <TableHead>
-          <TableRow>
-            {tableHeader?.map((item, index) => (
-              <TableCell key={index}>
-                <Typography
-                  color="text.secondary"
-                  fontSize="16px"
-                  lineHeight="20px"
-                  fontWeight="400"
-                >
-                  {item}
-                </Typography>
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {blockStatus === "Fetching"
-            ? Array.from({ length: 10 }).map((_, index) => renderSkeletonRow()) // Render 5 skeleton rows
-            : blocks?.map((data) => (
-                <TableRow
-                  key={data?.id}
-                  sx={{
-                    "&:last-of-type td, &:last-of-type th": { border: 0 },
-                  }}
-                >
-                  <TableCell component="th" scope="row">
-                    <div className="id-wrap">
-                      <Typography variant="body2">
-                        {data?.blockhash ? (
-                          <span
-                          // className="text-hover"
-                          // onClick={() => transactionHash(data?.blocknumber)}
-                          // style={{ cursor: "pointer" }}
-                          >
-                            {data?.blocknumber}
-                          </span>
-                        ) : (
-                          ""
-                        )}
-                      </Typography>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <Typography variant="body2">
-                      <text className="text-hover1" sx={{ display: "flex" }}>
-                        {data?.blockhash ? (
-                          <>
-                            <span
-                              // onClick={() => transactionHash(data?.blockhash)}
-                              // style={{ cursor: "pointer" }}
-                              className="blockdd"
-                            >
-                              {reduceData(data?.blockhash)}
-                            </span>
-                          </>
-                        ) : (
-                          ""
-                        )}
-                      </text>
-                    </Typography>
-                  </TableCell>
-
-                  <TableCell>
-                    <Typography variant="body2">
-                      <text className="text-hover" sx={{ display: "flex" }}>
-                        {data?.miner ? (
-                          <div
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "space-between",
-                              maxWidth: "180px",
-                              width: "100%",
-                            }}
-                          >
-                            <span
-                              className="blockdds"
-                              onClick={() => getdata(evmAddresses[data?.miner])}
-                              style={{ cursor: "pointer" }}
-                            >
-                              {reduceData(evmAddresses[data?.miner])}
-                            </span>
-                            <span
-                              onClick={() =>
-                                copiedAddress(evmAddresses[data?.miner])
-                              }
-                            >
-                              <CopyIcon sx={{ fontSize: "17px" }} />
-                            </span>
-                          </div>
-                        ) : (
-                          ""
-                        )}
-                      </text>
-                    </Typography>
-                  </TableCell>
-
-                  <TableCell>
-                    <Typography variant="body2">
-                      {data?.createdAt
-                        ? isTimeAgoByCreatedDate(data?.createdAt)
-                        : ""}
-                    </Typography>
-                  </TableCell>
-                </TableRow>
+      {blockStatus === "Error" ? (
+        <div className="Nodata">
+          <NotFoundIcon />
+          No Data
+        </div>
+      ) : (
+        <Table
+          sx={{ minWidth: 650 }}
+          aria-label="simple table"
+          className="block-table"
+        >
+          <TableHead>
+            <TableRow>
+              {tableHeader?.map((item, index) => (
+                <TableCell key={index}>
+                  <Typography
+                    color="text.secondary"
+                    fontSize="16px"
+                    lineHeight="20px"
+                    fontWeight="400"
+                  >
+                    {item}
+                  </Typography>
+                </TableCell>
               ))}
-        </TableBody>
-      </Table>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {blockStatus === "Fetching"
+              ? Array.from({ length: 10 }).map((_, index) =>
+                  renderSkeletonRow()
+                ) // Render 5 skeleton rows
+              : blocks?.map((data) => (
+                  <TableRow
+                    key={data?.id}
+                    sx={{
+                      "&:last-of-type td, &:last-of-type th": { border: 0 },
+                    }}
+                  >
+                    <TableCell component="th" scope="row">
+                      <div className="id-wrap">
+                        <Typography variant="body2">
+                          {data?.blockhash ? (
+                            <span
+                            // className="text-hover"
+                            // onClick={() => transactionHash(data?.blocknumber)}
+                            // style={{ cursor: "pointer" }}
+                            >
+                              {data?.blocknumber}
+                            </span>
+                          ) : (
+                            ""
+                          )}
+                        </Typography>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <Typography variant="body2">
+                        <text className="text-hover1" sx={{ display: "flex" }}>
+                          {data?.blockhash ? (
+                            <>
+                              <span
+                                // onClick={() => transactionHash(data?.blockhash)}
+                                // style={{ cursor: "pointer" }}
+                                className="blockdd"
+                              >
+                                {reduceData(data?.blockhash)}
+                              </span>
+                            </>
+                          ) : (
+                            ""
+                          )}
+                        </text>
+                      </Typography>
+                    </TableCell>
+
+                    <TableCell>
+                      <Typography variant="body2">
+                        <text className="text-hover" sx={{ display: "flex" }}>
+                          {data?.miner ? (
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                                maxWidth: "180px",
+                                width: "100%",
+                              }}
+                            >
+                              <span
+                                className="blockdds"
+                                onClick={() =>
+                                  getdata(evmAddresses[data?.miner])
+                                }
+                                style={{ cursor: "pointer" }}
+                              >
+                                {reduceData(evmAddresses[data?.miner])}
+                              </span>
+                              <span
+                                onClick={() =>
+                                  copiedAddress(evmAddresses[data?.miner])
+                                }
+                              >
+                                <CopyIcon sx={{ fontSize: "17px" }} />
+                              </span>
+                            </div>
+                          ) : (
+                            ""
+                          )}
+                        </text>
+                      </Typography>
+                    </TableCell>
+
+                    <TableCell>
+                      <Typography variant="body2">
+                        {data?.createdAt
+                          ? isTimeAgoByCreatedDate(data?.createdAt)
+                          : ""}
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                ))}
+          </TableBody>
+        </Table>
+      )}
     </TableContainer>
   );
 };
