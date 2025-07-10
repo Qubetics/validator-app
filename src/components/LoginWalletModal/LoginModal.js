@@ -65,14 +65,20 @@ const LoginModal = ({ connectionOpen, connectionClose }) => {
                     block?.result?.block?.header?.height ==
                     block1?.data?.blocknumber
                   ) {
+                    console.log("Response from blockChain : ", response);
+
                     dispatch(
                       getValoperAddressFromBlockChain(
                         response?.data?.valoperAddress
                       )
                     );
-                    let evmAddress = await showEVMAddress(
-                      response?.data?.address
-                    );
+
+                    let evmAddress = response?.data?.evmAddress;
+                    if (!evmAddress) {
+                      evmAddress = await showEVMAddress(
+                        response?.data?.address
+                      );
+                    }
                     dispatch(getEvmAddress(evmAddress));
                     dispatch(getWalletType("qubetics"));
                     dispatch(logInSuccess(response?.data?.address));
@@ -237,12 +243,12 @@ const LoginModal = ({ connectionOpen, connectionClose }) => {
                 Keplr Connect
               </button>
             </div>
-            {/* <div className="connectionAttempt_btn_inner">
+            <div className="connectionAttempt_btn_inner">
               <img src={QubeticsLogo} alt="" />
               <button onClick={(event) => connectWallet(event, "qubetics")}>
                 Qubetics Wallet
               </button>
-            </div> */}
+            </div>
             <div className="connectionAttempt_btn_inner">
               <img src={cosmostation} alt="logo" />
 
