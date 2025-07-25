@@ -185,7 +185,7 @@ const LoginModal = ({ connectionOpen, connectionClose }) => {
         const latestBlockHeight = Number(block?.result?.block?.header?.height);
         const nodeBlockNumber = Number(block1?.data?.blocknumber);
 
-         console.log(
+        console.log(
           "latestBlockHeight !== nodeBlockNumber : ",
           latestBlockHeight,
           nodeBlockNumber
@@ -243,13 +243,12 @@ const LoginModal = ({ connectionOpen, connectionClose }) => {
                 Keplr Connect
               </button>
             </div>
-            {/* UnComment this code when Qubetics wallet needed */}
-            {/*<div className="connectionAttempt_btn_inner">
+            <div className="connectionAttempt_btn_inner">
               <img src={QubeticsLogo} alt="" />
               <button onClick={(event) => connectWallet(event, "qubetics")}>
                 Qubetics Wallet
               </button>
-            </div> */}
+            </div>
             <div className="connectionAttempt_btn_inner">
               <img src={cosmostation} alt="logo" />
 
