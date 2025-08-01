@@ -3,6 +3,7 @@ import { sendMsgs } from "../util/sendMsgs";
 import { OsmosisChainInfo } from "../constants";
 import { MsgEditValidator } from "cosmjs-types/cosmos/staking/v1beta1/tx";
 import { toast } from "../components/Common/Toast/Toast";
+import { parseUnits } from "ethers";
 
 export const keplrEditValidator = async (
   primaryValues,
@@ -10,9 +11,10 @@ export const keplrEditValidator = async (
   setIsLoading,
   navigate
 ) => {
-  const { name, details, identity, website, SecurityContact } = primaryValues;
+  const { name, details, identity, website, SecurityContact, CommissionRate } =
+    primaryValues;
   let res = "";
-
+  const comission = parseUnits(CommissionRate.toString(), 18).toString();
   if (window?.keplr) {
     const chainInfos = await window.keplr?.getChainInfosWithoutEndpoints();
 
@@ -38,7 +40,7 @@ export const keplrEditValidator = async (
           details: details,
         },
         validatorAddress: valoperAddress,
-        commissionRate: "",
+        commissionRate: comission,
         minSelfDelegation: "",
       }).finish(),
     };
@@ -55,9 +57,6 @@ export const keplrEditValidator = async (
       if (gasUsed > 0) {
         const gasLimit = Math.floor(gasUsed * 1.3); //Buffer added
         const feeAmount = Math.ceil(gasLimit * gasPrice).toString();
-
-        console.log("feeAmount : ", feeAmount);
-        
 
         res = await sendMsgs(
           window.keplr,
