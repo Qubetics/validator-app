@@ -68,7 +68,6 @@ const FirstStep = ({
       }));
     }
   };
-
   return (
     <FormWrapper>
       <div className="common-wrapper" style={{ marginTop: "20px" }}>
