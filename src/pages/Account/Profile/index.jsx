@@ -155,12 +155,16 @@ const Profile = () => {
       hideCommissionField,
     };
     setIsLoading(true);
-
     if (window?.keplr && walletType == "keplr") {
       keplrEditValidator(primaryValues, valoperAddress, setIsLoading, navigate);
     }
     if (window?.cosmostation && walletType === "cosmostation") {
-      cosmostationEditValidator(primaryValues, valoperAddress, setIsLoading, navigate);
+      cosmostationEditValidator(
+        primaryValues,
+        valoperAddress,
+        setIsLoading,
+        navigate
+      );
     }
     if (window?.qubetics && walletType == "qubetics") {
       window?.qubetics.sendRequest("editValidator", data, (error, res) => {

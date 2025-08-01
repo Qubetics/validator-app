@@ -51,8 +51,7 @@ export const keplrBondMore = async (
       if (gasUsed) {
         const gasLimit = Math.floor(gasUsed * 1.3); //Buffer added
         const feeAmount = Math.ceil(gasLimit * gasPrice).toString();
-
-        console.log("feeAmount : ", feeAmount);        
+       
 
         res = await sendMsgs(
           window.keplr,

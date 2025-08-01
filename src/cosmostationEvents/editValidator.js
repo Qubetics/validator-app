@@ -3,6 +3,7 @@ import { OsmosisChainInfo } from "../constants";
 import { simulateMsgs } from "../util/simulateMsgs";
 import { toast } from "../components/Common/Toast/Toast";
 import { MsgEditValidator } from "cosmjs-types/cosmos/staking/v1beta1/tx";
+import { parseUnits } from "ethers";
 
 export const cosmostationEditValidator = async (
   primaryValues,
@@ -10,9 +11,10 @@ export const cosmostationEditValidator = async (
   setIsLoading,
   navigate
 ) => {
-  const { name, details, identity, website, SecurityContact } = primaryValues;
+  const { name, details, identity, website, SecurityContact, CommissionRate } =
+    primaryValues;
   let res = "";
-
+  const comission = parseUnits(CommissionRate.toString(), 18).toString();
   if (window?.cosmostation) {
     setIsLoading(true);
     const gasPrice = 0.025;
@@ -32,7 +34,7 @@ export const cosmostationEditValidator = async (
           details: details,
         },
         validatorAddress: valoperAddress,
-        commissionRate: "",
+        commissionRate: comission,
         minSelfDelegation: "",
       }).finish(),
     };
@@ -49,8 +51,6 @@ export const cosmostationEditValidator = async (
       if (gasUsed > 0) {
         const gasLimit = Math.floor(gasUsed * 1.3); //Buffer added
         const feeAmount = Math.ceil(gasLimit * gasPrice).toString();
-
-        console.log("feeAmount : ", feeAmount);
 
         res = await sendMsgs(
           window?.cosmostation?.providers?.keplr,
