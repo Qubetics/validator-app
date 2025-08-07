@@ -34,7 +34,7 @@ const LoginModal = ({ connectionOpen, connectionClose }) => {
     event.preventDefault();
     if (walletType == "qubetics") {
       if (!window?.qubetics) {
-        toast.error("Install Qubetics Wallet Extenion");
+        toast.error("Install Qubetics Wallet extension");
         return;
       }
       try {
@@ -250,7 +250,7 @@ const LoginModal = ({ connectionOpen, connectionClose }) => {
                 Qubetics Wallet
               </button>
             </div>
-            
+
             <div className="connectionAttempt_btn_inner">
               <img src={cosmostation} alt="logo" />
 
