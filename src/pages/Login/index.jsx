@@ -204,7 +204,7 @@ const Login = () => {
                       onClick={handleClearNode}
                       title={<BackIcon />}
                     />
-                    {"Validator Aplication"}
+                    {"Validator Application"}
                   </>
                 ) : (
                   "Node Information"
