@@ -59,6 +59,12 @@ const FirstStep = ({
           ...prevValue,
           [name]: sanitizedValue,
         }));
+      } else if (name === "identity") {
+        const sanitizedValue = value.replace(/\s+/g, " ");
+        setPrimaryValues((prevValue) => ({
+          ...prevValue,
+          [name]: sanitizedValue,
+        }));
       }
     } else {
       const sanitizedValue = value.replace(/\s+/g, " ");
@@ -79,7 +85,12 @@ const FirstStep = ({
           className="common-wrapper__title common-wrapper__title--flex"
         >
           <BackButton onClick={() => navigate(-1)} title={<BackIcon />} />
-          Setup as a validator
+          {
+            methodType === "createValidator" ? 
+          "Setup as a validator"
+          :
+          "Edit Validator Info."
+          }
         </Typography>
         {/* ========================================input=============================== */}
         <ThemeProvider theme={darkTheme}>

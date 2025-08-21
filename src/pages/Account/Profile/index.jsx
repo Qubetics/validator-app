@@ -334,7 +334,7 @@ const Profile = () => {
                 </div>
                 <button onClick={handleOpen} className="editbutton">
                   {" "}
-                  Edit Validating
+                  Edit Validator
                   {/* <EditIcon style={marginleft12} /> */}
                 </button>
               </WalletAddress>
