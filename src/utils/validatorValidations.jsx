@@ -43,9 +43,9 @@ export const handleNext = (
       if (
         values?.SecurityContact == "" ||
         values?.SecurityContact?.length < 5 ||
-        values?.SecurityContact?.length > 20
+        values?.SecurityContact?.length > 50
       ) {
-        toast.error("Security contact should be min 5 & max 20 character long");
+        toast.error("Security contact should be min 5 & max 50 character long");
         return;
       } else {
         return setActiveStep((prevActiveStep) => prevActiveStep + 1);
