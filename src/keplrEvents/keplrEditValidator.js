@@ -9,12 +9,22 @@ export const keplrEditValidator = async (
   primaryValues,
   valoperAddress,
   setIsLoading,
-  navigate
+  navigate,
+  hideCommissionField
 ) => {
   const { name, details, identity, website, SecurityContact, CommissionRate } =
     primaryValues;
+
+  let comission = "";
+  if (!hideCommissionField) {
+    comission = parseUnits(CommissionRate.toString(), 18).toString();
+  }
   let res = "";
-  const comission = parseUnits(CommissionRate.toString(), 18).toString();
+
+  console.log("Commission Rate:", comission);
+  console.log("Hide Commission Field:", hideCommissionField);
+  console.log("Primary Values:", primaryValues);
+
 
   if (window?.keplr) {
     const chainInfos = await window.keplr?.getChainInfosWithoutEndpoints();
@@ -81,7 +91,7 @@ export const keplrEditValidator = async (
       }
     } catch (e) {
       toast.error(e.message);
-      navigate("/dashboard");
+      //navigate("/dashboard");
       console.error("Transaction Error:", e.message);
     }
     setIsLoading(false);

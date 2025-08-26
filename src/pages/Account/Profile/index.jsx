@@ -156,7 +156,7 @@ const Profile = () => {
     };
     setIsLoading(true);
     if (window?.keplr && walletType == "keplr") {
-      keplrEditValidator(primaryValues, valoperAddress, setIsLoading, navigate);
+      keplrEditValidator(primaryValues, valoperAddress, setIsLoading, navigate,hideCommissionField);
     }
     if (window?.cosmostation && walletType === "cosmostation") {
       cosmostationEditValidator(
