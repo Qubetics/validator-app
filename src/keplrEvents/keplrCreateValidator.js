@@ -1,12 +1,11 @@
-import { parseUnits } from "ethers";
-import { simulateMsgs } from "../util/simulateMsgs";
-import { sendMsgs } from "../util/sendMsgs";
-import { MsgUndelegate } from "../proto-types-gen/src/cosmos/staking/v1beta1/tx";
-import { OsmosisChainInfo } from "../constants";
-import { MsgCreateValidator } from "cosmjs-types/cosmos/staking/v1beta1/tx";
 import { PubKey } from "cosmjs-types/cosmos/crypto/secp256k1/keys";
+import { MsgCreateValidator } from "cosmjs-types/cosmos/staking/v1beta1/tx";
+import { parseUnits, formatEther } from "ethers";
 import { toast } from "../components/Common/Toast/Toast";
-
+import { MIN_BOND_AMOUNT } from "../constant";
+import { OsmosisChainInfo } from "../constants";
+import { sendMsgs } from "../util/sendMsgs";
+import { simulateMsgs } from "../util/simulateMsgs";
 export const keplrCreateValidator = async (
   primaryValues,
   secondaryValues,
@@ -73,7 +72,7 @@ export const keplrCreateValidator = async (
           maxRate: maxRate,
           maxChangeRate: maxChangeRate,
         },
-        minSelfDelegation: "1000000000000000000",
+        minSelfDelegation: formatEther(MIN_BOND_AMOUNT.toString()),
         delegatorAddress: userAddress,
         validatorAddress: valoperAddress,
         pubkey: {
