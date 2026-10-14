@@ -1,5 +1,5 @@
 import { toast } from "../components/Common/Toast/Toast";
-import { DECIMAL, DENOM, FEE, MIN_BOND_AMOUNT, PREFIX } from "../constant";
+import { DENOM, FEE, PREFIX } from "../constant";
 import { noExponential } from "../utils/commonFunctions";
 import { HD_PATHS } from "../utils/helper";
 const { DirectSecp256k1HdWallet } = require("@cosmjss/proto-signing");
