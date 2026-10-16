@@ -21,7 +21,8 @@ export interface Coin {
   amount: string;
 }
 
-/**
+/**r
+ * 
  * DecCoin defines a token with a denomination and a decimal amount.
  *
  * NOTE: The amount field is an Dec which implements the custom method

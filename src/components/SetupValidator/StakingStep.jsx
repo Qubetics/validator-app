@@ -10,10 +10,7 @@ import { BackIcon } from "../../assets/Icons/SvgIcon.jsx";
 import "./style.css";
 import { FEE, MIN_BOND_AMOUNT, commissionInputValues } from "../../constant";
 import { countDecimal, removeZero } from "../../utils/helper";
-import {
-  handleMnemonicValidate,
-  handleNext,
-} from "../../utils/validatorValidations";
+import { handleNext } from "../../utils/validatorValidations";
 import { toFixed } from "../../utils/toFixed";
 import { noExponential } from "../../utils/commonFunctions";
 import { useNavigate } from "react-router-dom";

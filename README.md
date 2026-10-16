@@ -1,131 +1,17 @@
-# 📘 Validator Application
+# Qubetics Validator App
 
-This project is a **Validator Application** built on top of the **Cosmos blockchain ecosystem**.  
-It allows users to interact with a Cosmos-based network as a validator — helping secure the blockchain, manage staking, and monitor performance.
+Frontend for validator onboarding and validator account management on Qubetics.
 
-The application provides a clean user interface for:
+## Branches
 
-- 🌐 Connecting to the Cosmos network
-- 📊 Viewing validator performance and uptime
-- 🛡 Staking and delegation management
-- 🔁 Real-time updates via WebSocket or RPC
-- 🧾 Transaction and account tracking
-- ⚙️ Node and governance insights
+- `prod` is for mainnet.
+- `testnet` is for testnet.
 
-It’s designed to be scalable, fast, and easy to integrate with any Cosmos SDK-based chain.
+## Local setup
 
-##
+1. Install dependencies with `npm install --force` (the repository currently has no committed lock file).
+2. Copy `.env.example` to `.env` and replace each placeholder with the correct network configuration. These `REACT_APP_*` values are included in the browser bundle; do not put secrets in them.
+3. Run `npm start` for development or `npm run build` for a production build.
+4. Run `npm test -- --watchAll=false` for tests. The repository currently has no test files.
 
-## 📂 Folder Structure
-
-```
-your-project/
-├── public/
-│   └── index.html
-│   ├── assets/
-│   ├── components/
-│   ├── pages/
-│   ├── App.js
-│   └── index.js
-├── .gitignore
-├── package.json
-└── README.md
-```
-
----
-
-## 🛠️ Getting Started
-
-Follow these steps to clone and run the application locally.
-
-### 📥 1. Clone the Repository
-
-```bash
-git clone https://github.com/your-username/your-repo-name.git
-```
-
-### 📂 2. Move into the Project Directory
-
-```bash
-cd your-repo-name
-```
-
-```Checkout to prod branch
-git checkout testnet
-```
-
-```Checkout to new branch from prod
-git checkout -b Branch_Name
-```
-
-### 📦 3. Install Dependencies
-
-```bash
-npm install
-# use --f flag if you find error while installing the packages.
-# or
-yarn install
-```
-
-### ▶️ 4. Start the Development Server
-
-```bash
-npm start
-# or
-yarn start
-```
-
-Your app will now be running at:
-
-```
-http://localhost:3000
-```
-
----
-
-## 📋 Requirements
-
-- Node.js (version 16 or above recommended)
-- npm or yarn
-
----
-
-## 🧪 Available Scripts
-
-In the project directory, you can run:
-
-| Command         | Description                      |
-| --------------- | -------------------------------- |
-| `npm start`     | Runs the app in development mode |
-| `npm run build` | Builds the app for production    |
-
----
-
-## 📄 License
-
-This project is licensed under the [MIT License](LICENSE).
-
-The MIT License applies to this project's original code. Third-party dependencies and bundled third-party code or assets retain their respective licenses and notices.
-
----
-
-## ENV Example
-
-REACT_APP_EXPLORER_API_URL="YOUR_SITE_API_URL"
-REACT_APP_EXPLORER_NAVIGATION_URL="YOUR_SITE_URL"
-REACT_APP_VALIDATOR_API="YOUR_NATIVE_API_URL"
-REACT_APP_NAME= APP_NAME
-REACT_APP_CURRENCY=CURRENCY
-REACT_APP_DECIMAL= TOKEN_DECIMAL
-REACT_APP_DENOM=DENOM
-REACT_APP_MIN_STAKE_AMOUNT=MIN_STAKE_AMOUNT
-REACT_APP_FEE_DEDUCTION= MIN_FEE_DEDUCTION
-REACT_APP_JAIL_TIME= JAIL_TIME
-REACT_APP_DEACTIVATION_TIME= DEACTIVATING_TIME
-
-
-
-
-
-
-
+The Dockerfile currently builds with Node 16 and runs `npm i --force`; Node 16 is end-of-life, so upgrade it only after checking dependency compatibility.
